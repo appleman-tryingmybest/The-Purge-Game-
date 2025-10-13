@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1657tidee7b4"]
+
+[ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
+[ext_resource type="Script" uid="uid://ykyei4umsfg4" path="res://grass_test.gd" id="2_cbkd1"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbkd1"]
+distance = 11.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-1, 0)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="GrassTest" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_k1dng")
+script = ExtResource("2_cbkd1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_cbkd1")
