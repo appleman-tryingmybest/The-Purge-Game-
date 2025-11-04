@@ -1,23 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=9 format=3 uid="uid://d1657tidee7b4"]
 
-[ext_resource type="Script" uid="uid://bk4fjc244hu05" path="res://camera_2d.gd" id="1_atfv3"]
+[ext_resource type="PackedScene" uid="uid://bv41xrakvgnke" path="res://player.tscn" id="1_3t2ia"]
 [ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
+[ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
 [ext_resource type="Script" uid="uid://ykyei4umsfg4" path="res://grass_test.gd" id="2_cbkd1"]
 [ext_resource type="Texture2D" uid="uid://cnotyc4eo6eym" path="res://tree_sample.png" id="2_kmp1v"]
 [ext_resource type="Script" uid="uid://8gcub7l4vaud" path="res://tree_generator.gd" id="2_nnask"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nnask"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cbkd1"]
-size = Vector2(255, 150)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3t2ia"]
+size = Vector2(252, 19)
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_3t2ia")]
+position = Vector2(-22, -91)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-1, 0)
 position_smoothing_enabled = true
-script = ExtResource("1_atfv3")
-move_speed = 500.0
+script = ExtResource("1_nnask")
 
 [node name="treeGenerator" type="StaticBody2D" parent="."]
 position = Vector2(-75, 0)
@@ -39,8 +42,8 @@ texture = ExtResource("1_k1dng")
 Floor_Debug = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
-position = Vector2(0, 36)
-shape = SubResource("RectangleShape2D_cbkd1")
+position = Vector2(-1, -27.5)
+shape = SubResource("RectangleShape2D_3t2ia")
 debug_color = Color(2.7915835e-06, 0.6120229, 0.6268773, 0.41960785)
 
 [node name="Ground" type="Sprite2D" parent="floorGenerator"]

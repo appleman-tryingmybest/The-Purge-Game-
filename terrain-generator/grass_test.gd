@@ -16,7 +16,7 @@ extends StaticBody2D
 var done_generate : bool = false
 signal finished_generate(furthest_x: float)	 # this thing is like @export var but for signals, please dont forget
 signal getNumTile(num_Tile: float)
-signal resetWorld
+signal resetWorld #sends to tree_generator to trigger function to clear all trees
 
 func _ready():
 	z_index = 100 # z_index is layers, the bigger the number, the more front it will be

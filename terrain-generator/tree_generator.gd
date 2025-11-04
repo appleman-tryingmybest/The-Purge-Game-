@@ -10,7 +10,7 @@ extends StaticBody2D
 var is_generating := false
 var done_generate := false
 var allow_generate := true
-
+#github test
 func _ready():
 	var getFunction = get_parent().get_node("floorGenerator")
 	getFunction.resetWorld.connect(_clear_tree)
