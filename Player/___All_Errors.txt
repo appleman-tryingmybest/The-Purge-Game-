@@ -1,6 +1,0 @@
-CorrelationId: 940fe2dd-cf33-45ea-aa51-e9c405ee8c11
-UTC DateTime: 11/04/2025 08:21:38
-
-The following files/folders have not been downloaded
-0. player/.godot/editor/favorites.Node
-1. player/.godot/scene_groups_cache.cfg
