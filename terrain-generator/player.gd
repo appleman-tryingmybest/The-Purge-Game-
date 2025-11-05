@@ -6,7 +6,15 @@ const JUMP_VELOCITY = -400.0
 @export var Player_x : float = 0
 @export var Player_y : float = 0
 
+func _ready() -> void:
+	var getPosition = get_parent().get_node("AreaTrigger")
+	getPosition.teleportPlayer.connect(setPosition)
 	
+func setPosition():
+	var getPosition = get_parent().get_node("AreaTrigger")
+	position.x = getPosition.teleportX - 61
+	position.y = getPosition.teleportY - 404
+	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
 	z_index = 10

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=18 format=3 uid="uid://d1657tidee7b4"]
 
 [ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="7_036ib"]
 [ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="7_aphpr"]
 [ext_resource type="Script" uid="uid://cyqohljrgbdt1" path="res://CheckArenaCollision.gd" id="9_gdfr4"]
+[ext_resource type="Texture2D" uid="uid://cadbbwjslvvxh" path="res://arenaPlaceholder.png" id="11_jkt0x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pat5w"]
 radius = 36.013885
@@ -25,10 +26,13 @@ size = Vector2(84, 79)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uc67x"]
 size = Vector2(94, 347)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pat5w"]
+size = Vector2(1035, 40)
+
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(-43, -158)
+position = Vector2(-28, -213)
 collision_layer = 64
 script = ExtResource("1_uc67x")
 
@@ -61,7 +65,7 @@ disabled = true
 
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
-tile_number = 35.0
+tile_number = 5.0
 texture = ExtResource("1_k1dng")
 Floor_Debug = true
 
@@ -90,16 +94,38 @@ texture = ExtResource("7_036ib")
 centered = false
 offset = Vector2(-104.965, -108)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="AreaTrigger" type="Area2D" parent="."]
 position = Vector2(209, -51)
 collision_layer = 65
 collision_mask = 65
 script = ExtResource("9_gdfr4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTrigger"]
 position = Vector2(-37, -163.5)
 shape = SubResource("RectangleShape2D_uc67x")
 debug_color = Color(0, 0.6039216, 0.67058825, 1)
 
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
-[connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
+[node name="StoryArena" type="StaticBody2D" parent="."]
+position = Vector2(319, 2031)
+scale = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="StoryArena"]
+scale = Vector2(5.18457, 5.18457)
+texture = ExtResource("11_jkt0x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StoryArena"]
+position = Vector2(0, 249)
+shape = SubResource("RectangleShape2D_pat5w")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StoryArena"]
+position = Vector2(-400, 249)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_pat5w")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StoryArena"]
+position = Vector2(440, 249)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_pat5w")
+
+[connection signal="body_entered" from="AreaTrigger" to="Player" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="AreaTrigger" to="AreaTrigger" method="_on_body_entered"]
