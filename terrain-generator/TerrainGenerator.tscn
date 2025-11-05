@@ -45,6 +45,8 @@ shape = SubResource("CircleShape2D_pat5w")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-1, 0)
+limit_left = -128
+limit_bottom = 113
 position_smoothing_enabled = true
 script = ExtResource("1_nnask")
 testingMode = false
