@@ -10,7 +10,7 @@ func _ready() -> void:
 	cameraYOffset *= -1 # I have invert the value here cause for some reason godot's y-axis is flipped so when you put positive value it reverts to correct stuff
 
 func _process(_delta):
-	var player = get_parent().get_node("Player/CharacterBody2D") as CharacterBody2D # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
+	var player = get_parent().get_node("Player")  # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
 	cameraX = player.Player_x + cameraXOffset
 	cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
 	if camera_Type == 0:

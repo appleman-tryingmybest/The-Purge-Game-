@@ -17,6 +17,7 @@ var done_generate : bool = false
 signal finished_generate(furthest_x: float)	 # this thing is like @export var but for signals, please dont forget
 signal getNumTile(num_Tile: float)
 signal resetWorld #sends to tree_generator to trigger function to clear all trees
+signal resetPosition
 
 func _ready():
 	z_index = 100 # z_index is layers, the bigger the number, the more front it will be
@@ -24,6 +25,7 @@ func _ready():
 		return
 	done_generate = true
 	call_deferred("_generate_terrain")
+	
 
 @warning_ignore("unused_parameter")
 func _process(delta):
@@ -34,6 +36,7 @@ func _process(delta):
 		await get_tree().create_timer(wait_time).timeout
 		_generate_terrain()
 		emit_signal("resetWorld")
+		emit_signal("resetPosition")
 	elif not Input.is_key_pressed(KEY_L):
 		was_pressed = false
 
@@ -79,6 +82,7 @@ func _generate_terrain():
 	if Floor_Debug:
 		print(num_tile)
 		print("Furthest is ", furthest_x)
+	emit_signal("resetPosition")
 	emit_signal("getNumTile", num_tile)
 	emit_signal("finished_generate", furthest_x) # we emit signal to trigger signal finished_generate at the end
 	# since its outside the loop, every duplicate does not emit but the original does, thats cool
