@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=12 format=3 uid="uid://d1657tidee7b4"]
 
 [ext_resource type="PackedScene" uid="uid://bv41xrakvgnke" path="res://player.tscn" id="1_3t2ia"]
 [ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
@@ -6,11 +6,16 @@
 [ext_resource type="Script" uid="uid://ykyei4umsfg4" path="res://grass_test.gd" id="2_cbkd1"]
 [ext_resource type="Texture2D" uid="uid://cnotyc4eo6eym" path="res://tree_sample.png" id="2_kmp1v"]
 [ext_resource type="Script" uid="uid://8gcub7l4vaud" path="res://tree_generator.gd" id="2_nnask"]
+[ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="7_036ib"]
+[ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="7_aphpr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nnask"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3t2ia"]
 size = Vector2(252, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
+size = Vector2(84, 79)
 
 [node name="Node2D" type="Node2D"]
 
@@ -21,6 +26,8 @@ position = Vector2(-22, -91)
 position = Vector2(-1, 0)
 position_smoothing_enabled = true
 script = ExtResource("1_nnask")
+testingMode = false
+cameraYOffset = 250.0
 
 [node name="treeGenerator" type="StaticBody2D" parent="."]
 position = Vector2(-75, 0)
@@ -48,3 +55,19 @@ debug_color = Color(2.7915835e-06, 0.6120229, 0.6268773, 0.41960785)
 
 [node name="Ground" type="Sprite2D" parent="floorGenerator"]
 texture = ExtResource("1_k1dng")
+
+[node name="Enemy" type="CharacterBody2D" parent="."]
+position = Vector2(363, -505)
+collision_layer = 128
+script = ExtResource("7_aphpr")
+speed = 35.0
+gravity = 350.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_aphpr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
+texture = ExtResource("7_036ib")
+centered = false
+offset = Vector2(-104.965, -108)

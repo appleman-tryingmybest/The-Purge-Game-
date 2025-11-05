@@ -11,13 +11,13 @@ func _ready() -> void:
 
 func _process(_delta):
 	var player = get_parent().get_node("Player/CharacterBody2D") as CharacterBody2D # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
-	cameraX = player.Player_x
+	cameraX = player.Player_x + cameraXOffset
 	cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
 	if camera_Type == 0:
 		position.x = cameraX
 		if testingMode: # I wanted to test if it worked but this will be used in game as well
 			position.y = cameraY
 		else:
-			position.y = 0
+			position.y = 0 + cameraYOffset
 	if camera_Type == 1: # In the future we need to have the position of the arenas so the camera will just stay there
 		return # like we can put the arenas somewhere far from the camera and when the player gets to the arena we teleport the player there and the camera aswell

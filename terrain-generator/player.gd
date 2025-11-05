@@ -12,7 +12,6 @@ func _physics_process(delta: float) -> void:
 	z_index = 10
 	Player_x = position.x
 	Player_y = position.y
-	print (Player_x, Player_y)
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta

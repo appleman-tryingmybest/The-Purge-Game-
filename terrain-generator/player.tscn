@@ -9,13 +9,12 @@ radius = 36.013885
 [node name="Player" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 64
 script = ExtResource("1_onrkg")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(2.9999998, -39)
 scale = Vector2(0.036979165, 0.06203704)
 texture = ExtResource("1_4flbx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(4, -36)
 shape = SubResource("CircleShape2D_sh265")
