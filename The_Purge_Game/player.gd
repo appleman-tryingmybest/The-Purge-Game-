@@ -9,11 +9,18 @@ extends CharacterBody2D
 var jump_count=0
 var max_jump=2
 var is_dashing=false
+var can_dash = true
+@export var dash_duration: float = 0.5
+@export var dash_cooldown: float = 1.0
+signal camera_limits_changed(new_limits: Vector4)
 
 func _ready() -> void:
 	JUMP_VELOCITY *= -1
 	var getPosition = get_parent().get_node("AreaTrigger")
 	getPosition.teleportPlayer.connect(setPosition)
+	add_to_group("player")
+	$"dash timer".timeout.connect(stop_dash)
+	setup_particles()
 	
 func setPosition():
 	var getPosition = get_parent().get_node("AreaTrigger")
@@ -37,10 +44,10 @@ func _physics_process(delta: float) -> void:
 		jump_count+=1
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
 	if Input.is_key_pressed(KEY_Q):
-		if !is_dashing and direction:
+		if !is_dashing and can_dash:
 			start_dash()
+	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
 		if is_dashing:
 			velocity.x = direction * SPEED*dash_speed
@@ -51,17 +58,52 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	if velocity.x>0:
-		$"dash timer/CPUParticles2D".gravity.x=-2000
+		$"dash particles".gravity.x=-2000
 	
 	if velocity.x<0:
-		$"dash timer/CPUParticles2D".gravity.x=2000
+		$"dash particles".gravity.x=2000
 		
 func start_dash():
 	is_dashing=true
-	$"dash timer".connect("timeout",stop_dash)
-	$"dash timer".start()
-	$"dash timer/CPUParticles2D".emitting=true
+	can_dash=false
+	if ! $"dash timer".is_connected("timeout",stop_dash):
+		$"dash timer".connect("timeout",stop_dash)
+	$"dash timer".start(dash_duration)
+	$"dash particles".emitting=true
+	print("start dash")
+	start_particles()
 
 func stop_dash():
 	is_dashing=false
-	$"dash timer/CPUParticles2D".emitting=false
+	$"dash particles".emitting=false
+	await get_tree().create_timer(dash_cooldown).timeout
+	can_dash=true
+	print("dash cooldown end can continue to dash")
+	stop_particles()
+
+func update_camera_for_new_area():
+	var story_arena = get_parent().get_node("StoryArena")
+	if story_arena:
+		var arena_rect = story_arena.get_global_rect()
+		var new_limits = Vector4(
+			arena_rect.position.x,
+			arena_rect.position.y,
+			arena_rect.end.x,
+			arena_rect.end.y)
+		emit_signal("camera_limits_changed", new_limits)
+
+func setup_particles():
+	if has_node("dash_timer/CPUParticles2D"):
+		var particles =$"dash particles"
+		particles.amount = 20
+		particles.lifetime = 0.15
+		particles.explosiveness = 0.1
+func start_particles():
+	if has_node("dash_timer/CPUParticles2D"):
+		var particles =$"dash particles"
+		particles.emitting = true
+		
+func stop_particles():
+	if has_node("dash_timer/CPUParticles2D"):
+		var particles = $"dash particles"
+		particles.emitting = false

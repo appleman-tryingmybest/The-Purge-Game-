@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=22 format=3 uid="uid://d1657tidee7b4"]
 
 [ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -7,22 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://8ftuale8ehyc" path="res://white.jpg" id="2_jkt0x"]
 [ext_resource type="Texture2D" uid="uid://cnotyc4eo6eym" path="res://tree_sample.png" id="2_kmp1v"]
 [ext_resource type="Script" uid="uid://8gcub7l4vaud" path="res://tree_generator.gd" id="2_nnask"]
-[ext_resource type="Texture2D" uid="uid://b2emqbschjy6t" path="res://addons/godot-git-plugin/rectangle.png" id="2_qwe0f"]
+[ext_resource type="Texture2D" uid="uid://d35cku6p1hnpu" path="res://particles.png" id="3_qwe0f"]
 [ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="7_036ib"]
 [ext_resource type="Script" uid="uid://c63psl1ac1hbh" path="res://spawner.gd" id="8_sdjp3"]
 [ext_resource type="Script" uid="uid://cyqohljrgbdt1" path="res://CheckArenaCollision.gd" id="9_gdfr4"]
 [ext_resource type="PackedScene" uid="uid://byppoq1xx1c5w" path="res://enemy_1.tscn" id="9_sdjp3"]
 [ext_resource type="Texture2D" uid="uid://cadbbwjslvvxh" path="res://arenaPlaceholder.png" id="11_jkt0x"]
 [ext_resource type="Texture2D" uid="uid://cobhb70likea2" path="res://PlatformPlaceholder.png" id="11_pat5w"]
-
-[sub_resource type="Curve" id="Curve_jkt0x"]
-_limits = [-200.0, 200.0, 0.0, 1.0]
-_data = [Vector2(0, 200.585), 0.0, 0.0, 0, 0, Vector2(0.13373093, 200), 0.0, 0.0, 0, 0, Vector2(0.4883721, 92.13484), -525.6629, -525.6629, 0, 0, Vector2(1, 0), -180.08174, 0.0, 1, 0]
-point_count = 4
-
-[sub_resource type="Curve" id="Curve_pat5w"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.83139545, 0.056179762), 0.0, 0.0, 0, 0, Vector2(1, 0), 1.4, 0.0, 0, 0]
-point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pat5w"]
 radius = 36.013885
@@ -55,23 +46,6 @@ JUMP_VELOCITY = 555.0
 [node name="dash timer" type="Timer" parent="Player"]
 wait_time = 0.2
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/dash timer"]
-visible = false
-amount = 50
-texture = ExtResource("2_qwe0f")
-lifetime = 0.34
-randomness = 0.47
-fract_delta = false
-local_coords = true
-draw_order = 1
-emission_shape = 3
-emission_rect_extents = Vector2(1, 40)
-gravity = Vector2(-1000, 0)
-linear_accel_min = 12.37
-linear_accel_max = 12.37
-linear_accel_curve = SubResource("Curve_jkt0x")
-scale_amount_curve = SubResource("Curve_pat5w")
-
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 scale = Vector2(0.036979165, 0.06203704)
 texture = ExtResource("2_jkt0x")
@@ -79,8 +53,21 @@ texture = ExtResource("2_jkt0x")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_pat5w")
 
+[node name="dash particles" type="CPUParticles2D" parent="Player"]
+emitting = false
+amount = 20
+texture = ExtResource("3_qwe0f")
+lifetime = 0.2
+one_shot = true
+speed_scale = 1.5
+emission_shape = 1
+emission_sphere_radius = 8.42
+angle_min = -193.0
+angle_max = 89.1
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-1, 0)
+position_smoothing_speed = 15.0
 script = ExtResource("1_nnask")
 testingMode = false
 cameraYOffset = 250.0

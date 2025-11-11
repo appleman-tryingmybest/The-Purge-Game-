@@ -10,18 +10,21 @@ func _ready():
 	print ("where is trigger space ", position.x, " ", position.y)
 	var getFunction = get_parent().get_node("floorGenerator")
 	getFunction.resetPosition.connect(_getValues)
+	body_entered.connect(_on_body_entered)
 
-@warning_ignore("unused_parameter")
 func _on_body_entered(body: Node2D) -> void:
-	print ("Entered the trigger space")
-	if Enable:
-		var getPosition = get_parent().get_node("StoryArena/PlayerSpawn")
-		teleportX = getPosition.global_position.x
-		teleportY = getPosition.global_position.y
-		print (teleportX," ", teleportY)
-		emit_signal ("teleportPlayer")
-
-	pass # Replace with function body.
+	print("玩家进入了触发区域!")
+	print("玩家位置: ", body.position)
+	print("触发区域位置: ", position)
+	if Enable and body.is_in_group("player"):
+		var spawn_point = get_parent().get_node("StoryArena/PlayerSpawn")
+		if spawn_point:
+			teleportX = spawn_point.global_position.x
+			teleportY = spawn_point.global_position.y
+			print("传送目标位置: ", teleportX, " ", teleportY)
+			emit_signal("teleportPlayer")
+	else:
+		print("错误: 找不到PlayerSpawn节点!")
 
 func _getValues():
 	var getValue = get_parent().get_node("floorGenerator")

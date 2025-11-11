@@ -19,6 +19,7 @@ signal finished_generate(furthest_x: float)	 # this thing is like @export var bu
 signal getNumTile(num_Tile: float)
 signal resetWorld #sends to tree_generator to trigger function to clear all trees
 signal resetPosition
+signal map_bounds_updated(bounds: Vector4)
 
 func _ready():
 	z_index = 100 # z_index is layers, the bigger the number, the more front it will be
@@ -68,6 +69,7 @@ func _generate_terrain():
 		random_tile = randi_range(30, 45)
 		tile_number = random_tile
 	tile_width = texture.get_width()
+	furthest_x = position.x
 	while current_number < tile_number:
 		var new_ground = duplicate() # we duplicate and then store it in new_ground
 		new_ground.done_generate = true # the dot means the (new_ground)'s must set its own value to true
@@ -87,3 +89,9 @@ func _generate_terrain():
 	emit_signal("getNumTile", num_tile)
 	emit_signal("finished_generate", furthest_x) # we emit signal to trigger signal finished_generate at the end
 	# since its outside the loop, every duplicate does not emit but the original does, thats cool
+	var map_bounds = Vector4(
+		position.x,                    # left
+		position.y - 500,              # top (假设地图高度)
+		furthest_x + 100,   # right (加一些缓冲)
+		position.y + 200)
+	emit_signal("map_bounds_updated", map_bounds)
