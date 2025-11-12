@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+# if want to make more enemy, then make enemy scene local and then save as scene
 @export var speed : float
 @export var health : float
 @export var gravity : float
@@ -7,11 +7,15 @@ extends CharacterBody2D
 @export var safe_distance : float = 250
 @export var safe_zone : float = 45
 @export var jump_prob : int
+@export var can_jump : bool
 @export var enemy_to_player_y : float
 @export var jump_strength : float
 @export var can_run : bool
 @export var run_prob : int
 @export var run_speed : float
+var just_fell := false
+var can_jump_fall := false
+
 
 var run_cooldown : float = 1
 var is_waiting := false
@@ -24,13 +28,25 @@ func _ready() -> void:
 func _physics_process(delta):
 	z_index = 7
 	var player = get_parent().get_node("Player")
-	var distance = position.distance_to(player.position)
+	var distance = abs(player.position.x - position.x)
 	var yDistance = player.position.y - position.y
 	if is_waiting:
 		return
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if not just_fell:
+			just_fell = true
+			if player.position.y < position.y:
+				can_jump_fall = true
+			else:
+				@warning_ignore("integer_division")
+				can_jump_fall = randi_range(0, jump_prob/2) == 0
+		else:
+			velocity.y += gravity * delta
+		if can_jump_fall:
+			velocity.y = jump_strength - randf_range(30, 80)
+			can_jump_fall = false
 	else:
+		just_fell = false
 		if distance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				if position.x < player.Player_x: # if we are in danger then we back up
@@ -38,10 +54,10 @@ func _physics_process(delta):
 				else:
 					velocity.x += speed
 			else:
-				if randi_range(0, jump_prob) == 0 and yDistance < enemy_to_player_y: # if we are in range not in danger then we can choose to jump or not
+				if randi_range(0, jump_prob) == 0 and yDistance < enemy_to_player_y and can_jump: # if we are in range not in danger then we can choose to jump or not
 					print ("Enemy jumps")
 					print (yDistance)
-					velocity.y = jump_strength
+					velocity.y = jump_strength - randf_range(30, 150) # to go up or jump we need the value to be negative for some reason
 					move_and_slide()
 				return
 		elif distance > safe_distance: # move to player if too far

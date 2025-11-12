@@ -15,7 +15,7 @@ func _ready():
 func _on_body_entered(body: Node2D) -> void:
 	print ("Entered the trigger space")
 	if Enable:
-		var getPosition = get_parent().get_node("StoryArena/PlayerSpawn")
+		var getPosition = get_parent().get_node("StoryArena1/PlayerSpawn")
 		teleportX = getPosition.global_position.x
 		teleportY = getPosition.global_position.y
 		print (teleportX," ", teleportY)

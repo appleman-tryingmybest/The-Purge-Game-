@@ -1,6 +1,6 @@
 extends StaticBody2D
 @export var enemy_1 : PackedScene # if more enemy then repeat this
-@export var random_distacne : float
+@export var random_distance : float
 var was_pressed : bool
 func spawn_enemy(enemy_type: String):
 	var world = get_parent()
@@ -15,7 +15,7 @@ func spawn_enemy(enemy_type: String):
 	var enemy = scene_to_spawn.instantiate() # copies stuff and prepares it
 	var getPos = get_parent().get_node("Player")
 	world.add_child(enemy) # then we add it into the world
-	enemy.global_position.x = getPos.position.x + randf_range(-random_distacne, random_distacne)
+	enemy.global_position.x = getPos.position.x + randf_range(-random_distance, random_distance)
 	enemy.global_position.y = getPos.position.y - 5
 	
 @warning_ignore("unused_parameter")
