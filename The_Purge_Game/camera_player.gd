@@ -20,6 +20,7 @@ func _ready() -> void:
 	if player:
 		player.camera_limits_changed.connect(_on_camera_limits_changed)
 	_apply_initial_limits()
+	update_right_limits()
 	
 func _apply_initial_limits():
 	limit_left = initial_map_limits.x
@@ -28,6 +29,13 @@ func _apply_initial_limits():
 	limit_bottom = initial_map_limits.w
 	if camera_debug:
 		print("initial map limited: ", initial_map_limits)
+		
+func update_right_limits():
+	var floor=get_parent().get_node("floorGenerator")
+	if floor:
+		initial_map_limits.z = floor.furthest_x + 200
+	if camera_debug:
+		print("initial right limit update: ", initial_map_limits.z)
 		
 func _remove_all_limits():
 	limit_left = -10000000
@@ -59,7 +67,9 @@ func _process(delta):
 	if camera_Type == 0:
 		cameraX = player.Player_x + cameraXOffset
 		cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
-
+		if player.Player_x > initial_map_limits.z - 500:
+			update_right_limits()
+			_apply_initial_limits()
 		zoom = Vector2(0.8, 0.8)
 		position.x = cameraX
 		if testingMode: # I wanted to test if it worked but this will be used in game as well

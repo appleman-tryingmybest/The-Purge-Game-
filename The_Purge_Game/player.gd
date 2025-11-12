@@ -10,7 +10,8 @@ var jump_count=0
 var max_jump=2
 var is_dashing=false
 var can_dash = true
-@export var dash_duration: float = 0.5
+var dash_direction=1
+@export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 1.0
 signal camera_limits_changed(new_limits: Vector4)
 
@@ -19,7 +20,8 @@ func _ready() -> void:
 	var getPosition = get_parent().get_node("AreaTrigger")
 	getPosition.teleportPlayer.connect(setPosition)
 	add_to_group("player")
-	$"dash timer".timeout.connect(stop_dash)
+	if has_node("dash timer"):
+		$"dash timer".timeout.connect(stop_dash)
 	setup_particles()
 	
 func setPosition():
@@ -33,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	Player_x = position.x
 	Player_y = position.y
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 
 	if is_on_floor():
@@ -44,18 +46,16 @@ func _physics_process(delta: float) -> void:
 		jump_count+=1
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	if Input.is_key_pressed(KEY_Q):
-		if !is_dashing and can_dash:
+	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 			start_dash()
 	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		if is_dashing:
-			velocity.x = direction * SPEED*dash_speed
-		else:
-			velocity.x = direction * SPEED
+	if is_dashing:
+		velocity.x = direction * SPEED * dash_speed
+	elif direction:
+		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		
 	move_and_slide()
 	if velocity.x>0:
 		$"dash particles".gravity.x=-2000
@@ -64,13 +64,14 @@ func _physics_process(delta: float) -> void:
 		$"dash particles".gravity.x=2000
 		
 func start_dash():
-	is_dashing=true
-	can_dash=false
-	if ! $"dash timer".is_connected("timeout",stop_dash):
-		$"dash timer".connect("timeout",stop_dash)
-	$"dash timer".start(dash_duration)
-	$"dash particles".emitting=true
-	print("start dash")
+	var input_direction := Input.get_axis("ui_left", "ui_right")
+	dash_direction = input_direction if input_direction != 0 else dash_direction
+	is_dashing = true
+	can_dash = false
+	velocity.y = 0  # 取消重力
+	if has_node("dash timer"):
+		$"dash timer".start(dash_duration)
+	$"dash particles".emitting = true
 	start_particles()
 
 func stop_dash():
@@ -78,7 +79,6 @@ func stop_dash():
 	$"dash particles".emitting=false
 	await get_tree().create_timer(dash_cooldown).timeout
 	can_dash=true
-	print("dash cooldown end can continue to dash")
 	stop_particles()
 
 func update_camera_for_new_area():
