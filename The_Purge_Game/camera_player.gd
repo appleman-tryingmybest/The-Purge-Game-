@@ -10,7 +10,7 @@ extends Camera2D
 var target_limits: Vector4
 var is_transitioning: bool = false
 @export var transition_speed: float = 3.0
-@export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 177)
+@export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 102)
 
 func _ready() -> void:
 	cameraYOffset *= -1 # I have invert the value here cause for some reason godot's y-axis is flipped so when you put positive value it reverts to correct stuff

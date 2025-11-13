@@ -71,7 +71,7 @@ func _generate_terrain():
 	while current_number < tile_number:
 		var new_ground = duplicate() # we duplicate and then store it in new_ground
 		new_ground.done_generate = true # the dot means the (new_ground)'s must set its own value to true
-		current_x += tile_width
+		current_x += tile_width + 20
 		new_ground.position.x = current_x
 		new_ground.z_index = 100
 		new_ground.add_to_group("dirtFloor") # we add to dirtFloor group so we can ONLY delete this and its better
