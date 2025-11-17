@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="2_663o1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
-size = Vector2(84, 79)
+size = Vector2(83, 79)
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 128
@@ -15,13 +15,12 @@ max_speed = 200.0
 jump_prob = 8
 can_jump = true
 enemy_to_player_y = 50.0
-jump_strength = 600.0
+jump_strength = 750.0
 can_run = true
 run_prob = 5
 run_speed = 500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_aphpr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

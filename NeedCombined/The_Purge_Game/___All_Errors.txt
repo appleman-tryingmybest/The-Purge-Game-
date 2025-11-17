@@ -1,0 +1,5 @@
+CorrelationId: 1be4573f-c509-4b4a-aef2-c300a1c23b37
+UTC DateTime: 11/12/2025 15:16:01
+
+The following file/folder has not been downloaded
+0. The_Purge_Game/.godot/scene_groups_cache.cfg

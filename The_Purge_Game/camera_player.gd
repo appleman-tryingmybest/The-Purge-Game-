@@ -1,12 +1,12 @@
 extends Camera2D
 
-@export var camera_Type := 0
 @export var testingMode := true
 @export var cameraX : float = 0
 @export var cameraY : float = 0
 @export var cameraXOffset : float
 @export var cameraYOffset : float
 @export var camera_debug := false
+var camera_Type := 0
 var target_limits: Vector4
 var is_transitioning: bool = false
 @export var transition_speed: float = 3.0
@@ -20,6 +20,7 @@ func _ready() -> void:
 	if player:
 		player.camera_limits_changed.connect(_on_camera_limits_changed)
 	_apply_initial_limits()
+	update_right_limits()
 	
 func _apply_initial_limits():
 	limit_left = initial_map_limits.x
@@ -28,6 +29,13 @@ func _apply_initial_limits():
 	limit_bottom = initial_map_limits.w
 	if camera_debug:
 		print("initial map limited: ", initial_map_limits)
+		
+func update_right_limits():
+	var floor=get_parent().get_node("floorGenerator")
+	if floor:
+		initial_map_limits.z = floor.furthest_x + 200
+	if camera_debug:
+		print("initial right limit update: ", initial_map_limits.z)
 		
 func _remove_all_limits():
 	limit_left = -10000000
@@ -45,9 +53,24 @@ func _on_camera_limits_changed(new_limits: Vector4):
 		print("Camera limits changed to: ", new_limits)
 		
 func setPosition():
-	var getPosition = get_parent().get_node("StoryArena1")
-	cameraX = getPosition.position.x
-	cameraY = getPosition.position.y + cameraYOffset
+	var arena_type = get_parent().get_node("AreaTrigger")
+	var arena_num = arena_type.arena_num
+	if arena_num == 0:
+		var getPosition = get_parent().get_node("StoryArena1")
+		cameraX = getPosition.position.x
+		cameraY = getPosition.position.y + cameraYOffset
+	if arena_num == 1:
+		var getPosition = get_parent().get_node("StoryArena2")
+		cameraX = getPosition.position.x
+		cameraY = getPosition.position.y + cameraYOffset
+	if arena_num == 2:
+		var getPosition = get_parent().get_node("StoryArena3")
+		cameraX = getPosition.position.x
+		cameraY = getPosition.position.y + cameraYOffset
+	if arena_num == 3:
+		var getPosition = get_parent().get_node("StoryArena4")
+		cameraX = getPosition.position.x
+		cameraY = getPosition.position.y + cameraYOffset
 	camera_Type = 1
 	_remove_all_limits()
 	position.x = cameraX
@@ -59,7 +82,9 @@ func _process(delta):
 	if camera_Type == 0:
 		cameraX = player.Player_x + cameraXOffset
 		cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
-
+		if player.Player_x > initial_map_limits.z - 500:
+			update_right_limits()
+			_apply_initial_limits()
 		zoom = Vector2(0.8, 0.8)
 		position.x = cameraX
 		if testingMode: # I wanted to test if it worked but this will be used in game as well

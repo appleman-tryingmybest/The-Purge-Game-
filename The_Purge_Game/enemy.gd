@@ -1,5 +1,6 @@
 extends CharacterBody2D
 # if want to make more enemy, then make enemy scene local and then save as scene
+
 @export var speed : float
 @export var health : float
 @export var gravity : float
@@ -13,19 +14,31 @@ extends CharacterBody2D
 @export var can_run : bool
 @export var run_prob : int
 @export var run_speed : float
+@export var am_I_sentry_buster: bool
 var just_fell := false
 var can_jump_fall := false
+var anim: AnimatedSprite2D
 
 
 var run_cooldown : float = 1
 var is_waiting := false
 func _ready() -> void:
+	anim = $AnimatedSprite2D
+	if anim == null:
+		push_error("no animation is assigned to me")
+	if anim:
+		anim.play("walk")
 	randomize()
 	safe_distance += randf_range(-65, 65)
 	enemy_to_player_y *= -1
 	enemy_to_player_y += randf_range(-50, 50)
 	jump_strength *= -1
 func _physics_process(delta):
+	if anim:
+		if velocity.x < 0:
+			anim.flip_h = false
+		elif velocity.x > 0:
+			anim.flip_h = true
 	z_index = 7
 	var player = get_parent().get_node("Player")
 	var distance = abs(player.position.x - position.x)
@@ -59,7 +72,14 @@ func _physics_process(delta):
 					print (yDistance)
 					velocity.y = jump_strength - randf_range(30, 150) # to go up or jump we need the value to be negative for some reason
 					move_and_slide()
-				return
+				if !am_I_sentry_buster:
+					return
+				else:
+					if position.x < player.Player_x:
+						velocity.x += speed
+					else:
+						velocity.x -= speed
+
 		elif distance > safe_distance: # move to player if too far
 			if can_run:
 				run_cooldown -= delta # minus delta and delta is 1 second no matter the frame rate
@@ -78,7 +98,7 @@ func _physics_process(delta):
 				else:
 					velocity.x -= speed
 			else:
-				return
+					return
 
 	velocity.x = clamp(velocity.x, -max_speed, max_speed)
 	move_and_slide()

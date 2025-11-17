@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://f5tduge7u8wa"]
+
+[ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="1_xfjjh"]
+[ext_resource type="Texture2D" uid="uid://irthqch1tqqn" path="res://sentryBuster.png" id="2_xfjjh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
+size = Vector2(128, 239.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x52x"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(0, 0, 584, 637)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llvbr"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(584, 0, 584, 637)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvwwx"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(1168, 0, 584, 637)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awt1i"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(1752, 0, 584, 637)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcwve"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(2336, 0, 584, 637)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gg5lj"]
+atlas = ExtResource("2_xfjjh")
+region = Rect2(2920, 0, 584, 637)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yxp2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x52x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llvbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvwwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awt1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcwve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gg5lj")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="SentryBuster" type="CharacterBody2D"]
+collision_layer = 128
+script = ExtResource("1_xfjjh")
+speed = 15.0
+gravity = 800.0
+max_speed = 500.0
+safe_zone = 250.0
+jump_prob = 8
+can_jump = true
+enemy_to_player_y = 50.0
+jump_strength = 800.0
+run_prob = 5
+run_speed = 500.0
+am_I_sentry_buster = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -80.25)
+shape = SubResource("RectangleShape2D_aphpr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -80)
+scale = Vector2(0.4267979, 0.426798)
+sprite_frames = SubResource("SpriteFrames_yxp2a")
+animation = &"walk"

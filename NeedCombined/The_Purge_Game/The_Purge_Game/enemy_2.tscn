@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfiswvee378bs"]
+
+[ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="1_vfv5t"]
+[ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="2_mvvu1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
+size = Vector2(84, 79)
+
+[node name="Enemy2" type="CharacterBody2D"]
+collision_layer = 128
+script = ExtResource("1_vfv5t")
+speed = 85.0
+gravity = 800.0
+max_speed = 200.0
+safe_distance = 80.0
+safe_zone = 25.0
+jump_prob = 8
+can_jump = true
+enemy_to_player_y = 50.0
+jump_strength = 600.0
+can_run = true
+run_prob = 5
+run_speed = 500.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_aphpr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_mvvu1")

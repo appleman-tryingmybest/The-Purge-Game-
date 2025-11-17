@@ -5,12 +5,14 @@ extends CharacterBody2D
 @export var JUMP_VELOCITY : float
 @export var Player_x : float = 0
 @export var Player_y : float = 0
-@export var dash_speed=4
+@export var dash_speed = 4
+@export var push_strength : int
 var jump_count=0
 var max_jump=2
 var is_dashing=false
 var can_dash = true
-@export var dash_duration: float = 0.5
+var dash_direction=1
+@export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 1.0
 signal camera_limits_changed(new_limits: Vector4)
 
@@ -19,9 +21,20 @@ func _ready() -> void:
 	var getPosition = get_parent().get_node("AreaTrigger")
 	getPosition.teleportPlayer.connect(setPosition)
 	add_to_group("player")
-	$"dash timer".timeout.connect(stop_dash)
-	setup_particles()
-	
+	if has_node("dash timer"):
+		$"dash timer".timeout.connect(stop_dash)
+		setup_particles()
+
+func push_prop():
+	var count = get_slide_collision_count()
+	for i in range(count):
+		var collision = get_slide_collision(i)
+		var body = collision.get_collider()
+		
+		if body is RigidBody2D:
+			var push_force = velocity * push_strength
+			body.apply_central_impulse(push_force)
+
 func setPosition():
 	var getPosition = get_parent().get_node("AreaTrigger")
 	position.x = getPosition.teleportX
@@ -33,9 +46,8 @@ func _physics_process(delta: float) -> void:
 	Player_x = position.x
 	Player_y = position.y
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
-
 	if is_on_floor():
 		jump_count=0
 	# Handle jump.
@@ -44,33 +56,32 @@ func _physics_process(delta: float) -> void:
 		jump_count+=1
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	if Input.is_key_pressed(KEY_Q):
-		if !is_dashing and can_dash:
+	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 			start_dash()
 	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		if is_dashing:
-			velocity.x = direction * SPEED*dash_speed
-		else:
-			velocity.x = direction * SPEED
+	if is_dashing:
+		velocity.x = direction * SPEED * dash_speed
+	elif direction:
+		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		
 	move_and_slide()
 	if velocity.x>0:
 		$"dash particles".gravity.x=-2000
 	
 	if velocity.x<0:
 		$"dash particles".gravity.x=2000
-		
+
 func start_dash():
-	is_dashing=true
-	can_dash=false
-	if ! $"dash timer".is_connected("timeout",stop_dash):
-		$"dash timer".connect("timeout",stop_dash)
-	$"dash timer".start(dash_duration)
-	$"dash particles".emitting=true
-	print("start dash")
+	var input_direction := Input.get_axis("ui_left", "ui_right")
+	dash_direction = input_direction if input_direction != 0 else dash_direction
+	is_dashing = true
+	can_dash = false
+	velocity.y = 0  # ????
+	if has_node("dash timer"):
+		$"dash timer".start(dash_duration)
+	$"dash particles".emitting = true
 	start_particles()
 
 func stop_dash():
@@ -102,7 +113,6 @@ func start_particles():
 	if has_node("dash_timer/CPUParticles2D"):
 		var particles =$"dash particles"
 		particles.emitting = true
-		
 func stop_particles():
 	if has_node("dash_timer/CPUParticles2D"):
 		var particles = $"dash particles"
