@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=43 format=3 uid="uid://d1657tidee7b4"]
 
 [ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" uid="uid://c63psl1ac1hbh" path="res://spawner.gd" id="8_sdjp3"]
 [ext_resource type="Script" uid="uid://cyqohljrgbdt1" path="res://CheckArenaCollision.gd" id="9_gdfr4"]
 [ext_resource type="PackedScene" uid="uid://byppoq1xx1c5w" path="res://enemy_1.tscn" id="9_sdjp3"]
-[ext_resource type="PackedScene" uid="uid://cfiswvee378bs" path="res://enemy_2.tscn" id="11_3hlmd"]
 [ext_resource type="Texture2D" uid="uid://cadbbwjslvvxh" path="res://arenaPlaceholder.png" id="11_jkt0x"]
 [ext_resource type="Texture2D" uid="uid://cobhb70likea2" path="res://PlatformPlaceholder.png" id="11_pat5w"]
 [ext_resource type="PackedScene" uid="uid://f5tduge7u8wa" path="res://sentry_buster.tscn" id="12_2pmbf"]
@@ -192,7 +191,6 @@ texture = ExtResource("1_k1dng")
 position = Vector2(-75, 0)
 script = ExtResource("8_sdjp3")
 enemy_1 = ExtResource("9_sdjp3")
-enemy_2 = ExtResource("11_3hlmd")
 sentryBuster = ExtResource("12_2pmbf")
 random_distance = 10.0
 
@@ -201,16 +199,13 @@ shape = SubResource("RectangleShape2D_qwe0f")
 disabled = true
 
 [node name="robot_shooter" parent="." instance=ExtResource("9_sdjp3")]
-position = Vector2(-80, 1268)
+position = Vector2(3614, 1498)
 safe_zone = 25.0
 jump_strength = 700.0
-
-[node name="robot_melee" parent="." instance=ExtResource("11_3hlmd")]
-position = Vector2(407, 1011)
-jump_strength = 700.0
+wall_correction = 100
 
 [node name="SentryBuster" parent="." instance=ExtResource("12_2pmbf")]
-position = Vector2(3970, 1031)
+position = Vector2(1096, -1482)
 
 [node name="AreaTrigger" type="Area2D" parent="."]
 position = Vector2(4354, -2754)
@@ -218,7 +213,7 @@ collision_layer = 64
 collision_mask = 64
 monitoring = false
 script = ExtResource("9_gdfr4")
-arena_num = 1
+arena_num = 3
 Enable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTrigger"]
@@ -496,7 +491,7 @@ shape = SubResource("RectangleShape2D_sdjp3")
 one_way_collision = true
 
 [node name="One-way-platform2" type="StaticBody2D" parent="StoryArena1"]
-position = Vector2(-365, -25)
+position = Vector2(-370, -25)
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena1/One-way-platform2"]
 texture = ExtResource("11_pat5w")
@@ -519,7 +514,7 @@ shape = SubResource("RectangleShape2D_rf5n4")
 one_way_collision = true
 
 [node name="One-way-platform3" type="StaticBody2D" parent="StoryArena1"]
-position = Vector2(365, -25)
+position = Vector2(370, -25)
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena1/One-way-platform3"]
 texture = ExtResource("11_pat5w")

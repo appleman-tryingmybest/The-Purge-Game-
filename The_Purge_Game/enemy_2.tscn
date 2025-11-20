@@ -12,8 +12,6 @@ script = ExtResource("1_vfv5t")
 speed = 85.0
 gravity = 800.0
 max_speed = 200.0
-safe_distance = 80.0
-safe_zone = 25.0
 jump_prob = 8
 can_jump = true
 enemy_to_player_y = 50.0
@@ -27,3 +25,5 @@ shape = SubResource("RectangleShape2D_aphpr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_mvvu1")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

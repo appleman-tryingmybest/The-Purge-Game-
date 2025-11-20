@@ -25,3 +25,7 @@ shape = SubResource("RectangleShape2D_aphpr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_663o1")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, -40)
+target_position = Vector2(100, 0)
