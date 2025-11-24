@@ -78,7 +78,8 @@ func _physics_process(delta):
 			anim.flip_h = true
 	z_index = 7
 	var player = get_parent().get_node("Player")
-	var distance = abs(player.position.x - position.x)
+	var Xdistance = abs(player.position.x - position.x)
+	var distance = position.distance_to(player.position)
 	var yDistance = player.position.y - position.y
 	if is_waiting:
 		return
@@ -104,7 +105,7 @@ func _physics_process(delta):
 	else:
 		shoot_ray()
 		just_fell = false
-		if distance < safe_distance:
+		if Xdistance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				exploding = true
 				print ("ambatublow")
@@ -122,7 +123,7 @@ func _physics_process(delta):
 					else:
 						velocity.x -= speed
 
-		elif distance > safe_distance: # move to player if too far
+		elif Xdistance > safe_distance: # move to player if too far
 			if can_run:
 				run_cooldown -= delta # minus delta and delta is 1 second no matter the frame rate
 				if run_cooldown < 1:
@@ -134,7 +135,7 @@ func _physics_process(delta):
 					else:
 						max_speed = 200
 						print ("Stopped run ", max_speed)
-			if distance > safe_distance - safe_zone:# player is very far
+			if Xdistance > safe_distance - safe_zone:# player is very far
 				if hugging_wall:
 					if position.x < player.Player_x:
 						velocity.y = jump_strength - randf_range(30, 150)
