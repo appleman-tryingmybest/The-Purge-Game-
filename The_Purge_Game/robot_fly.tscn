@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://be6n8ywojqs45"]
+
+[ext_resource type="Script" uid="uid://csf2tbfyegt45" path="res://robot_fly.gd" id="1_hf71m"]
+[ext_resource type="Texture2D" uid="uid://c5nmko3v8ounq" path="res://fly-enemy.png" id="2_hf71m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
+size = Vector2(83, 79)
+
+[node name="robot_fly" type="CharacterBody2D"]
+scale = Vector2(0.72, 0.72)
+collision_layer = 128
+script = ExtResource("1_hf71m")
+speedX = 15.0
+speedY = 15.0
+health = 100.0
+max_speed = 500.0
+wall_correction = 100
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aphpr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.585, 0.585)
+texture = ExtResource("2_hf71m")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 3.8146973e-06)
+target_position = Vector2(100, 0)

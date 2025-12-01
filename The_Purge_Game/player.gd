@@ -12,6 +12,7 @@ var max_jump=2
 var is_dashing=false
 var can_dash = true
 var dash_direction=1
+var was_on_floor=true
 @export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 1.0
 signal camera_limits_changed(new_limits: Vector4)
@@ -25,16 +26,6 @@ func _ready() -> void:
 		$"dash timer".timeout.connect(stop_dash)
 		setup_particles()
 
-func push_prop():
-	var count = get_slide_collision_count()
-	for i in range(count):
-		var collision = get_slide_collision(i)
-		var body = collision.get_collider()
-		
-		if body is RigidBody2D:
-			var push_force = velocity * push_strength
-			body.apply_central_impulse(push_force)
-
 func setPosition():
 	var getPosition = get_parent().get_node("AreaTrigger")
 	position.x = getPosition.teleportX
@@ -45,6 +36,12 @@ func _physics_process(delta: float) -> void:
 	z_index = 10
 	Player_x = position.x
 	Player_y = position.y
+	var currently_on_floor = is_on_floor()
+	if currently_on_floor:
+		jump_count = 0
+	elif was_on_floor and not currently_on_floor:
+		jump_count = 1
+	was_on_floor = currently_on_floor
 	# Add the gravity.
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
