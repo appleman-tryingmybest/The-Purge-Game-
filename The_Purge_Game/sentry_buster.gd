@@ -30,18 +30,18 @@ var exploder := true
 
 # PRELOAD SOUNDS HERE VERY IMPORTANT AS IT IS MORE EASIER AND CAN BE USED BY ALL
 var SFX_SPAWN = preload("res://addons/godot-git-plugin/Sentry_buster_spawn.ogg") # need to preload sounds here
-var SFX_CLOCK = preload("res://addons/godot-git-plugin/Sentry_buster_clock.ogg")
+var SFX_CLOCK = preload("res://addons/godot-git-plugin/Sentry_buster_clock.ogg") # if more sounds then add sound here
 var SFX_FOOTSTEP = preload("res://addons/godot-git-plugin/Sentry_buster_footstep.ogg")
 var SFX_STARTEXPLODE = preload("res://addons/godot-git-plugin/Sentry_buster_explode.ogg")
 var SFX_EXPLOSION = preload("res://addons/godot-git-plugin/funny-explosion-sound.ogg")
 
-func _ready() -> void:
-	anim = $AnimatedSprite2D
+func _ready() -> void: # I would suggest you to watch youtube tutorial on animations though but i try explain
+	anim = $AnimatedSprite2D  # first we make anim = to the animatedsprite2d child in here first
 	play_sound(SFX_SPAWN)
 	if anim == null:
 		push_error("no animation is assigned to me")
 	if anim:
-		anim.play("walk")
+		anim.play("walk") # then we make it play walk animation from it, make sure name is the same refer to the animatedsprite2d node
 	randomize()
 	enemy_to_player_y *= -1
 	enemy_to_player_y += randf_range(-50, 50)
@@ -63,7 +63,7 @@ func shoot_ray():
 	else:
 		hugging_wall = false
 
-func play_sound (stream: AudioStream):
+func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
 	add_child(p) # adds to the world

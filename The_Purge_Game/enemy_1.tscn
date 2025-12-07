@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://byppoq1xx1c5w"]
 
 [ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="1_pjquw"]
-[ext_resource type="Texture2D" uid="uid://dfwrw5sju3h1o" path="res://enemy.png" id="2_663o1"]
+[ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="2_pjquw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aphpr"]
 size = Vector2(83, 79)
@@ -24,7 +24,7 @@ run_speed = 500.0
 shape = SubResource("RectangleShape2D_aphpr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_663o1")
+texture = ExtResource("2_pjquw")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, -40)
