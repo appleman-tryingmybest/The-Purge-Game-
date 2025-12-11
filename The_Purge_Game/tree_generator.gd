@@ -69,7 +69,7 @@ func _generateTree():
 	current_x = position.x
 	while currentTreeNum < treeNum and is_generating: # this is really bad but if it works i dont care anymore
 		var treeSizeRandom = randf_range(0.85, 1.2)
-		var treeDistanceRandom = randf_range(20, 35)
+		var treeDistanceRandom = randf_range(180, 260)
 		var treeOffsetRandom = randf_range(-35, 35)
 		var treeRotateRandom = randf_range(-8, 8)
 		var treeLayerRandom = randf_range(1, 2)

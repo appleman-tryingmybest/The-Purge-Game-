@@ -59,15 +59,9 @@ func _generate_terrain():
 		if Floor_Debug:
 			print ("Stopped ", is_generated)
 		return
-	if texture and has_node("Ground"): # checking if theres textures
-		$Ground.texture = texture
-	if not texture:
-		push_error("No textures found")
-		return
 	if Floor_random:
 		random_tile = randi_range(30, 45)
 		tile_number = random_tile
-	tile_width = texture.get_width()
 	while current_number < tile_number:
 		var new_ground = duplicate() # we duplicate and then store it in new_ground
 		new_ground.done_generate = true # the dot means the (new_ground)'s must set its own value to true

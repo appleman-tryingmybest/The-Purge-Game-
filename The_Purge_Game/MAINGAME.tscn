@@ -1,14 +1,16 @@
-[gd_scene load_steps=154 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=157 format=3 uid="uid://d1657tidee7b4"]
 
-[ext_resource type="Texture2D" uid="uid://bimemgrqmquop" path="res://GrassTest.png" id="1_k1dng"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
 [ext_resource type="Script" uid="uid://b7lpirrs0muws" path="res://player.gd" id="1_uc67x"]
 [ext_resource type="Script" uid="uid://ykyei4umsfg4" path="res://grass_test.gd" id="2_cbkd1"]
 [ext_resource type="Texture2D" uid="uid://8ftuale8ehyc" path="res://white.jpg" id="2_jkt0x"]
 [ext_resource type="Script" uid="uid://8gcub7l4vaud" path="res://tree_generator.gd" id="2_nnask"]
 [ext_resource type="Texture2D" uid="uid://5faa83yjbl3v" path="res://addons/godot-git-plugin/particles.png" id="3_3hlmd"]
-[ext_resource type="Texture2D" uid="uid://qkso5s6ptere" path="res://Placeholders/tree_sample.png" id="6_k26xu"]
+[ext_resource type="Texture2D" uid="uid://cb1ij7drtnp2l" path="res://colorgradient.png" id="5_7erya"]
+[ext_resource type="Texture2D" uid="uid://crjkdfm80wpmm" path="res://Player/Trunk.png" id="6_8jran"]
+[ext_resource type="Texture2D" uid="uid://0p6gnseyqfw" path="res://Untitled 12.png" id="7_7erya"]
 [ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="7_036ib"]
+[ext_resource type="Texture2D" uid="uid://cm8vhve44kcx7" path="res://Red ground 2.png" id="8_54s57"]
 [ext_resource type="Script" uid="uid://c63psl1ac1hbh" path="res://spawner.gd" id="8_sdjp3"]
 [ext_resource type="Script" uid="uid://cyqohljrgbdt1" path="res://CheckArenaCollision.gd" id="9_gdfr4"]
 [ext_resource type="PackedScene" uid="uid://byppoq1xx1c5w" path="res://enemy_1.tscn" id="9_sdjp3"]
@@ -19,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://pdipa5dtij71" path="res://Placeholders/crate.png" id="15_tktoi"]
 [ext_resource type="Texture2D" uid="uid://cyn6whpchlast" path="res://Placeholders/arenaPlaceholder.png" id="18_0a2hw"]
 [ext_resource type="Script" uid="uid://bxfbv0jdg41as" path="res://moving_platform.gd" id="19_0rska"]
+[ext_resource type="Texture2D" uid="uid://d220cdeadfoc3" path="res://addons/godot-git-plugin/DETECTORTOWER/full part.png" id="19_8jran"]
 [ext_resource type="Texture2D" uid="uid://dqq6v2fpsmxi0" path="res://addons/godot-git-plugin/vine-joint.png" id="20_f0u5q"]
 [ext_resource type="Texture2D" uid="uid://djxqgbohy4ygd" path="res://Player/player-animation-swing.png" id="21_nj8ud"]
 [ext_resource type="Texture2D" uid="uid://cwlp18f86p8wn" path="res://Player/player-animation-swing2.png" id="22_ovgnf"]
@@ -44,7 +47,7 @@ radius = 36.013885
 [sub_resource type="CircleShape2D" id="CircleShape2D_nnask"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3t2ia"]
-size = Vector2(398, 54)
+size = Vector2(598, 54)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe0f"]
 
@@ -355,22 +358,22 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_86kl4")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_cjewj")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_mto4h")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_xrvmg")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_au3mq")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_llhf0")
 }],
 "loop": true,
@@ -737,22 +740,22 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_qh7cx")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_oqsmv")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_5ajhw")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_rmkuu")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_pol7y")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_sjddp")
 }],
 "loop": true,
@@ -892,14 +895,27 @@ script = ExtResource("1_nnask")
 testingMode = false
 cameraYOffset = 250.0
 
+[node name="Sprite2D" type="Sprite2D" parent="Camera2D"]
+z_index = -11
+position = Vector2(0, -361.39)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_7erya")
+
 [node name="treeGenerator" type="StaticBody2D" parent="."]
 position = Vector2(-75, 0)
 script = ExtResource("2_nnask")
+tree_debug = true
 
 [node name="TreeSample" type="Sprite2D" parent="treeGenerator"]
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("6_k26xu")
+position = Vector2(0, -244.815)
+scale = Vector2(0.47, 0.47)
+texture = ExtResource("6_8jran")
 offset = Vector2(0, -85)
+
+[node name="leaves" type="Sprite2D" parent="treeGenerator"]
+position = Vector2(0, -526.045)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("7_7erya")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="treeGenerator"]
 shape = SubResource("CircleShape2D_nnask")
@@ -907,18 +923,18 @@ disabled = true
 
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
+tile_width = 575.0
 tile_number = 6.0
-texture = ExtResource("1_k1dng")
-Floor_Debug = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
-position = Vector2(0, -34)
+position = Vector2(1, -34)
 shape = SubResource("RectangleShape2D_3t2ia")
 debug_color = Color(2.7915835e-06, 0.6120229, 0.6268773, 0.41960785)
 
 [node name="Ground" type="Sprite2D" parent="floorGenerator"]
-scale = Vector2(1.56, 1.56)
-texture = ExtResource("1_k1dng")
+position = Vector2(0, 63)
+scale = Vector2(0.49, 0.695)
+texture = ExtResource("8_54s57")
 
 [node name="Spawner" type="StaticBody2D" parent="."]
 position = Vector2(-75, 0)
@@ -951,7 +967,7 @@ collision_layer = 64
 collision_mask = 64
 monitoring = false
 script = ExtResource("9_gdfr4")
-arena_num = 3
+arena_num = 1
 Enable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTrigger"]
@@ -1130,6 +1146,12 @@ shape = SubResource("RectangleShape2D_pat5w")
 position = Vector2(475, 162.002)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_pat5w")
+
+[node name="DETECTORTOWER" type="Sprite2D" parent="StoryArena2"]
+z_index = -5
+position = Vector2(41.500008, -30.499994)
+scale = Vector2(0.29, 0.29)
+texture = ExtResource("19_8jran")
 
 [node name="StoryArena3" type="StaticBody2D" parent="."]
 position = Vector2(8285, 2027)
@@ -1471,12 +1493,14 @@ texture = ExtResource("20_f0u5q")
 position = Vector2(88, -104.00001)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_naigk")
-animation = &"idle"
+animation = &"dash"
+frame_progress = 0.28220457
 
 [node name="player-hand" type="AnimatedSprite2D" parent="."]
-position = Vector2(88, -104)
+position = Vector2(124, -144)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_rmkuu")
-animation = &"gun-idle"
+animation = &"sword-dash"
+frame_progress = 0.13796943
 
 [connection signal="body_entered" from="AreaTrigger" to="AreaTrigger" method="_on_body_entered"]
