@@ -15,29 +15,43 @@ extends CharacterBody2D
 @export var run_speed : float
 @export var ray_length : int  = 100
 @export var wall_correction := 20 # shoots enemy backwards if hugging wall
+var idle : bool # animation states here
+var run : bool
 var hugging_wall := false
 var just_fell := false
 var can_jump_fall := false
-@onready var ray = $RayCast2D
-
+var on_floor := true
+var anim: AnimatedSprite2D
+var animation: AnimationPlayer
+@onready var visuals = $visuals
+@onready var ray = $visuals/RayCast2D
 var run_cooldown : float = 1
 var is_waiting := false
+var timer_footstep: float
+
+#PRELOAD SOUNDS
+var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
+var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
+
 func _ready() -> void:
+	anim = $visuals/AnimatedSprite2D
+	animation = $AnimationPlayer
 	randomize()
 	safe_distance += randf_range(-65, 65)
 	enemy_to_player_y *= -1
 	enemy_to_player_y += randf_range(-50, 50)
 	jump_strength *= -1
 
+func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
+	var p = AudioStreamPlayer2D.new() # make new audioplayer
+	p.stream = stream
+	p.pitch_scale = randf_range(0.5, 1.5)
+	add_child(p) # adds to the world
+	p.play() # play first
+	p.finished.connect(p.queue_free) # remove itself after finished playing
+
 func shoot_ray():
-	var player = get_parent().get_node("Player")
 	var direction = Vector2 (ray_length, 0)
-	if position.x > player.position.x:
-		direction.x = -abs(direction.x)
-	elif position.x < player.position.x:
-		direction.x = abs(direction.x)
-	ray.target_position = direction
-	ray.force_raycast_update()
 	if ray.is_colliding():
 		hugging_wall = true
 		var collider = ray.get_collider()
@@ -47,36 +61,37 @@ func shoot_ray():
 
 func _physics_process(delta):
 	z_index = 7
-	var player = get_parent().get_node("Player")
-	var distance = abs(player.position.x - position.x)
-	var yDistance = player.position.y - position.y
+	var distance = abs(Global.player_x - position.x)
+	var yDistance = Global.player_y - position.y
 	if is_waiting:
-		return
+		return # stop moving
 	if not is_on_floor():
+		on_floor = false
 		shoot_ray()
 		if hugging_wall:
-			if position.x < player.Player_x:
+			if position.x < Global.player_x:
 				velocity.x += -wall_correction
-			elif position.x > player.Player_x:
+			elif position.x > Global.player_x:
 				velocity.x += wall_correction
 		if not just_fell:
 			just_fell = true
-			if player.position.y < position.y:
+			if Global.player_y < position.y:
 				can_jump_fall = true
 			else:
 				@warning_ignore("integer_division")
-				can_jump_fall = randi_range(0, jump_prob/2) == 0
+				can_jump_fall = randi_range(0, jump_prob) == 0
 		else:
 			velocity.y += gravity * delta
 		if can_jump_fall:
 			velocity.y = jump_strength - randf_range(30, 80)
 			can_jump_fall = false
 	else:
+		on_floor = true
 		shoot_ray()
 		just_fell = false
 		if distance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
-				if position.x < player.Player_x: # if we are in danger then we back up
+				if position.x < Global.player_x: # if we are in danger then we back up
 					velocity.x -= speed
 				else:
 					velocity.x += speed
@@ -86,31 +101,61 @@ func _physics_process(delta):
 					print (yDistance)
 					velocity.y = jump_strength - randf_range(30, 150) # to go up or jump we need the value to be negative for some reason
 					move_and_slide()
-				return
+				idle = true
+				return # stop moving
 		elif distance > safe_distance: # move to player if too far
 			if can_run:
 				run_cooldown -= delta # minus delta and delta is 1 second no matter the frame rate
 				if run_cooldown < 1:
 					run_cooldown = randi_range(1, 2)
 					if randi_range(0, run_prob) == 0:
+						run = true
 						max_speed = run_speed
 						print ("Enemy runs with ", max_speed)
 						run_cooldown += randi_range(1, 3)
 					else:
+						run = false
 						max_speed = 200
 						print ("Stopped run ", max_speed)
 			if distance > safe_distance - safe_zone:# player is very far
 				if hugging_wall:
-					if position.x < player.Player_x:
+					if position.x < Global.player_x:
 						velocity.y = jump_strength - randf_range(30, 150)
-					elif position.x > player.Player_x:
+					elif position.x > Global.player_x:
 						velocity.y = jump_strength - randf_range(30, 150)
-				if position.x < player.Player_x:
+				if position.x < Global.player_x:
 					velocity.x += speed
 				else:
 					velocity.x -= speed
 			else:
-				return
-
+				idle = true
+				return # stop moving
+	idle = false
 	velocity.x = clamp(velocity.x, -max_speed, max_speed)
 	move_and_slide()
+	
+func _process(delta: float) -> void:
+	timer_footstep -= delta
+	if position.x < Global.player_x and on_floor:
+		visuals.scale.x = -1 # right
+	elif position.x > Global.player_x and on_floor:
+		visuals.scale.x = 1 # left
+	if on_floor:
+		if (velocity.x != 0) and !run:
+			animation.play("walk", 0, 0.7)
+			if timer_footstep < 0 and !run and !idle:
+				play_sound(FOOTSTEP)
+				timer_footstep = randf_range(0.4, 0.65)
+		elif run:
+			animation.play("run", 0, 1.3)
+			if timer_footstep < 0 and !idle:
+				play_sound(FOOTSTEP)
+				timer_footstep = randf_range(0.25, 0.34)
+		if idle:
+			animation.play("idle")
+	elif !on_floor:
+		animation.stop()
+		if velocity.y < 0:
+			anim.play("jump")
+		elif velocity.y > 0:
+			anim.play("fall")
