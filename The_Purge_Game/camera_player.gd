@@ -78,6 +78,7 @@ func setPosition():
 	print("Camera switched to arena mode at: ", cameraX, ", ", cameraY)
 	
 func _process(delta):
+	Global.camera_y = global_position.y
 	var player = get_parent().get_node("Player")  # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
 	if camera_Type == 0:
 		cameraX = player.Player_x + cameraXOffset

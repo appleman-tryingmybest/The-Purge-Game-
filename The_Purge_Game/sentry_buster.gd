@@ -159,6 +159,7 @@ func explode_sequence() -> void:
 		play_sound(SFX_STARTEXPLODE)
 		await get_tree().create_timer(2).timeout
 		play_sound(SFX_EXPLOSION)
+		$CPUParticles2D.emitting = true
 		anim.play("funny-explosion")
 		scale = Vector2(6, 6)
 		position.y += 400

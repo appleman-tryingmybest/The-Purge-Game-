@@ -16,6 +16,7 @@ var was_on_floor=true
 @export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 1.0
 signal camera_limits_changed(new_limits: Vector4)
+var knockback_velocity := Vector2.ZERO
 
 func _ready() -> void:
 	JUMP_VELOCITY *= -1
@@ -33,6 +34,12 @@ func setPosition():
 	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
+	Global.player_x = global_position.x
+	Global.player_y = global_position.y
+	Global.player_position = global_position
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	z_index = 10
 	Player_x = position.x
 	Player_y = position.y
@@ -59,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	if is_dashing:
 		velocity.x = direction * SPEED * dash_speed
 	elif direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * SPEED + knockback_velocity.x
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
@@ -114,3 +121,5 @@ func stop_particles():
 	if has_node("dash_timer/CPUParticles2D"):
 		var particles = $"dash particles"
 		particles.emitting = false
+func apply_knockback(force: Vector2):
+	knockback_velocity = force
