@@ -1,4 +1,4 @@
-[gd_scene load_steps=179 format=3 uid="uid://d1657tidee7b4"]
+[gd_scene load_steps=180 format=3 uid="uid://d1657tidee7b4"]
 
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
 [ext_resource type="Script" uid="uid://b7lpirrs0muws" path="res://player.gd" id="1_uc67x"]
@@ -51,6 +51,7 @@
 [ext_resource type="Texture2D" uid="uid://cmxjecdg82ytk" path="res://Player/hand/player-animation-idle-hand.png" id="32_qh7cx"]
 [ext_resource type="Texture2D" uid="uid://ce1s7lqnlwaug" path="res://Player/hand/player-animation-jump-hand.png" id="33_oqsmv"]
 [ext_resource type="Texture2D" uid="uid://di1573nypabwl" path="res://Player/hand/player-animation-run-hand.png" id="34_5ajhw"]
+[ext_resource type="Script" uid="uid://cj6rf13p72cw2" path="res://music_system.gd" id="52_qxqmo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pat5w"]
 radius = 36.013885
@@ -1598,5 +1599,8 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_rmkuu")
 animation = &"sword-dash"
 frame_progress = 0.13796943
+
+[node name="music-system" type="Node2D" parent="."]
+script = ExtResource("52_qxqmo")
 
 [connection signal="body_entered" from="AreaTrigger" to="AreaTrigger" method="_on_body_entered"]

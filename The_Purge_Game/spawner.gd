@@ -25,6 +25,7 @@ func spawn_enemy(enemy_type: String):
 	var getPos = get_parent().get_node("Player")
 	
 	world.add_child(enemy) # then we add it into the world
+	Global.enemy_count +=1
 	enemy.global_position.x = getPos.position.x + randf_range(-random_distance, random_distance)
 	enemy.global_position.y = getPos.position.y - 5
 	
