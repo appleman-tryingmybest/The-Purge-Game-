@@ -502,7 +502,7 @@ jump_prob = 5
 can_jump = true
 enemy_to_player_y = 180.0
 jump_strength = 750.0
-ray_length = -200
+ray_length = -350
 charge_prob = 20
 charge_cooldown = 7
 charge_speed = 500.0
@@ -536,6 +536,10 @@ libraries = {
 speed_scale = 1.85
 
 [node name="visuals" type="Node2D" parent="."]
+
+[node name="ChargeFloorChecker" type="RayCast2D" parent="visuals"]
+position = Vector2(50, -80)
+target_position = Vector2(0, 350)
 
 [node name="RayCast2D" type="RayCast2D" parent="visuals"]
 position = Vector2(0, -40)

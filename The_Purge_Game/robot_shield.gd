@@ -29,12 +29,15 @@ var animation: AnimationPlayer
 var is_stun := false
 @onready var visuals = $visuals
 @onready var ray = $visuals/RayCast2D
+@onready var rayGround = $visuals/ChargeFloorChecker
 var run_cooldown : float = 1
 var is_waiting := false
 var charging := false
 var charge_move := false
 var pushed := false
 var timer_footstep : float
+var hitted := false
+var charge_on_floor := false
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
 var CHARGE_INTRO = preload("res://sounds/enemy/enemy-charge-intro.ogg")
@@ -56,8 +59,15 @@ func shoot_ray():
 		hugging_wall = true
 		var collider = ray.get_collider()
 		print("Hit: ", collider.name)
+		hitted = true
 	else:
 		hugging_wall = false
+		hitted = false
+	if rayGround.is_colliding() and charge_move:
+		charge_on_floor = true
+		print ("AM I ON FLOOR ", charge_on_floor)
+	else:
+		charge_on_floor = false
 
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
@@ -76,7 +86,7 @@ func _physics_process(delta):
 	charge_cooldown -= 1
 	if charge_cooldown < 0 and !charging:
 		charge_cooldown = 5
-		if randi_range(0, charge_prob) == 0 and is_on_floor() and distance < (safe_distance + 250):
+		if randi_range(0, charge_prob) == 0 and is_on_floor() and distance < (safe_distance + 300):
 			charging = true
 			_charging()
 	if not is_on_floor():
@@ -103,7 +113,6 @@ func _physics_process(delta):
 		on_floor = true
 		shoot_ray()
 		just_fell = false
-		print ("DISTANCE ", distance)
 		if distance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				if position.x < Global.player_x: # if we are in danger then we back up
@@ -149,7 +158,7 @@ func _physics_process(delta):
 	if !charging:
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
 		move_and_slide()
-	if is_on_floor() and !is_on_wall() and charge_move:
+	if charge_on_floor and !hitted and charge_move:
 		timer_footstep -= delta
 		if timer_footstep < 0 and !run:
 			play_sound(CHARGE_LOOP)
@@ -157,20 +166,23 @@ func _physics_process(delta):
 		if visuals.scale.x == 1: # right
 			max_speed = charge_speed
 			velocity.x += speed * -2
+			velocity.y += gravity/4
 			velocity.x = clamp(velocity.x, -charge_speed, charge_speed)
 			move_and_slide()
+			shoot_ray()
 		if visuals.scale.x == -1: # left
 			max_speed = charge_speed
 			velocity.x += speed * 2
+			velocity.y += gravity/4
 			velocity.x = clamp(velocity.x, -charge_speed, charge_speed)
 			move_and_slide()
-	elif !is_on_floor():
+			shoot_ray()
+	elif !charge_on_floor:
 		charging = false
 		charge_move = false
 		max_speed = 100
-	elif is_on_wall() and charging:
+	elif hitted and charging:
 		if !is_stun:
-			play_sound(CHARGE_CRASH)
 			_stun()
 
 func _process(delta: float) -> void:
@@ -189,10 +201,10 @@ func _process(delta: float) -> void:
 					play_sound(FOOTSTEP)
 					timer_footstep = randf_range(0.45, 0.5)
 			elif run:
-					animation.play("run", 0, 1.3)
-					if timer_footstep < 0 and !idle:
-						play_sound(FOOTSTEP)
-						timer_footstep = randf_range(0.25, 0.34)
+				animation.play("run", 0, 1.3)
+				if timer_footstep < 0 and !idle:
+					play_sound(FOOTSTEP)
+					timer_footstep = randf_range(0.25, 0.34)
 			if idle:
 				animation.play("idle")
 		elif !on_floor:
@@ -203,6 +215,7 @@ func _process(delta: float) -> void:
 				anim.play("fall")
 
 func _charging():
+	charge_on_floor = true
 	print ("IM GOING TO CHARGE")
 	velocity.x = 0
 	play_sound(CHARGE_INTRO)
@@ -214,13 +227,13 @@ func _charging():
 func _stun():
 	is_stun = true
 	animation.stop()
+	charge_move = false
 	anim.play("stun-front")
+	play_sound(CHARGE_CRASH)
 	await get_tree().create_timer(0.5).timeout
 	charging = false
-	charge_move = false
 	max_speed = 100
 	is_stun = false
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -229,10 +242,11 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			push_dir = push_dir * -1
 		if visuals.scale.x == -1: # leftdd
 			push_dir = abs(push_dir)
-		if body.has_method("apply_knockback") and !pushed and charging:
+		if body.has_method("apply_knockback") and !pushed and charge_move:
 			body.apply_knockback(Vector2(push_dir, -455))
 			pushed = true
 			print ("I PUSHED")
+			_stun()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):

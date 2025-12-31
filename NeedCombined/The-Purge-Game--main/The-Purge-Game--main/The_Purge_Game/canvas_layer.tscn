@@ -1,0 +1,318 @@
+[gd_scene load_steps=32 format=3 uid="uid://cgx2e84bei1cs"]
+
+[ext_resource type="Script" uid="uid://d2larb12lhtg8" path="res://canvas_layer.gd" id="1_6xvmx"]
+[ext_resource type="Texture2D" uid="uid://xchydswa2v01" path="res://pause menu/Setting.png" id="2_5nuxi"]
+[ext_resource type="Shader" uid="uid://bosdlgf04bqby" path="res://MAINGAME.gdshader" id="3_t1ebt"]
+[ext_resource type="Texture2D" uid="uid://bj5eu0cnm018n" path="res://pause menu/RESUMEBUTTON1.png" id="4_w2blc"]
+[ext_resource type="Texture2D" uid="uid://chhrw38bjm4fe" path="res://pause menu/RESUMEBUTTON dark.png" id="5_wji3x"]
+[ext_resource type="Texture2D" uid="uid://bnal8vbk33x12" path="res://pause menu/RESUMEBUTTON(light).png" id="6_07c00"]
+[ext_resource type="BitMap" uid="uid://c7lwv10iaa5so" path="res://pause menu/RESUMEBUTTON.png" id="7_lp2dk"]
+[ext_resource type="Texture2D" uid="uid://kriky824a5sf" path="res://pause menu/OPTIONSBUTTON.png" id="8_apljm"]
+[ext_resource type="Texture2D" uid="uid://dwrcr4iea15k5" path="res://pause menu/OPTIONSBUTTON dark.png" id="9_4piyb"]
+[ext_resource type="Texture2D" uid="uid://dx15508gyj71s" path="res://pause menu/OPTIONSBUTTON light.png" id="10_h8evs"]
+[ext_resource type="BitMap" uid="uid://5i8okvc7jh5p" path="res://pause menu/OPTIONSBUTTON - Copy.png" id="11_54dv3"]
+[ext_resource type="Texture2D" uid="uid://cimq65y71ondy" path="res://pause menu/BACKBUTTON1.png" id="12_uc0vg"]
+[ext_resource type="Texture2D" uid="uid://bu5nktbvx6j" path="res://pause menu/BACKBUTTON dark.png" id="13_lljfd"]
+[ext_resource type="Texture2D" uid="uid://dbhxeltwthg2d" path="res://pause menu/BACKBUTTON light.png" id="14_qn1ce"]
+[ext_resource type="BitMap" uid="uid://p37l4ykyub5a" path="res://pause menu/BACKBUTTON.png" id="15_31fxs"]
+[ext_resource type="FontFile" uid="uid://d34oowe03sf3o" path="res://font/BBHBartle-Regular.ttf" id="16_k178u"]
+[ext_resource type="Texture2D" uid="uid://c6nueq6u70ha7" path="res://pause menu/EXITBUTTON.png" id="17_af0nv"]
+[ext_resource type="Texture2D" uid="uid://bfvwu6xq5e4hu" path="res://pause menu/EXITBUTTON dark.png" id="18_rpy4e"]
+[ext_resource type="Texture2D" uid="uid://dt80uaoxhg8ti" path="res://pause menu/EXITBUTTON light.png" id="19_m85tg"]
+[ext_resource type="BitMap" uid="uid://sy7lakelk1x7" path="res://pause menu/EXITBUTTON - Copy.png" id="20_gdnx8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t843m"]
+shader = ExtResource("3_t1ebt")
+shader_parameter/lod = 0.7810000370975
+shader_parameter/darkness = 0.6250000296875
+
+[sub_resource type="Animation" id="Animation_8ecis"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/TextureButton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1079, -27)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/TextureButton:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/TextureButton:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_587jh"]
+resource_name = "clicking_gear"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/TextureButton:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(0.4351923, 0.43519226, 0.43519226, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lix4p"]
+resource_name = "hover move_setting"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/TextureButton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1079, -27), Vector2(1075, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/TextureButton:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1e-05),
+"update": 0,
+"values": [0.0, 4.070107815650777]
+}
+
+[sub_resource type="Animation" id="Animation_t843m"]
+resource_name = "pause_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blurry_bg:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.49, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.23137255), Color(0, 0, 0, 0.38039216)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/TextureButton:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1066, 13), Vector2(1067, 13)]
+}
+
+[sub_resource type="Animation" id="Animation_utt7w"]
+resource_name = "rotation_gear"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ecis"]
+_data = {
+&"RESET": SubResource("Animation_8ecis"),
+&"clicking_gear": SubResource("Animation_587jh"),
+&"hover move_setting": SubResource("Animation_lix4p"),
+&"pause_in": SubResource("Animation_t843m"),
+&"rotation_gear": SubResource("Animation_utt7w")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hxxo4"]
+bg_color = Color(0, 0.7709595, 0.73557705, 1)
+border_width_top = 2
+border_color = Color(0.41149998, 0.890947, 0.86695474, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+shadow_color = Color(0.119730644, 0.38399684, 0.36209023, 0.5254902)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s5cbt"]
+bg_color = Color(0.085567005, 0.66235656, 0.6302857, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivick"]
+bg_color = Color(0.1907382, 0.5974023, 0.69589216, 1)
+border_width_top = 2
+border_color = Color(0.43216813, 0.60738647, 0.8082373, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+shadow_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_hxxo4"]
+font = ExtResource("16_k178u")
+font_size = 30
+font_color = Color(0, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_6xvmx")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureButton" type="TextureButton" parent="Control"]
+layout_mode = 0
+offset_left = 1079.0
+offset_top = -27.0
+offset_right = 1139.0
+offset_bottom = 28.999924
+pivot_offset = Vector2(30, 27)
+texture_normal = ExtResource("2_5nuxi")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+
+[node name="blurry_bg" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_t843m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Resume_button" type="TextureButton" parent="."]
+process_mode = 3
+self_modulate = Color(1, 1, 1, 0.78431374)
+custom_minimum_size = Vector2(-0.06, 0)
+offset_left = 445.0
+offset_top = 87.0
+offset_right = 688.0
+offset_bottom = 159.0
+action_mode = 0
+texture_normal = ExtResource("4_w2blc")
+texture_pressed = ExtResource("5_wji3x")
+texture_hover = ExtResource("6_07c00")
+texture_click_mask = ExtResource("7_lp2dk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Option_button" type="TextureButton" parent="."]
+process_mode = 3
+self_modulate = Color(1, 1, 1, 0.78431374)
+offset_left = 442.0
+offset_top = 183.0
+offset_right = 693.0
+offset_bottom = 256.0
+texture_normal = ExtResource("8_apljm")
+texture_pressed = ExtResource("9_4piyb")
+texture_hover = ExtResource("10_h8evs")
+texture_click_mask = ExtResource("11_54dv3")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_8ecis")
+}
+
+[node name="options_panel" type="Control" parent="."]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="back_button" type="TextureButton" parent="options_panel"]
+process_mode = 3
+layout_mode = 0
+offset_left = 887.0
+offset_top = 437.0
+offset_right = 1022.0
+offset_bottom = 477.0
+texture_normal = ExtResource("12_uc0vg")
+texture_pressed = ExtResource("13_lljfd")
+texture_hover = ExtResource("14_qn1ce")
+texture_click_mask = ExtResource("15_31fxs")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="HSlider" type="HSlider" parent="options_panel"]
+process_mode = 3
+layout_mode = 0
+offset_left = 373.0
+offset_top = 61.0
+offset_right = 947.0
+offset_bottom = 210.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_hxxo4")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_s5cbt")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ivick")
+
+[node name="Label" type="Label" parent="options_panel/HSlider"]
+layout_mode = 0
+offset_left = -258.0
+offset_top = 58.0
+offset_right = -26.0
+offset_bottom = 116.0
+text = "Volume"
+label_settings = SubResource("LabelSettings_hxxo4")
+
+[node name="Exit" type="TextureButton" parent="."]
+process_mode = 3
+self_modulate = Color(1, 1, 1, 0.78431374)
+offset_left = 447.0
+offset_top = 277.0
+offset_right = 693.0
+offset_bottom = 358.0
+texture_normal = ExtResource("17_af0nv")
+texture_pressed = ExtResource("18_rpy4e")
+texture_hover = ExtResource("19_m85tg")
+texture_click_mask = ExtResource("20_gdnx8")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="mouse_entered" from="Control/TextureButton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="Control/TextureButton" to="." method="_on_texture_button_mouse_exited"]
+[connection signal="pressed" from="Control/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="Resume_button" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="Option_button" to="." method="_on_option_button_pressed"]
+[connection signal="pressed" from="options_panel/back_button" to="." method="_on_back_button_pressed"]
+[connection signal="value_changed" from="options_panel/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="mouse_entered" from="Exit" to="." method="_on_exit_mouse_entered"]
+[connection signal="mouse_exited" from="Exit" to="." method="_on_exit_mouse_exited"]
