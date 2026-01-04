@@ -15,6 +15,9 @@ extends CharacterBody2D
 @export var run_speed : float
 @export var ray_length : int  = 100
 @export var wall_correction := 20 # shoots enemy backwards if hugging wall
+@export var attack_cooldown : float
+@export var attack_prob : int
+@export var turn_timer : float
 var idle : bool # animation states here
 var run : bool
 var hugging_wall := false
@@ -28,12 +31,17 @@ var animation: AnimationPlayer
 var run_cooldown : float = 1
 var is_waiting := false
 var timer_footstep: float
+var attacking := false
+var attack_probb : float
+var dead := false
+@export var ragdoll : PackedScene
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
 var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
 
 func _ready() -> void:
+	Global.enemy_count += 1
 	anim = $visuals/AnimatedSprite2D
 	animation = $AnimationPlayer
 	randomize()
@@ -65,7 +73,7 @@ func _physics_process(delta):
 	var yDistance = Global.player_y - position.y
 	if is_waiting:
 		return # stop moving
-	if not is_on_floor():
+	if not is_on_floor() and !dead:
 		on_floor = false
 		shoot_ray()
 		if hugging_wall:
@@ -85,11 +93,16 @@ func _physics_process(delta):
 		if can_jump_fall:
 			velocity.y = jump_strength - randf_range(30, 80)
 			can_jump_fall = false
-	else:
+	elif is_on_floor() and !attacking and !dead:
+		attack_cooldown -= delta
 		on_floor = true
 		shoot_ray()
 		just_fell = false
 		if distance < safe_distance:
+			print (attack_cooldown)
+			if attack_cooldown < 0:
+				if randi_range(0, attack_prob) == 0:
+					_attack()
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				if position.x < Global.player_x: # if we are in danger then we back up
 					velocity.x -= speed
@@ -136,26 +149,49 @@ func _physics_process(delta):
 	
 func _process(delta: float) -> void:
 	timer_footstep -= delta
-	if position.x < Global.player_x and on_floor:
-		visuals.scale.x = -1 # right
-	elif position.x > Global.player_x and on_floor:
-		visuals.scale.x = 1 # left
-	if on_floor:
+	turn_timer -= delta
+	if turn_timer <= 0 and on_floor and !attacking:
+		if position.x < Global.player_x:
+			visuals.scale.x = -1 # right
+		elif position.x > Global.player_x:
+			visuals.scale.x = 1 # left
+		turn_timer = 0.4
+	if on_floor and !attacking and !dead:
 		if (velocity.x != 0) and !run:
 			animation.play("walk", 0, 0.7)
 			if timer_footstep < 0 and !run and !idle:
 				play_sound(FOOTSTEP)
 				timer_footstep = randf_range(0.4, 0.65)
-		elif run:
+		elif run and !attacking:
 			animation.play("run", 0, 1.3)
 			if timer_footstep < 0 and !idle:
 				play_sound(FOOTSTEP)
 				timer_footstep = randf_range(0.25, 0.34)
 		if idle:
 			animation.play("idle")
-	elif !on_floor:
+	elif !on_floor and !attacking and !dead:
 		animation.stop()
 		if velocity.y < 0:
 			anim.play("jump")
 		elif velocity.y > 0:
 			anim.play("fall")
+	if health < 0:
+		_spawn_ragdoll()
+		queue_free()
+
+func _spawn_ragdoll():
+	Global.enemy_count -= 1
+	var instance = ragdoll.instantiate()
+	get_parent().add_child(instance)
+	instance.global_position = global_position
+	instance.global_position.y = global_position.y - 150
+
+func _attack():
+	attacking = true
+	velocity.x = 0
+	velocity.y = 0
+	print ("IM GONNA KILL YOU")
+	animation.play("attack")
+	await get_tree().create_timer(0.8).timeout
+	attacking = false
+	attack_cooldown = 1

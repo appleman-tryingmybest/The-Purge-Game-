@@ -1,9 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://blspfgfuwc633"]
+[gd_scene load_steps=18 format=3 uid="uid://blspfgfuwc633"]
 
 [ext_resource type="Texture2D" uid="uid://b7n0wivimuwsi" path="res://Enemy/particle/step-dust.png" id="1_4i51w"]
 [ext_resource type="Script" uid="uid://b81jae0jd15v4" path="res://dropship.gd" id="1_mbjea"]
+[ext_resource type="PackedScene" uid="uid://byppoq1xx1c5w" path="res://enemy_1.tscn" id="2_i14ll"]
 [ext_resource type="Texture2D" uid="uid://cshqwh6lgaowf" path="res://Enemy/enemy-dropship/base.png" id="3_4i51w"]
+[ext_resource type="AudioStream" uid="uid://b8wxl0fya84bo" path="res://sounds/enemy/dropship-sound.ogg" id="3_melr4"]
+[ext_resource type="PackedScene" uid="uid://cfiswvee378bs" path="res://enemy_2.tscn" id="3_t4xo0"]
+[ext_resource type="PackedScene" uid="uid://bj65os1wl5dpb" path="res://robot_shield.tscn" id="4_1sl63"]
 [ext_resource type="Texture2D" uid="uid://x0qk1qhxux3r" path="res://Enemy/enemy-dropship/thruster1.png" id="4_melr4"]
+[ext_resource type="PackedScene" uid="uid://be6n8ywojqs45" path="res://robot_fly.tscn" id="5_bcw8w"]
 [ext_resource type="Texture2D" uid="uid://daa0o5bhsci7k" path="res://Enemy/enemy-dropship/thruster2.png" id="5_k72rh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s2bpt"]
@@ -59,6 +64,46 @@ tracks/3/keys = {
 "values": [-0.17453292]
 }
 
+[sub_resource type="Animation" id="Animation_melr4"]
+resource_name = "idle"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/LEFT:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("visuals/RIGHT:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_mbjea"]
 resource_name = "intro"
 length = 0.02
@@ -109,6 +154,47 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [-0.17453292]
+}
+
+[sub_resource type="Animation" id="Animation_k72rh"]
+resource_name = "leave"
+length = 0.25
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.17453292]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/LEFT:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.17453292]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("visuals/RIGHT:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.17453292]
 }
 
 [sub_resource type="Animation" id="Animation_4i51w"]
@@ -164,87 +250,6 @@ tracks/3/keys = {
 "values": [-0.17453292, -0.17453292, 0.4956735, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_melr4"]
-resource_name = "idle"
-step = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("visuals:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("visuals/LEFT:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("visuals/RIGHT:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_k72rh"]
-resource_name = "leave"
-length = 0.25
-step = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("visuals:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, -0.17453292]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("visuals/LEFT:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, -0.17453292]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("visuals/RIGHT:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, -0.17453292]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jq6mw"]
 _data = {
 &"RESET": SubResource("Animation_3u0vs"),
@@ -255,13 +260,19 @@ _data = {
 }
 
 [node name="dropship" type="CharacterBody2D"]
+z_index = 2
 scale = Vector2(0.8, 0.8)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_mbjea")
 speed = 100.0
-max_speed = 1500.0
+max_speed = 850.0
 friction = 100.0
+enemy_1 = ExtResource("2_i14ll")
+enemy_2 = ExtResource("3_t4xo0")
+enemy_3 = ExtResource("4_1sl63")
+enemy_4 = ExtResource("5_bcw8w")
+enemy_amount = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -77.25)
@@ -290,6 +301,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_jq6mw")
 }
 speed_scale = 1.85
+
+[node name="dropship_sound" type="AudioStreamPlayer2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+stream = ExtResource("3_melr4")
+volume_db = 12.117
 
 [node name="visuals" type="Node2D" parent="."]
 rotation = -0.17453292

@@ -38,6 +38,10 @@ var pushed := false
 var timer_footstep : float
 var hitted := false
 var charge_on_floor := false
+var rand_distance : float
+@export var ragdoll : PackedScene
+@export var turn_timer : float
+
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
 var CHARGE_INTRO = preload("res://sounds/enemy/enemy-charge-intro.ogg")
@@ -45,6 +49,7 @@ var CHARGE_LOOP = preload("res://sounds/enemy/enemy-charge-loop.ogg")
 var CHARGE_CRASH = preload("res://sounds/enemy/enemy-charge-crash.ogg")
 
 func _ready() -> void:
+	Global.enemy_count += 1
 	anim = $visuals/AnimatedSprite2D
 	animation = $AnimationPlayer
 	randomize()
@@ -63,11 +68,11 @@ func shoot_ray():
 	else:
 		hugging_wall = false
 		hitted = false
-	if rayGround.is_colliding() and charge_move:
-		charge_on_floor = true
-		print ("AM I ON FLOOR ", charge_on_floor)
-	else:
-		charge_on_floor = false
+	if charging:
+		if rayGround.is_colliding():
+			charge_on_floor = true
+		else:
+			charge_on_floor = false
 
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
@@ -190,10 +195,13 @@ func _process(delta: float) -> void:
 	if charge_move:
 		return
 	if !charging:
-		if position.x < Global.player_x and on_floor:
-			visuals.scale.x = -1 # right
-		elif position.x > Global.player_x and on_floor:
-			visuals.scale.x = 1 # left
+		turn_timer -= delta
+		if turn_timer <= 0 and on_floor:
+			if position.x < Global.player_x:
+				visuals.scale.x = -1 # right
+			elif position.x > Global.player_x:
+				visuals.scale.x = 1 # left
+			turn_timer = 0.6
 		if on_floor:
 			if (velocity.x != 0) and !run:
 				animation.play("walk", 0, 0.7) # name, transition fading, speed
@@ -213,6 +221,9 @@ func _process(delta: float) -> void:
 				anim.play("jump")
 			elif velocity.y > 0:
 				anim.play("fall")
+	if health < 0:
+		_spawn_ragdoll()
+		queue_free()
 
 func _charging():
 	charge_on_floor = true
@@ -240,14 +251,21 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		var push_dir := 2500.0
 		if visuals.scale.x == 1: # right
 			push_dir = push_dir * -1
-		if visuals.scale.x == -1: # leftdd
+		if visuals.scale.x == -1: # left
 			push_dir = abs(push_dir)
 		if body.has_method("apply_knockback") and !pushed and charge_move:
 			body.apply_knockback(Vector2(push_dir, -455))
 			pushed = true
-			print ("I PUSHED")
+			print ("finished push")
 			_stun()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		pushed = false
+
+func _spawn_ragdoll():
+	Global.enemy_count -= 1
+	var instance = ragdoll.instantiate()
+	get_parent().add_child(instance)
+	instance.global_position = global_position
+	instance.global_position.y = global_position.y - 150

@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://dqemrc3cnv6g7"]
+[gd_scene load_steps=67 format=3 uid="uid://dqemrc3cnv6g7"]
 
 [ext_resource type="Texture2D" uid="uid://bqra2qchv83vm" path="res://Enemy/strider/enemy-strider-idle.png" id="1_0mwnt"]
 [ext_resource type="Script" uid="uid://baohjkxoqgpks" path="res://strider.gd" id="1_djj44"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cc5mopb64li1h" path="res://Enemy/strider/enemy-strider-stand.png" id="3_4uso2"]
 [ext_resource type="Texture2D" uid="uid://bqidmgcb8c7sj" path="res://Enemy/strider/enemy-strider-walk.png" id="4_hmvf6"]
 [ext_resource type="Texture2D" uid="uid://bh7bn5j2wqc4i" path="res://Enemy/strider/intro.png" id="6_4uso2"]
+[ext_resource type="Texture2D" uid="uid://d3ri4fetcm28m" path="res://Enemy/strider/line.png" id="7_hmvf6"]
+[ext_resource type="PackedScene" uid="uid://cnvl3de1b4p2s" path="res://ragdoll_strider.tscn" id="8_kl1l3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kl1l3"]
 atlas = ExtResource("1_0mwnt")
@@ -289,6 +291,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_086tp"]
+atlas = ExtResource("6_4uso2")
+region = Rect2(704, 0, 64, 46)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_hmvf6"]
 atlas = ExtResource("6_4uso2")
 region = Rect2(0, 0, 64, 46)
@@ -333,13 +339,12 @@ region = Rect2(576, 0, 64, 46)
 atlas = ExtResource("6_4uso2")
 region = Rect2(640, 0, 64, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_086tp"]
-atlas = ExtResource("6_4uso2")
-region = Rect2(704, 0, 64, 46)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_htvke"]
 animations = [{
 "frames": [{
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_086tp")
+}, {
 "duration": 0.4,
 "texture": SubResource("AtlasTexture_hmvf6")
 }, {
@@ -443,18 +448,6 @@ tracks/4/keys = {
 "update": 1,
 "values": [0]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("AnimatedSprite2D2:rotation")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.5707964]
-}
 
 [sub_resource type="Animation" id="Animation_g1gvs"]
 resource_name = "idle"
@@ -557,30 +550,18 @@ tracks/4/path = NodePath("AnimatedSprite2D2:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6000001, 3.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6000001, 3.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+"values": [0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 }
-tracks/5/type = "value"
+tracks/5/type = "method"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("AnimatedSprite2D2:rotation")
+tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.5707964]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath(".")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
 "times": PackedFloat32Array(0, 3.2),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
@@ -737,10 +718,11 @@ size = Vector2(57, 933)
 z_index = -3
 scale = Vector2(1.5, 1.5)
 collision_layer = 2147483648
-collision_mask = 2147483648
+collision_mask = 2155872256
 script = ExtResource("1_djj44")
 x_limit = 1500.0
 cooldown = 3
+ragdoll = ExtResource("8_kl1l3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -425)
@@ -748,9 +730,7 @@ sprite_frames = SubResource("SpriteFrames_4kngj")
 animation = &"idle"
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
-visible = false
-position = Vector2(-360.6667, -810)
-rotation = 1.5707964
+position = Vector2(-335.817, -810)
 scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_htvke")
 animation = &"bullet-intro"
@@ -763,3 +743,13 @@ libraries = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -456.5)
 shape = SubResource("RectangleShape2D_n8dvd")
+
+[node name="LinePivot" type="Node2D" parent="."]
+position = Vector2(-350, -812)
+
+[node name="Line" type="Sprite2D" parent="LinePivot"]
+self_modulate = Color(1, 1, 1, 0.5882353)
+rotation = -1.5707964
+scale = Vector2(2, 555)
+texture = ExtResource("7_hmvf6")
+offset = Vector2(0, 2)

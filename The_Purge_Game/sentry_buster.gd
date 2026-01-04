@@ -19,8 +19,10 @@ extends CharacterBody2D
 var hugging_wall := false
 var just_fell := false
 var can_jump_fall := false
-var anim: AnimatedSprite2D
 @onready var ray = $RayCast2D
+@onready var anim = $AnimatedSprite2D  # first we make anim = to the animatedsprite2d child in here first
+@onready var animation = $AnimationPlayer
+@onready var collider = $Area2D/CollisionShape2D2
 var run_cooldown : float = 1
 var is_waiting := false
 var timer : float = 1
@@ -36,7 +38,8 @@ var SFX_STARTEXPLODE = preload("res://addons/godot-git-plugin/Sentry_buster_expl
 var SFX_EXPLOSION = preload("res://addons/godot-git-plugin/funny-explosion-sound.ogg")
 
 func _ready() -> void: # I would suggest you to watch youtube tutorial on animations though but i try explain
-	anim = $AnimatedSprite2D  # first we make anim = to the animatedsprite2d child in here first
+	Global.enemy_count += 1
+	collider.disabled = true
 	play_sound(SFX_SPAWN)
 	if anim == null:
 		push_error("no animation is assigned to me")
@@ -71,11 +74,13 @@ func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	p.finished.connect(p.queue_free) # remove itself after finished playing
 
 func _physics_process(delta):
-	if anim:
+	print ("my size is ", anim.scale)
+	print ("exploder is ", exploder)
+	if anim and exploder:
 		if velocity.x < 0:
-			anim.flip_h = false
+			anim.scale.x = 1
 		elif velocity.x > 0:
-			anim.flip_h = true
+			anim.scale.x = -1
 	z_index = 7
 	var player = get_parent().get_node("Player")
 	var Xdistance = abs(player.position.x - position.x)
@@ -155,15 +160,13 @@ func _physics_process(delta):
 		exploder = false
 
 func explode_sequence() -> void:
-		anim.play("explode")
+		animation.play("explode")
 		play_sound(SFX_STARTEXPLODE)
-		await get_tree().create_timer(2).timeout
-		play_sound(SFX_EXPLOSION)
+		await animation.animation_finished
 		$CPUParticles2D.emitting = true
-		anim.play("funny-explosion")
-		scale = Vector2(6, 6)
-		position.y += 400
-		await get_tree().create_timer(1).timeout
+		animation.play("exploder")
+		await animation.animation_finished
+		Global.enemy_count -= 1
 		queue_free()
 
 func _process(delta: float) -> void: # able to start multipe timer in here, its good for footsteps and stuff
@@ -175,3 +178,17 @@ func _process(delta: float) -> void: # able to start multipe timer in here, its 
 	if timer_foot < 0 and !exploding:
 		play_sound(SFX_FOOTSTEP) # footsteps
 		timer_foot = 0.35
+
+func _explosion_sound():
+	play_sound(SFX_EXPLOSION)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		var push_dir := 2500.0
+		if anim.scale.x == 1: # right
+			push_dir = push_dir * -1
+		if anim.scale.x == -1: # left
+			push_dir = abs(push_dir)
+		if body.has_method("apply_knockback"):
+			body.apply_knockback(Vector2(push_dir, -1800))
+			print ("I PUSHED")

@@ -6,8 +6,7 @@ var bgm_player : AudioStreamPlayer
 var is_combat : bool = false
 
 var exploration_songs = [
-	preload("res://music/ambient-1.ogg"),
-	preload("res://music/ambient-2.ogg")
+	preload("res://music/ambient-1.ogg")
 ]
 var combat_song = preload("res://music/combat-1.ogg")
 

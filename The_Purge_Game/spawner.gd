@@ -4,6 +4,7 @@ extends StaticBody2D
 @export var fly_enemy : PackedScene
 @export var enemy_shield : PackedScene
 @export var dropship : PackedScene
+@export var enemy_sword : PackedScene
 @export var random_distance : float
 @export var random_enemy : int
 var was_pressed : bool
@@ -22,6 +23,8 @@ func spawn_enemy(enemy_type: String):
 			scene_to_spawn = enemy_shield
 		"dropship":
 			scene_to_spawn = dropship
+		"enemy_sword":
+			scene_to_spawn = enemy_sword
 		_:
 			return
 	var enemy = scene_to_spawn.instantiate() # copies stuff and prepares it
@@ -39,7 +42,7 @@ func spawn_enemy(enemy_type: String):
 func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_0) and not was_pressed: # spawn using the 0 key
 		was_pressed = true
-		random_enemy = randi_range(0, 3)
+		random_enemy = randi_range(0, 4)
 		if random_enemy == 0:
 			spawn_enemy("enemy_1")
 		if random_enemy == 1:
@@ -48,6 +51,8 @@ func _process(delta: float) -> void:
 			spawn_enemy("fly_enemy")
 		if random_enemy == 3:
 			spawn_enemy("enemy_shield")
+		if random_enemy == 4:
+			spawn_enemy("enemy_sword")
 		await get_tree().create_timer(2).timeout
 	if Input.is_key_pressed(KEY_9) and not was_pressed:
 		was_pressed = true

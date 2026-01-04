@@ -19,11 +19,12 @@ var can_jump_fall := false
 var sound_timer : float
 var run_cooldown : float = 1
 var is_waiting := false
-
+@export var ragdoll : PackedScene
 #PRELOAD SOUND
 
 
 func _ready() -> void:
+	Global.enemy_count += 1
 	randomize()
 	safe_distance += randf_range(-65, 65)
 	safe_Y += randf_range(0, 65)
@@ -99,3 +100,13 @@ func _process(delta: float) -> void:
 		visuals.scale.x = -1 # right
 	elif position.x > Global.player_x:
 		visuals.scale.x = 1 # left
+	if health < 0:
+		_spawn_ragdoll()
+		queue_free()
+
+func _spawn_ragdoll():
+	Global.enemy_count -= 1
+	var instance = ragdoll.instantiate()
+	get_parent().add_child(instance)
+	instance.global_position = global_position
+	instance.global_position.y = global_position.y - 150

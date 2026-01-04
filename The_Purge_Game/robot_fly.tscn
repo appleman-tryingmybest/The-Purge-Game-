@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://be6n8ywojqs45"]
+[gd_scene load_steps=11 format=3 uid="uid://be6n8ywojqs45"]
 
 [ext_resource type="Script" uid="uid://csf2tbfyegt45" path="res://robot_fly.gd" id="1_hf71m"]
 [ext_resource type="Texture2D" uid="uid://dwokqn2jip837" path="res://Enemy/Enemy fly/Full.png" id="2_hf71m"]
+[ext_resource type="PackedScene" uid="uid://da81fvo5ypafh" path="res://ragdoll_enemy_fly.tscn" id="2_nc3hd"]
 [ext_resource type="Texture2D" uid="uid://bm7vrp3mgw8ni" path="res://Enemy/Enemy fly/blades.png" id="2_y1pr8"]
 [ext_resource type="AudioStream" uid="uid://tpopqu67oqsw" path="res://sounds/enemy/enemy-fly.ogg" id="4_4aiqw"]
 
@@ -40,16 +41,18 @@ animations = [{
 [node name="robot_fly" type="CharacterBody2D"]
 scale = Vector2(0.3, 0.3)
 collision_layer = 128
+collision_mask = 8388609
 script = ExtResource("1_hf71m")
 speedX = 35.0
 speedY = 15.0
-health = 100.0
+health = 90.0
 max_speed = 655.0
 safe_distance = 450.0
 safe_zone = 100.0
 safe_Y = 100.0
 ray_length = -300
 wall_correction = 100
+ragdoll = ExtResource("2_nc3hd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_y1pr8")

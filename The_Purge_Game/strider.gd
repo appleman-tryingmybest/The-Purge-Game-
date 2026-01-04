@@ -6,9 +6,12 @@ var speed := 55.0
 var max_speed := 250.0
 var start_action := false
 var stop_timer := false
+@export var health := 1.0
+@export var ragdoll : PackedScene
 
 @onready var animation = $AnimationPlayer
 @onready var animation_effect = $AnimatedSprite2D2
+@onready var line = $LinePivot
 
 #PRELOAD SOUNDS
 var footstep1 = preload("res://sounds/enemy/strider/footstep1.ogg")
@@ -18,6 +21,8 @@ var horn = preload("res://sounds/enemy/strider/strider-scream.ogg")
 var shoot = preload("res://sounds/enemy/strider/strider-shot.ogg")
 
 func _ready() -> void:
+	line.visible = false
+	line.modulate.a = 0.0
 	animation_effect.visible = false
 	position = Vector2(0, 9987.0)
 	print("IM HERE NOW")
@@ -80,16 +85,46 @@ func _process(delta: float) -> void:
 	if position.x < -x_limit:
 		print ("too far left")
 		random_action = 2
+	if health < 0:
+		_spawn_ragdoll()
+		queue_free()
 
 func _footstep_sound():
 	var rand_sound : int
 	rand_sound = randi_range(0, 2)
 	if rand_sound == 0:
-		play_sound(footstep1)
+		play_sound(footstep1, randi_range(0.8, 2))
 	if rand_sound == 1:
-		play_sound(footstep2)
+		play_sound(footstep2, randi_range(0.8, 2))
 	if rand_sound == 2:
-		play_sound(footstep3)
+		play_sound(footstep3, randi_range(0.8, 2))
 
 func _shoot_sound():
-	play_sound(shoot, 1)
+	stop_timer = true
+	var timer = 0.0
+	line.scale.y = 1
+	play_sound(shoot, 0.94)
+	if position.x > Global.player_x:
+		print ("in line of sight")
+		line.modulate.a = 0.0
+		line.visible = true
+		while timer < 2.1:
+			var d = get_process_delta_time()
+			print (line.modulate.a)
+			line.modulate.a += 0.01
+			line.scale.y -= 0.001
+			var target = get_parent().get_node("Player").global_position
+			line.look_at(target)
+			timer += d
+			await get_tree().process_frame
+	await get_tree().create_timer(1).timeout
+	line.visible = false
+	print (line.visible)
+	line.scale.y = 1
+	stop_timer = false
+
+func _spawn_ragdoll():
+	var instance = ragdoll.instantiate()
+	get_parent().add_child(instance)
+	instance.global_position = global_position
+	instance.global_position.y = global_position.y - 1200

@@ -1,7 +1,8 @@
-[gd_scene load_steps=51 format=3 uid="uid://bj65os1wl5dpb"]
+[gd_scene load_steps=52 format=3 uid="uid://bj65os1wl5dpb"]
 
 [ext_resource type="Script" uid="uid://d205s253qoera" path="res://robot_shield.gd" id="1_8ebar"]
 [ext_resource type="Texture2D" uid="uid://c0ck0rbu7jl21" path="res://Enemy/enemy-shield/enemy-shield-fall.png" id="2_5vqpx"]
+[ext_resource type="PackedScene" uid="uid://cs7puml6xo87o" path="res://ragdoll_enemy_shield.tscn" id="2_xhn3q"]
 [ext_resource type="Texture2D" uid="uid://5fpear1flf4b" path="res://Enemy/enemy-shield/enemy-shield-idle.png" id="3_wp85n"]
 [ext_resource type="Texture2D" uid="uid://f4bpjw02103m" path="res://Enemy/enemy-shield/enemy-shield-charge-intro.png" id="3_xhn3q"]
 [ext_resource type="Texture2D" uid="uid://cp6afdba4adtp" path="res://Enemy/enemy-shield/enemy-shield-charge-loop.png" id="4_elhaw"]
@@ -493,8 +494,10 @@ size = Vector2(35.208637, 396.36365)
 [node name="robot_shield" type="CharacterBody2D"]
 scale = Vector2(0.55, 0.55)
 collision_layer = 128
+collision_mask = 8388609
 script = ExtResource("1_8ebar")
 speed = 45.0
+health = 200.0
 gravity = 800.0
 safe_distance = 500.0
 safe_zone = 80.0
@@ -506,6 +509,8 @@ ray_length = -350
 charge_prob = 20
 charge_cooldown = 7
 charge_speed = 500.0
+ragdoll = ExtResource("2_xhn3q")
+turn_timer = 0.6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -209.25)
@@ -540,6 +545,7 @@ speed_scale = 1.85
 [node name="ChargeFloorChecker" type="RayCast2D" parent="visuals"]
 position = Vector2(50, -80)
 target_position = Vector2(0, 350)
+collision_mask = 8388609
 
 [node name="RayCast2D" type="RayCast2D" parent="visuals"]
 position = Vector2(0, -40)
@@ -553,7 +559,7 @@ animation = &"run"
 
 [node name="Area2D" type="Area2D" parent="visuals"]
 position = Vector2(-88.845, 0)
-collision_layer = 64
+collision_layer = 16777216
 collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="visuals/Area2D"]
