@@ -59,6 +59,7 @@ func fade_to(new_track: AudioStream):
 	#wait for the fade to finish, then stop the song
 
 func _process(_delta: float) -> void:
+	print ("enemy count? ", Global.enemy_count)
 	if Global.enemy_count >=3 and not is_combat:
 		play_combat_music()
 	elif Global.enemy_count <3 and is_combat:

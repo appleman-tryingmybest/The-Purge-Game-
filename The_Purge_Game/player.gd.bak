@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 
-@export var SPEED = 300.0
+@export var SPEED = 200.0
+@export var runspeed= 300
 @export var JUMP_VELOCITY : float
 @export var Player_x : float = 0
 @export var Player_y : float = 0
@@ -13,9 +14,11 @@ var is_dashing=false
 var can_dash = true
 var dash_direction=1
 var was_on_floor=true
+var direction : float
 @export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 1.0
 signal camera_limits_changed(new_limits: Vector4)
+var knockback_velocity := Vector2.ZERO
 
 func _ready() -> void:
 	JUMP_VELOCITY *= -1
@@ -26,16 +29,6 @@ func _ready() -> void:
 		$"dash timer".timeout.connect(stop_dash)
 		setup_particles()
 
-func push_prop():
-	var count = get_slide_collision_count()
-	for i in range(count):
-		var collision = get_slide_collision(i)
-		var body = collision.get_collider()
-		
-		if body is RigidBody2D:
-			var push_force = velocity * push_strength
-			body.apply_central_impulse(push_force)
-
 func setPosition():
 	var getPosition = get_parent().get_node("AreaTrigger")
 	position.x = getPosition.teleportX
@@ -43,6 +36,12 @@ func setPosition():
 	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
+	Global.player_x = global_position.x
+	Global.player_y = global_position.y
+	Global.player_position = global_position
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	z_index = 10
 	Player_x = position.x
 	Player_y = position.y
@@ -66,10 +65,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 			start_dash()
 	var direction := Input.get_axis("ui_left", "ui_right")
+	print ("direction value ", direction)
+	var current_speed = SPEED
+	if Input.is_action_pressed("run"):
+		current_speed = runspeed
 	if is_dashing:
 		velocity.x = direction * SPEED * dash_speed
 	elif direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * current_speed + knockback_velocity.x
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
@@ -124,3 +127,26 @@ func stop_particles():
 	if has_node("dash_timer/CPUParticles2D"):
 		var particles = $"dash particles"
 		particles.emitting = false
+func apply_knockback(force: Vector2):
+	knockback_velocity = force
+func _process(_delta):
+	if is_on_floor() and !is_dashing:
+		if velocity.x==0:
+			$AnimationPlayer.play("idle")
+			$"player-handgun".hide()
+		elif velocity.x != 0:
+			if Input.is_action_pressed("run"):
+				$AnimationPlayer.play("run")
+				$"player-handgun".hide()
+			else:
+				$AnimationPlayer.play("walk")
+				$"player-handgun".hide()
+		
+	if !is_on_floor():
+		if velocity.y<0:
+			if jump_count==1:
+				$AnimationPlayer.play("jump")
+			else:
+				$AnimationPlayer.play("double jump")
+		else:
+			$AnimationPlayer.play("fall")

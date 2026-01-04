@@ -34,7 +34,6 @@ func spawn_enemy(enemy_type: String):
 	if enemy_type == "dropship":
 		enemy.global_position = Vector2(2723.0, 4933.0)
 	else:
-		Global.enemy_count +=1
 		enemy.global_position.x = getPos.position.x + randf_range(-random_distance, random_distance)
 		enemy.global_position.y = getPos.position.y - 5
 	
