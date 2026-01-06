@@ -1,4 +1,4 @@
-[gd_scene load_steps=345 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=344 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
 [ext_resource type="Script" uid="uid://b7lpirrs0muws" path="res://player.gd" id="1_uc67x"]
@@ -77,7 +77,6 @@
 [ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="45_naog5"]
 [ext_resource type="Script" uid="uid://bhupw1nf2vd2n" path="res://applyforce.gd" id="47_8eqi4"]
 [ext_resource type="PackedScene" uid="uid://blspfgfuwc633" path="res://dropship.tscn" id="49_x1eik"]
-[ext_resource type="PackedScene" uid="uid://dqemrc3cnv6g7" path="res://strider.tscn" id="59_nr0lq"]
 [ext_resource type="Script" uid="uid://t37vham7ysgo" path="res://canvas_layer.gd" id="64_ooit5"]
 [ext_resource type="Texture2D" uid="uid://xchydswa2v01" path="res://pause menu/Setting.png" id="65_n8cbv"]
 [ext_resource type="Texture2D" uid="uid://bj5eu0cnm018n" path="res://pause menu/RESUMEBUTTON1.png" id="66_wp73k"]
@@ -3302,7 +3301,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/TextureButton:position")
+tracks/0/path = NodePath("Control/setting:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -3314,7 +3313,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/TextureButton:self_modulate")
+tracks/1/path = NodePath("Control/setting:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -3326,7 +3325,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Control/TextureButton:rotation")
+tracks/2/path = NodePath("Control/setting:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -3342,7 +3341,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/TextureButton:self_modulate")
+tracks/0/path = NodePath("Control/setting:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -3357,7 +3356,7 @@ resource_name = "hover move_setting"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/TextureButton:position")
+tracks/0/path = NodePath("Control/setting:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -3369,7 +3368,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/TextureButton:rotation")
+tracks/1/path = NodePath("Control/setting:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -3396,7 +3395,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/TextureButton:position")
+tracks/1/path = NodePath("Control/setting:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -3602,6 +3601,7 @@ collision_layer = 64
 collision_mask = 64
 monitoring = false
 script = ExtResource("9_gdfr4")
+arena_num = 2
 Enable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTrigger"]
@@ -3656,7 +3656,7 @@ position = Vector2(0, 2027)
 scale = Vector2(3, 3)
 script = ExtResource("35_d8wvr")
 wait_time = 6
-wave = 5
+wave = 1
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena1"]
 visible = false
@@ -3793,7 +3793,7 @@ shape = SubResource("RectangleShape2D_pat5w")
 position = Vector2(0, 5767)
 scale = Vector2(3, 3)
 script = ExtResource("41_xtrul")
-wait_time = 6
+wait_time = 24
 wave = 8
 
 [node name="One-way-platform4" type="StaticBody2D" parent="StoryArena2"]
@@ -3988,8 +3988,8 @@ libraries = {
 position = Vector2(0, 9567)
 scale = Vector2(3, 3)
 script = ExtResource("40_m3xuu")
-wait_time = 7
-strider = ExtResource("59_nr0lq")
+wait_time = 21
+wave = 4
 
 [node name="platform" type="StaticBody2D" parent="StoryArena3"]
 position = Vector2(0, 50)
@@ -4345,7 +4345,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Control"]
+[node name="setting" type="TextureButton" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -4472,9 +4472,9 @@ script = ExtResource("83_gemvo")
 [connection signal="body_entered" from="StoryArena1/PlayerSpawn/Area2D" to="StoryArena1" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena2/PlayerSpawn/Area2D" to="StoryArena2" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena3/PlayerSpawn/Area2D" to="StoryArena3" method="_on_area_2d_body_entered"]
-[connection signal="mouse_entered" from="CanvasLayer/Control/TextureButton" to="CanvasLayer" method="_on_texture_button_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/Control/TextureButton" to="CanvasLayer" method="_on_texture_button_mouse_exited"]
-[connection signal="pressed" from="CanvasLayer/Control/TextureButton" to="CanvasLayer" method="_on_texture_button_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Resume_button" to="CanvasLayer" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Option_button" to="CanvasLayer" method="_on_option_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/options_panel/back_button" to="CanvasLayer" method="_on_back_button_pressed"]

@@ -17,22 +17,61 @@ var special_event := false
 var pause := false
 @export var wave : int
 @onready var animation = $AnimationPlayer
+var current_loop_player: AudioStreamPlayer
 
 #PRELOAD SOUNDS
 var intro_sound = preload("res://sounds/enemy/tower-alarm.ogg")
 var explode_sound = preload("res://addons/godot-git-plugin/DETECTORTOWER/tower-destroy-sound.ogg")
+var arena2_intro = preload("res://music/arena_music/arena_2/arena_2_intro.ogg")
+var arena2_p1 = preload("res://music/arena_music/arena_2/arena_2_part1.ogg")
+var arena2_p2 = preload("res://music/arena_music/arena_2/arena_2_part2.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	animation.play("off")
 	if !trigger_once and body.is_in_group("player"):
+		var getFunction = get_parent().get_node("music-system")
+		getFunction.play_arena_music()
+		play_sound(arena2_intro, 5)
 		_start_stuff()
+		Global.arena_player = true
 
-func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
-	var p = AudioStreamPlayer2D.new() # make new audioplayer
-	p.stream = stream
-	add_child(p) # adds to the world
-	p.play() # play first
-	p.finished.connect(p.queue_free) # remove itself after finished playing
+func play_sound (stream: AudioStream, volume:float =0.0 ):
+	var arena_music = AudioStreamPlayer.new()
+	arena_music.stream = stream
+	arena_music.volume_db = volume
+	add_child(arena_music) # adds to the world
+	arena_music.play() # play first
+	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
+	
+func _manage_arena_music():
+	# Determine which track SHOULD be playing
+	var target_stream = arena2_p2 if special_event else arena2_p1
+	
+	# 1. If no player exists, create one
+	if !is_instance_valid(current_loop_player):
+		_start_new_track(target_stream)
+		return
+
+	# 2. If the WRONG track is playing, swap it
+	if current_loop_player.stream != target_stream:
+		print("Boss spawned! Swapping music to: ", target_stream.resource_path)
+		current_loop_player.queue_free()
+		_start_new_track(target_stream)
+
+func _start_new_track(stream: AudioStream):
+	var l = AudioStreamPlayer.new()
+	l.stream = stream
+	l.bus = "Master"
+	l.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(l)
+	l.play()
+	current_loop_player = l
+	
+	# Handle the loop simply
+	l.finished.connect(func():
+		if is_instance_valid(l):
+			l.play() # Just restart the same player instead of re-running the whole logic
+	)
 
 func _start_stuff():
 	animation.play("off")
@@ -75,10 +114,12 @@ func spawn_enemy(enemy_type: String):
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	if Global.arena_player and spawn:
+		_manage_arena_music()
 	if !spawn or Global.enemy_count > 0 or spawning or pause:
 		return # Stop here if we aren't ready to spawn yet
 	# Trigger the Tower Activation once when wave hits 4
-	if wave == 4 and !special_event and Global.enemy_count == 0:
+	if spawn and wave == 4 and !special_event and Global.enemy_count == 0:
 		special_event = true
 		_activate_tower()
 		return
@@ -92,6 +133,9 @@ func _process(delta: float) -> void:
 			print("starting to spawn normal wave")
 			enemy_amount = randi_range(5, 7)
 			_spawnwave()
+			
+	if spawn and wave == 0 and Global.enemy_count == 0:
+		Global.arena_player = false
 
 func _spawnwave():
 	spawning = true

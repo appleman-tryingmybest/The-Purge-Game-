@@ -20,23 +20,25 @@ func _ready():
 	$options_panel/HSlider.value = 70
 	
 func _on_texture_button_mouse_entered():
-	anim_gear.play("hover move_setting")
+	if is_paused == false:
+		anim_gear.play("hover move_setting")
 	
 func _on_texture_button_mouse_exited():
 	if not is_paused:
 		anim_gear.play_backwards("hover move_setting")
 	
 func _on_texture_button_pressed():
-	is_paused = true
-	get_tree().paused = true
-	anim_gear.play("clicking_gear")
-	await anim_gear.animation_finished
-	
-	blur_bg.show()
-	resume.show()
-	options.show()
-	exit.show()
-	anim_gear.play("pause_in")
+	if is_paused == false:
+		is_paused = true
+		get_tree().paused = true
+		anim_gear.play("clicking_gear")
+		await anim_gear.animation_finished
+		
+		blur_bg.show()
+		resume.show()
+		options.show()
+		exit.show()
+		anim_gear.play("pause_in")
 	
 
 	
