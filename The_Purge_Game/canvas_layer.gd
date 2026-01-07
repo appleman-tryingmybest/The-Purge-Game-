@@ -7,10 +7,14 @@ extends CanvasLayer
 @onready var options_panel = $options_panel
 @onready var exit = $Exit
 @onready var back = $options_panel/back_button
+@onready var start = %startgame
+@onready var exitmm = %exit
+@onready var optionsmm = %options
 
 var is_paused = false
 
 func _ready():
+	Global.start_game = false
 	blur_bg.hide()
 	resume.hide()
 	options.hide()
@@ -63,8 +67,17 @@ func _on_option_button_pressed():
 	print("Options page opened")
 	
 func _on_back_button_pressed():
-	print("back")
 	await get_tree().create_timer(0.2).timeout
+	if Global.start_game == false:
+		options_panel.hide()
+		start.show()
+		exitmm.show()
+		optionsmm.show()
+		options.hide()
+		blur_bg.hide()
+		Global.camera_Type = 2
+		print("back to main menu")
+		return
 	
 	options_panel.hide()
 	resume.show()
@@ -72,14 +85,7 @@ func _on_back_button_pressed():
 	exit.show()
 	anim_gear.play("pause_in")
 	anim_gear.seek(anim_gear.current_animation_length, true)
-
-func _on_exit_button_pressed():
-	print("exit")
-	await get_tree().create_timer(0.2).timeout
-	resume.hide()
-	options.hide()
-	options_panel.hide()
-	
+	print("back to pause menu")
 	
 func _on_h_slider_value_changed(value:float) -> void:
 	var bus_index = 0
@@ -90,5 +96,11 @@ func _on_h_slider_value_changed(value:float) -> void:
 		print("slider value:", value, " | DB: ", db_volume)
 		AudioServer.set_bus_volume_db(bus_index, db_volume)
 		print("setting bus 0 to:", db_volume, "dB")
-	
-	
+
+
+func _on_exit_pressed() -> void:
+	print("return to main menu")
+	Global.start_game = false
+	Global.camera_Type = 2
+	get_tree().paused = false
+	get_tree().reload_current_scene()

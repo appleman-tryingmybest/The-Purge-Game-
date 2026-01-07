@@ -6,11 +6,11 @@ extends Camera2D
 @export var cameraXOffset : float
 @export var cameraYOffset : float
 @export var camera_debug := false
-var camera_Type := 0
 var target_limits: Vector4
 var is_transitioning: bool = false
 @export var transition_speed: float = 3.0
 @export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 177)
+@onready var background = $AnimationPlayer
 
 func _ready() -> void:
 	cameraYOffset *= -1 # I have invert the value here cause for some reason godot's y-axis is flipped so when you put positive value it reverts to correct stuff
@@ -45,7 +45,7 @@ func _remove_all_limits():
 	if camera_debug:
 		print("clear all cam limit")
 func _on_camera_limits_changed(new_limits: Vector4):
-	camera_Type = 1  
+	Global.camera_Type = 1  
 	target_limits = new_limits
 	is_transitioning = true
 	_remove_all_limits()
@@ -71,7 +71,7 @@ func setPosition():
 		var getPosition = get_parent().get_node("StoryArena4")
 		cameraX = getPosition.position.x
 		cameraY = getPosition.position.y + cameraYOffset
-	camera_Type = 1
+	Global.camera_Type = 1
 	_remove_all_limits()
 	position.x = cameraX
 	position.y = cameraY + 100
@@ -80,7 +80,8 @@ func setPosition():
 func _process(delta):
 	Global.camera_y = global_position.y
 	var player = get_parent().get_node("Player")  # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
-	if camera_Type == 0:
+	if Global.camera_Type == 0:
+		background.play("main")
 		cameraX = player.Player_x + cameraXOffset
 		cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
 		if player.Player_x > initial_map_limits.z - 500:
@@ -93,17 +94,27 @@ func _process(delta):
 		else:
 			position.y = 0 + cameraYOffset
 		_clamp_to_initial_limits()
-	elif camera_Type == 1:
+	elif Global.camera_Type == 1:
 		zoom = Vector2(0.5, 0.5)
 		position.x = lerp(position.x, cameraX, delta * transition_speed)
 		position.y = lerp(position.y, cameraY + 100, delta * transition_speed)
 		if is_transitioning:
 			_apply_smooth_limits(delta)
+	elif Global.camera_Type == 2:
+		print ("Go to main menu please")
+		var mainMenuPosition = get_parent().get_node("camerahere")
+		position = mainMenuPosition.position
+		background.play("black")
+		limit_left = initial_map_limits.x
+		limit_top = initial_map_limits.y
+		limit_right = initial_map_limits.z
+		limit_bottom = initial_map_limits.w
+		
 	if camera_debug:
 			print("Camera position ", position.x, " ", position.y)
-			print("Camera type: ", camera_Type)
+			print("Camera type: ", Global.camera_Type)
 func _clamp_to_initial_limits():
-	if camera_Type==0:
+	if Global.camera_Type==0:
 		position.x = clamp(position.x, initial_map_limits.x, initial_map_limits.z)
 		position.y = clamp(position.y, initial_map_limits.y, initial_map_limits.w)
 
