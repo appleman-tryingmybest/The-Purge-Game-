@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csdueprrmp7wx"
-path="res://.godot/imported/Dropod .png-45db9404f9f647ba2eaf68d897203cb7.ctex"
+uid="uid://ccuedwxfydkph"
+path="res://.godot/imported/Dropod.png-f0b26f39240d688410775cea9a02e0fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pause menu/Dropod .png"
-dest_files=["res://.godot/imported/Dropod .png-45db9404f9f647ba2eaf68d897203cb7.ctex"]
+source_file="res://pause menu/Dropod.png"
+dest_files=["res://.godot/imported/Dropod.png-f0b26f39240d688410775cea9a02e0fd.ctex"]
 
 [params]
 

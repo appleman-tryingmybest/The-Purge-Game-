@@ -28,7 +28,6 @@ func _on_texture_button_mouse_entered():
 		anim_gear.play("hover move_setting")
 	
 func _on_texture_button_mouse_exited():
-	if not is_paused:
 		anim_gear.play_backwards("hover move_setting")
 	
 func _on_texture_button_pressed():
@@ -37,15 +36,14 @@ func _on_texture_button_pressed():
 		get_tree().paused = true
 		anim_gear.play("clicking_gear")
 		await anim_gear.animation_finished
-		
+		anim_gear.stop()
 		blur_bg.show()
 		resume.show()
 		options.show()
 		exit.show()
-		anim_gear.play("pause_in")
+		anim_gear.play_backwards("hover move_setting")
 	
 
-	
 func _on_resume_button_pressed():
 	print("Resume")
 	is_paused = false

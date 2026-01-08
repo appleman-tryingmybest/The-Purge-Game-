@@ -6,9 +6,12 @@ extends Control
 @onready var start = $startgame
 @onready var exitmm = $exit
 @onready var blur_bg = %blurry_bg
+@onready var anim_ship = $anim_spaceship
+@onready var setting = %setting
 
 func _ready():
 	self.show()
+	setting.hide()
 	get_tree().paused = true
 	
 func _process(_delta):
@@ -21,6 +24,7 @@ func _on_startgame_pressed() -> void:
 	Global.start_game = true
 	Global.camera_Type = 0
 	self.hide()
+	setting.show()
 	
 func _on_exit_button_pressed():
 	print("exit game")
@@ -44,3 +48,4 @@ func _on_options_pressed() -> void:
 	options_panel.show()
 	back.show()
 	print("Options page opened")
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=358 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=364 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dt43au22owvic" path="res://main_menu.gd" id="1_gemvo"]
 [ext_resource type="Texture2D" uid="uid://b15eqat3t5hjf" path="res://black.png" id="1_j1hax"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://b7lpirrs0muws" path="res://player.gd" id="1_uc67x"]
 [ext_resource type="Script" uid="uid://ykyei4umsfg4" path="res://grass_test.gd" id="2_cbkd1"]
 [ext_resource type="Script" uid="uid://8gcub7l4vaud" path="res://tree_generator.gd" id="2_nnask"]
+[ext_resource type="Texture2D" uid="uid://ccuedwxfydkph" path="res://pause menu/Dropod.png" id="4_kdc67"]
 [ext_resource type="FontFile" uid="uid://b8n64xvqu36ag" path="res://font/Tagesschrift-Regular.ttf" id="4_pgov3"]
 [ext_resource type="Texture2D" uid="uid://cb1ij7drtnp2l" path="res://colorgradient.png" id="5_7erya"]
 [ext_resource type="Texture2D" uid="uid://crjkdfm80wpmm" path="res://Player/Trunk.png" id="6_8jran"]
@@ -110,6 +111,91 @@ shadow_color = Color(0, 0, 0, 0.7058824)
 shadow_size = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pgov3"]
+
+[sub_resource type="Animation" id="Animation_8v0ov"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("on/Dropod:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1246.0001, 329.00003)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("on/Dropod:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3351032]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("on/CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bvtk8"]
+resource_name = "idle"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("on/Dropod:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1246.0001, 329.00003), Vector2(811.9999, 1277)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("on/Dropod:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3351032]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("on/CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cifak"]
+_data = {
+&"RESET": SubResource("Animation_8v0ov"),
+&"start": SubResource("Animation_bvtk8")
+}
 
 [sub_resource type="Animation" id="Animation_lix4p"]
 length = 0.001
@@ -2151,6 +2237,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("black_screen:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_gemvo"]
 resource_name = "black"
@@ -2232,10 +2330,46 @@ tracks/2/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_0i1vx"]
+resource_name = "fade_in"
+length = 2.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("black_screen:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r6lv2"]
+resource_name = "fade_out"
+length = 2.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("black_screen:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dc7nw"]
 _data = {
 &"RESET": SubResource("Animation_s8jdi"),
 &"black": SubResource("Animation_gemvo"),
+&"fade_in": SubResource("Animation_0i1vx"),
+&"fade_out": SubResource("Animation_r6lv2"),
 &"main": SubResource("Animation_y150u")
 }
 
@@ -3502,6 +3636,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_recih"]
 resource_name = "clicking_gear"
+length = 0.3
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -3518,6 +3653,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_nf8kp"]
 resource_name = "hover move_setting"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -3688,25 +3824,34 @@ text = "Exit"
 flat = true
 
 [node name="Spaceship" type="Sprite2D" parent="main menu/on"]
-position = Vector2(1208, 249)
+z_index = 2
+position = Vector2(1107.0001, 265)
+scale = Vector2(1.3, 1.3)
 texture = ExtResource("1_s8jdi")
 
 [node name="SpaceshipB" type="Sprite2D" parent="main menu/on"]
-position = Vector2(632, 548)
+position = Vector2(755.0001, 583)
 scale = Vector2(-0.145, 0.145)
 texture = ExtResource("1_s8jdi")
 
 [node name="SpaceshipB2" type="Sprite2D" parent="main menu/on"]
-position = Vector2(1201, 704)
+position = Vector2(1222.9999, 705)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_s8jdi")
 
+[node name="Dropod" type="Sprite2D" parent="main menu/on"]
+z_index = -1
+position = Vector2(1246.0001, 329.00003)
+rotation = 0.3351032
+scale = Vector2(0.04, 0.032)
+texture = ExtResource("4_kdc67")
+
 [node name="Purge" type="Label" parent="main menu/on"]
 layout_mode = 0
-offset_left = 89.0
-offset_top = 96.0
-offset_right = 387.0
-offset_bottom = 216.0
+offset_left = 3.0000076
+offset_top = -26.999992
+offset_right = 301.0
+offset_bottom = 93.00001
 scale = Vector2(2.43, 2.43)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
@@ -3715,6 +3860,25 @@ theme_override_font_sizes/font_size = 92
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pgov3")
 text = "PURGE"
 horizontal_alignment = 1
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="main menu/on"]
+modulate = Color(1, 1, 1, 0.27450982)
+position = Vector2(1247, 330)
+amount = 15
+texture = ExtResource("30_q0rty")
+lifetime = 5.0
+one_shot = true
+preprocess = 0.2
+explosiveness = 1.0
+direction = Vector2(-1, 1)
+spread = 65.3
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 217.05
+angular_velocity_min = -100.0
+angular_velocity_max = 100.0
+scale_amount_min = 0.02
+scale_amount_max = 0.04
 
 [node name="star_container" type="StaticBody2D" parent="main menu"]
 
@@ -4728,6 +4892,11 @@ position = Vector2(-1252.2346, 610.765)
 scale = Vector2(0.01, 0.01)
 texture = ExtResource("30_q0rty")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="main menu"]
+libraries = {
+&"": SubResource("AnimationLibrary_cifak")
+}
+
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(-220, -433)
 scale = Vector2(1.3, 1.3)
@@ -4797,6 +4966,12 @@ animation = &"main"
 libraries = {
 &"": SubResource("AnimationLibrary_dc7nw")
 }
+
+[node name="black_screen" type="Sprite2D" parent="Camera2D"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 99
+scale = Vector2(450, 450)
+texture = ExtResource("1_j1hax")
 
 [node name="treeGenerator" type="StaticBody2D" parent="."]
 position = Vector2(-75, 55)
@@ -4886,7 +5061,6 @@ collision_layer = 64
 collision_mask = 64
 monitoring = false
 script = ExtResource("9_gdfr4")
-arena_num = 1
 Enable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTrigger"]
@@ -5631,15 +5805,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="setting" type="TextureButton" parent="pausedmenu/Control"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 1039.0
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1079.0
 offset_top = -27.0
-offset_right = 1099.0
-offset_bottom = 28.999924
-grow_horizontal = 0
+offset_right = 1140.665
+offset_bottom = 29.0
 pivot_offset = Vector2(30, 27)
 texture_normal = ExtResource("65_n8cbv")
 ignore_texture_size = true
@@ -5665,10 +5836,10 @@ unique_name_in_owner = true
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
 custom_minimum_size = Vector2(-0.06, 0)
-offset_left = 445.0
-offset_top = 87.0
-offset_right = 688.0
-offset_bottom = 159.0
+offset_left = 790.0
+offset_top = 275.0
+offset_right = 1033.0
+offset_bottom = 347.0
 action_mode = 0
 texture_normal = ExtResource("66_wp73k")
 texture_pressed = ExtResource("67_gh4k4")
@@ -5680,10 +5851,10 @@ stretch_mode = 5
 [node name="Option_button" type="TextureButton" parent="pausedmenu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-offset_left = 442.0
-offset_top = 181.0
-offset_right = 693.0
-offset_bottom = 254.0
+offset_left = 784.0
+offset_top = 404.0
+offset_right = 1035.0
+offset_bottom = 477.0
 texture_normal = ExtResource("70_xtrul")
 texture_pressed = ExtResource("71_d8wvr")
 texture_hover = ExtResource("72_1lxef")
@@ -5709,10 +5880,10 @@ offset_bottom = 40.0
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 0
-offset_left = 887.0
-offset_top = 437.0
-offset_right = 1022.0
-offset_bottom = 477.0
+offset_left = 1253.0
+offset_top = 697.0
+offset_right = 1388.0
+offset_bottom = 737.0
 texture_normal = ExtResource("74_naog5")
 texture_pressed = ExtResource("75_1vh3m")
 texture_hover = ExtResource("76_rdpn4")
@@ -5743,10 +5914,10 @@ label_settings = SubResource("LabelSettings_hxxo4")
 [node name="Exit" type="TextureButton" parent="pausedmenu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-offset_left = 447.0
-offset_top = 277.0
-offset_right = 693.0
-offset_bottom = 358.0
+offset_left = 787.0
+offset_top = 537.0
+offset_right = 1033.0
+offset_bottom = 618.0
 texture_normal = ExtResource("79_yfnas")
 texture_pressed = ExtResource("80_j1hax")
 texture_hover = ExtResource("81_q0rty")
