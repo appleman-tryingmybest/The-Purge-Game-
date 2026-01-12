@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="TerrainGenerator"
+config/name="The_Purge_Game"
 run/main_scene="uid://d1657tidee7b4"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
