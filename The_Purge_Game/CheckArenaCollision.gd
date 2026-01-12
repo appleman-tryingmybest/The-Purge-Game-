@@ -2,6 +2,7 @@ extends Area2D
 var final_xPos : float
 var teleportX: float
 var teleportY: float
+@export var arena_num: int
 @export var Enable := false
 var player_inside := false
 signal teleportPlayer
@@ -13,18 +14,28 @@ func _ready():
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node2D) -> void:
-	print("玩家进入了触发区域!")
-	print("玩家位置: ", body.position)
-	print("触发区域位置: ", position)
-	if Enable and body.is_in_group("player"):
-		var spawn_point = get_parent().get_node("StoryArena/PlayerSpawn")
-		if spawn_point:
-			teleportX = spawn_point.global_position.x
-			teleportY = spawn_point.global_position.y
-			print("传送目标位置: ", teleportX, " ", teleportY)
-			emit_signal("teleportPlayer")
-	else:
-		print("错误: 找不到PlayerSpawn节点!")
+	print ("Entered the trigger space")
+	if Enable:
+		if arena_num == 0:
+			var getPosition = get_parent().get_node("StoryArena1/PlayerSpawn")
+			teleportX = getPosition.global_position.x
+			teleportY = getPosition.global_position.y
+		if arena_num == 1:
+			var getPosition = get_parent().get_node("StoryArena2/PlayerSpawn")
+			teleportX = getPosition.global_position.x
+			teleportY = getPosition.global_position.y
+		if arena_num == 2:
+			var getPosition = get_parent().get_node("StoryArena3/PlayerSpawn")
+			teleportX = getPosition.global_position.x
+			teleportY = getPosition.global_position.y
+		if arena_num == 3:
+			var getPosition = get_parent().get_node("StoryArena4/PlayerSpawn")
+			teleportX = getPosition.global_position.x
+			teleportY = getPosition.global_position.y
+		print (teleportX," ", teleportY)
+		emit_signal ("teleportPlayer")
+
+	pass # Replace with function body.
 
 func _getValues():
 	var getValue = get_parent().get_node("floorGenerator")

@@ -68,18 +68,22 @@ func _generateTree():
 	is_generating = true
 	current_x = position.x
 	while currentTreeNum < treeNum and is_generating: # this is really bad but if it works i dont care anymore
-		var treeSizeRandom = randf_range(0.85, 1.2)
-		var treeDistanceRandom = randf_range(20, 35)
+		var treeSizeRandom = randf_range(1.8, 2.5)
+		var treeDistanceRandom = randf_range(255, 350)
 		var treeOffsetRandom = randf_range(-35, 35)
 		var treeRotateRandom = randf_range(-8, 8)
 		var treeLayerRandom = randf_range(1, 2)
+		var treeDirRandom = randi_range(0, 1)
 		var new_tree = duplicate()
 		new_tree.done_generate = true
 		current_x += treeDistanceRandom
 		new_tree.position.x = current_x + treeOffsetRandom
+		new_tree.position.y = randf_range(35, 0)
 		new_tree.scale = Vector2(treeSizeRandom, treeSizeRandom)
 		new_tree.rotation = deg_to_rad(treeRotateRandom)
 		new_tree.z_index = treeLayerRandom
+		if treeDirRandom == 0:
+			new_tree.scale.x = -1 * treeSizeRandom
 		if new_tree.position.x > x_limit:
 			currentTreeNum += treeNum
 		new_tree.add_to_group("generatedTree")

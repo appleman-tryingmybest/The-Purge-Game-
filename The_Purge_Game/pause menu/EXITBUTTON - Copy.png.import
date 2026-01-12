@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://sy7lakelk1x7"
+path="res://.godot/imported/EXITBUTTON - Copy.png-5b772e7418098fea382a280417d77573.res"
+
+[deps]
+
+source_file="res://pause menu/EXITBUTTON - Copy.png"
+dest_files=["res://.godot/imported/EXITBUTTON - Copy.png-5b772e7418098fea382a280417d77573.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://p37l4ykyub5a"
+path="res://.godot/imported/BACKBUTTON.png-ab424c61d3bafa656d77a5b1ab5b54b4.res"
+
+[deps]
+
+source_file="res://pause menu/BACKBUTTON.png"
+dest_files=["res://.godot/imported/BACKBUTTON.png-ab424c61d3bafa656d77a5b1ab5b54b4.res"]
+
+[params]
+
+create_from=0
+threshold=0.5
