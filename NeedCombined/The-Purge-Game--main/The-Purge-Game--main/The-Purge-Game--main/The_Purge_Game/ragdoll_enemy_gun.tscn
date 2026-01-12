@@ -1,0 +1,145 @@
+[gd_scene load_steps=15 format=3 uid="uid://cnw6nu5s4m7b7"]
+
+[ext_resource type="Texture2D" uid="uid://dtls4rnfe6rns" path="res://Enemy/enemy-body-part/Head.png" id="1_1s5jo"]
+[ext_resource type="Script" uid="uid://dk02w07chngx8" path="res://ragdoll.gd" id="1_gkky8"]
+[ext_resource type="Texture2D" uid="uid://cc0rxgirbsx07" path="res://Enemy/enemy-body-part/Body.png" id="2_gkky8"]
+[ext_resource type="Texture2D" uid="uid://chxt3hqs5haty" path="res://Enemy/enemy-body-part/Front up big leg.png" id="3_vrtb2"]
+[ext_resource type="Texture2D" uid="uid://ba3ipl7n5w6gk" path="res://Enemy/enemy-body-part/Front leg.png" id="4_l7elk"]
+[ext_resource type="Texture2D" uid="uid://2ycqyekl1m4x" path="res://Enemy/enemy-body-part/Front arm.png" id="5_58h1i"]
+[ext_resource type="Texture2D" uid="uid://bwm0jfcls8m2u" path="res://Enemy/enemy-body-part/Front hand.png" id="6_3f8s4"]
+[ext_resource type="Texture2D" uid="uid://b25x3mumuqw44" path="res://Enemy/enemy-body-part/Gun.png" id="7_4144a"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gkky8"]
+radius = 29.133709
+height = 173.91309
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrtb2"]
+radius = 16.532898
+height = 124.40456
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l7elk"]
+radius = 25.870731
+height = 117.58807
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_58h1i"]
+radius = 26.411621
+height = 105.23056
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3f8s4"]
+radius = 10.663773
+height = 124.0317
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4144a"]
+radius = 17.99643
+height = 236.0137
+
+[node name="ragdoll-enemy-gun" type="CharacterBody2D"]
+z_index = 2
+position = Vector2(-36.535, -402)
+script = ExtResource("1_gkky8")
+scale_body = 0.5
+
+[node name="body" type="RigidBody2D" parent="."]
+position = Vector2(22, 118)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="body"]
+texture = ExtResource("2_gkky8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="body"]
+position = Vector2(6, 0)
+rotation = -0.2443461
+shape = SubResource("CapsuleShape2D_gkky8")
+
+[node name="Sprite2D2" type="Sprite2D" parent="body"]
+position = Vector2(-22, -118)
+texture = ExtResource("1_1s5jo")
+
+[node name="leg1" type="RigidBody2D" parent="."]
+position = Vector2(38, 236)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="leg1"]
+texture = ExtResource("3_vrtb2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leg1"]
+position = Vector2(10, 4)
+rotation = -0.2443461
+shape = SubResource("CapsuleShape2D_vrtb2")
+
+[node name="leg2" type="RigidBody2D" parent="."]
+position = Vector2(40, 342)
+rotation = -0.031724263
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="leg2"]
+texture = ExtResource("4_l7elk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leg2"]
+position = Vector2(10, 4)
+rotation = 0.15707903
+shape = SubResource("CapsuleShape2D_l7elk")
+
+[node name="arm" type="RigidBody2D" parent="."]
+position = Vector2(16, 98)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="arm"]
+texture = ExtResource("5_58h1i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arm"]
+position = Vector2(2, 4)
+rotation = -0.107398495
+shape = SubResource("CapsuleShape2D_58h1i")
+
+[node name="hand" type="RigidBody2D" parent="."]
+position = Vector2(-30, 146)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="hand"]
+texture = ExtResource("6_3f8s4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hand"]
+position = Vector2(2, 4)
+rotation = 1.3709502
+shape = SubResource("CapsuleShape2D_3f8s4")
+
+[node name="gun" type="RigidBody2D" parent="."]
+position = Vector2(-90, 150)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="gun"]
+texture = ExtResource("7_4144a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gun"]
+position = Vector2(4, -18)
+rotation = 1.5725589
+shape = SubResource("CapsuleShape2D_4144a")
+
+[node name="Joints" type="Node2D" parent="."]
+
+[node name="PinJoint2D1" type="PinJoint2D" parent="Joints"]
+position = Vector2(42, 186)
+node_a = NodePath("../../body")
+node_b = NodePath("../../leg1")
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="Joints"]
+position = Vector2(66, 298)
+node_a = NodePath("../../leg1")
+node_b = NodePath("../../leg2")
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="Joints"]
+position = Vector2(18, 72)
+node_a = NodePath("../../body")
+node_b = NodePath("../../arm")
+
+[node name="PinJoint2D4" type="PinJoint2D" parent="Joints"]
+position = Vector2(22, 140)
+node_a = NodePath("../../arm")
+node_b = NodePath("../../hand")
