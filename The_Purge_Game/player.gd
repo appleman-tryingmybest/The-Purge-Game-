@@ -12,7 +12,7 @@ extends CharacterBody2D
 @export var shoot_cooldown= 0.0
 @export var sword_dam :float
 @export var sword_force:float
-
+# hey there im going to cry now so please github be easy on me please
 
 
 var jump_count=0
