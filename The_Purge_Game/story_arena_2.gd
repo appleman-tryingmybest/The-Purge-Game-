@@ -172,7 +172,6 @@ func _process(delta: float) -> void:
 			_spawnwave()
 			
 
-
 func _spawnwave():
 	spawning = true
 	while enemy_amount != 0:

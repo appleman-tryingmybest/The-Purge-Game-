@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://c68sqj5871e8o"
-path="res://.godot/imported/sentry_buster_footstep.ogg-d9d932fc798b602388558977b62d9a52.oggvorbisstr"
+path="res://.godot/imported/Sentry_buster_footstep.ogg-49da6c91296f822387c419cf29671aeb.oggvorbisstr"
 
 [deps]
 
-source_file="res://addons/godot-git-plugin/sentry_buster_footstep.ogg"
-dest_files=["res://.godot/imported/sentry_buster_footstep.ogg-d9d932fc798b602388558977b62d9a52.oggvorbisstr"]
+source_file="res://addons/godot-git-plugin/Sentry_buster_footstep.ogg"
+dest_files=["res://.godot/imported/Sentry_buster_footstep.ogg-49da6c91296f822387c419cf29671aeb.oggvorbisstr"]
 
 [params]
 

@@ -33,7 +33,6 @@ func _on_texture_button_mouse_entered():
 		anim_gear.play("hover move_setting")
 	
 func _on_texture_button_mouse_exited():
-	if not is_paused:
 		anim_gear.play_backwards("hover move_setting")
 	
 func _on_texture_button_pressed():
@@ -50,7 +49,6 @@ func _on_texture_button_pressed():
 		anim_gear.play_backwards("hover move_setting")
 	
 
-	
 func _on_resume_button_pressed():
 	print("Resume")
 	is_paused = false
@@ -72,7 +70,6 @@ func _on_option_button_pressed():
 	print("Options page opened")
 	
 func _on_back_button_pressed():
-	print("back")
 	await get_tree().create_timer(0.2).timeout
 	if Global.start_game == false:
 		options_panel.hide()
@@ -91,14 +88,7 @@ func _on_back_button_pressed():
 	exit.show()
 	anim_gear.play("pause_in")
 	anim_gear.seek(anim_gear.current_animation_length, true)
-
-func _on_exit_button_pressed():
-	print("exit")
-	await get_tree().create_timer(0.2).timeout
-	resume.hide()
-	options.hide()
-	options_panel.hide()
-	
+	print("back to pause menu")
 	
 func _on_h_slider_value_changed(value:float) -> void:
 	var bus_index = AudioServer.get_bus_index("sounds")

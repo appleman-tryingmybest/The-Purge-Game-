@@ -92,7 +92,7 @@ func _process(delta):
 			_apply_initial_limits()
 		zoom = Vector2(0.8, 0.8)
 		position.x = cameraX
-		if testingMode: # I wanted to test if it worked but this will be used in game as well
+		if testingMode:
 			position.y = cameraY
 		else:
 			position.y = 0 + cameraYOffset
