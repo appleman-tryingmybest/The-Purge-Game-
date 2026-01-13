@@ -1,0 +1,124 @@
+[gd_scene load_steps=13 format=3 uid="uid://cs7puml6xo87o"]
+
+[ext_resource type="Script" uid="uid://dk02w07chngx8" path="res://ragdoll.gd" id="1_8jfsl"]
+[ext_resource type="Texture2D" uid="uid://c8i2atfceht2b" path="res://Enemy/enemy-shield-body-part/Hand.png" id="2_k87so"]
+[ext_resource type="Texture2D" uid="uid://cxs1l5wrwawha" path="res://Enemy/enemy-shield-body-part/Bad head.png" id="3_hiapy"]
+[ext_resource type="Texture2D" uid="uid://dxy00dg854b1x" path="res://Enemy/enemy-shield-body-part/1.png" id="4_1w5f1"]
+[ext_resource type="Texture2D" uid="uid://c5ist1qx8kfpq" path="res://Enemy/enemy-shield-body-part/Front leg.png" id="5_16t6a"]
+[ext_resource type="Texture2D" uid="uid://cg6hodsy1kepv" path="res://Enemy/enemy-shield-body-part/Front leg 2.png" id="6_w75al"]
+[ext_resource type="Texture2D" uid="uid://dp006bpqa2kjq" path="res://Enemy/enemy-shield-body-part/Front leg 3.png" id="7_ufgwy"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7sd88"]
+radius = 133.93365
+height = 389.1277
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8jfsl"]
+radius = 46.94912
+height = 837.04266
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v5vd"]
+radius = 47.06311
+height = 303.01263
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xmo2b"]
+radius = 24.230804
+height = 221.28662
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j46xn"]
+radius = 50.48755
+height = 221.28662
+
+[node name="ragdoll-enemy-shield" type="CharacterBody2D"]
+z_index = 2
+script = ExtResource("1_8jfsl")
+scale_body = 0.27
+
+[node name="body" type="RigidBody2D" parent="."]
+position = Vector2(22, 118)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D3" type="Sprite2D" parent="body"]
+z_index = -1
+position = Vector2(-316.54544, 45.636353)
+rotation = -0.07169158
+scale = Vector2(0.9999999, 0.9999999)
+texture = ExtResource("2_k87so")
+
+[node name="Sprite2D" type="Sprite2D" parent="body"]
+texture = ExtResource("3_hiapy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="body"]
+position = Vector2(6, 0)
+rotation = -0.014546528
+shape = SubResource("CapsuleShape2D_7sd88")
+
+[node name="Sprite2D2" type="Sprite2D" parent="body"]
+position = Vector2(-176.54546, 151.09093)
+rotation = -0.14832857
+texture = ExtResource("4_1w5f1")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="body"]
+position = Vector2(-189.99998, 143)
+rotation = -0.029093059
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_8jfsl")
+
+[node name="leg1" type="RigidBody2D" parent="."]
+position = Vector2(-7.2727127, 460)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="leg1"]
+texture = ExtResource("5_16t6a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leg1"]
+position = Vector2(2.000012, 36.72726)
+rotation = 0.41428465
+shape = SubResource("CapsuleShape2D_0v5vd")
+
+[node name="leg2" type="RigidBody2D" parent="."]
+position = Vector2(-1.6363487, 640.3636)
+rotation = -0.031724263
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="leg2"]
+texture = ExtResource("6_w75al")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leg2"]
+position = Vector2(10, 4)
+rotation = -1.2233412
+shape = SubResource("CapsuleShape2D_xmo2b")
+
+[node name="leg3" type="RigidBody2D" parent="."]
+position = Vector2(-7.0908813, 751.27277)
+rotation = -0.063448526
+scale = Vector2(0.99999994, 0.99999994)
+collision_layer = 536870912
+collision_mask = 65
+
+[node name="Sprite2D" type="Sprite2D" parent="leg3"]
+texture = ExtResource("7_ufgwy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leg3"]
+position = Vector2(42.97216, 11.839368)
+rotation = 0.4116581
+shape = SubResource("CapsuleShape2D_j46xn")
+
+[node name="Joints" type="Node2D" parent="."]
+
+[node name="PinJoint2D1" type="PinJoint2D" parent="Joints"]
+position = Vector2(10.909084, 314.54544)
+node_a = NodePath("../../body")
+node_b = NodePath("../../leg1")
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="Joints"]
+position = Vector2(-72.72725, 614.5454)
+node_a = NodePath("../../leg1")
+node_b = NodePath("../../leg2")
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="Joints"]
+position = Vector2(109.09092, 667.2727)
+node_a = NodePath("../../leg2")
+node_b = NodePath("../../leg3")

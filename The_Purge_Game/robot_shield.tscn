@@ -1,8 +1,9 @@
-[gd_scene load_steps=52 format=3 uid="uid://bj65os1wl5dpb"]
+[gd_scene load_steps=55 format=3 uid="uid://bj65os1wl5dpb"]
 
 [ext_resource type="Script" uid="uid://d205s253qoera" path="res://robot_shield.gd" id="1_8ebar"]
 [ext_resource type="Texture2D" uid="uid://c0ck0rbu7jl21" path="res://Enemy/enemy-shield/enemy-shield-fall.png" id="2_5vqpx"]
 [ext_resource type="PackedScene" uid="uid://cs7puml6xo87o" path="res://ragdoll_enemy_shield.tscn" id="2_xhn3q"]
+[ext_resource type="PackedScene" uid="uid://gr3g27dxi4wa" path="res://enemy_bullet.tscn" id="3_elhaw"]
 [ext_resource type="Texture2D" uid="uid://5fpear1flf4b" path="res://Enemy/enemy-shield/enemy-shield-idle.png" id="3_wp85n"]
 [ext_resource type="Texture2D" uid="uid://f4bpjw02103m" path="res://Enemy/enemy-shield/enemy-shield-charge-intro.png" id="3_xhn3q"]
 [ext_resource type="Texture2D" uid="uid://cp6afdba4adtp" path="res://Enemy/enemy-shield/enemy-shield-charge-loop.png" id="4_elhaw"]
@@ -53,6 +54,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [0]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Area2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_t4n5n"]
 resource_name = "charge-intro"
@@ -93,6 +106,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-46.6, -185.955)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Area2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_fharh"]
@@ -136,6 +161,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(-0.37, -185.955)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Area2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_sa1y5"]
 resource_name = "idle"
@@ -176,6 +213,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [&"idle"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Area2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_1piqj"]
@@ -223,6 +272,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-46.6, -190)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Area2D/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jq6mw"]
@@ -491,13 +552,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wp85n"]
 size = Vector2(35.208637, 396.36365)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhn3q"]
+size = Vector2(120.5, 233.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_elhaw"]
+size = Vector2(182.81818, 497.5)
+
 [node name="robot_shield" type="CharacterBody2D"]
+light_mask = 512
 scale = Vector2(0.55, 0.55)
 collision_layer = 128
-collision_mask = 8388609
+collision_mask = 8392705
 script = ExtResource("1_8ebar")
 speed = 45.0
-health = 200.0
+health = 145.0
 gravity = 800.0
 safe_distance = 500.0
 safe_zone = 80.0
@@ -510,7 +578,10 @@ charge_prob = 20
 charge_cooldown = 7
 charge_speed = 500.0
 ragdoll = ExtResource("2_xhn3q")
-turn_timer = 0.6
+turn_timer = 3.0
+attack_cooldown = 8.0
+attack_prob = 4
+enemy_bullet = ExtResource("3_elhaw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -209.25)
@@ -560,14 +631,34 @@ animation = &"run"
 [node name="Area2D" type="Area2D" parent="visuals"]
 position = Vector2(-88.845, 0)
 collision_layer = 16777216
-collision_mask = 64
+collision_mask = 16777280
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="visuals/Area2D"]
 z_index = 18
 position = Vector2(7.6043015, -203.63635)
 shape = SubResource("RectangleShape2D_wp85n")
+disabled = true
 one_way_collision = true
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
+[node name="bullethole" type="Node2D" parent="visuals"]
+position = Vector2(-169.09091, -287.27274)
+
+[node name="remove" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4096
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="remove"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_xhn3q")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(29.59091, -209.25)
+shape = SubResource("RectangleShape2D_elhaw")
+
 [connection signal="body_entered" from="visuals/Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="visuals/Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="remove" to="." method="_on_remove_area_entered"]

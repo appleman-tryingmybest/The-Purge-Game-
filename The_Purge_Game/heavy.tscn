@@ -1022,13 +1022,13 @@ animations = [{
 size = Vector2(153.44933, 396.36365)
 
 [node name="HEAVY" type="CharacterBody2D"]
+light_mask = 512
 scale = Vector2(1.5, 1.5)
 collision_layer = 128
 script = ExtResource("1_htxpt")
 speed = 25.0
-health = 555.0
+health = 800.0
 gravity = 800.0
-max_speed = 90.0
 attack_cooldown = 2.0
 attack_prob = 1
 turn_timer = 0.6
@@ -1085,5 +1085,12 @@ position = Vector2(-114.275345, 16.090912)
 shape = SubResource("RectangleShape2D_htxpt")
 disabled = true
 debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -188.25)
+shape = SubResource("RectangleShape2D_aphpr")
 
 [connection signal="body_entered" from="visuals/Area2D" to="." method="_on_area_2d_body_entered"]

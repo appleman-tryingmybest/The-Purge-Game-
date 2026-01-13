@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/arena_4_part2.ogg-2658ff212bb87baeb19faa76911
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

@@ -14,7 +14,7 @@ scale_body = 0.18
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
 position = Vector2(0, -93.33333)
@@ -27,7 +27,7 @@ shape = SubResource("CircleShape2D_s75q5")
 [node name="RigidBody2D2" type="RigidBody2D" parent="."]
 position = Vector2(136.66669, 300)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D2"]
 position = Vector2(0, -93.33333)
@@ -40,7 +40,7 @@ shape = SubResource("CircleShape2D_s75q5")
 [node name="RigidBody2D3" type="RigidBody2D" parent="."]
 position = Vector2(-113.33333, 300)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D3"]
 position = Vector2(0, -93.33333)

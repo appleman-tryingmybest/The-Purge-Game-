@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6t85kfsw4ieh"]
+
+[ext_resource type="Script" uid="uid://b7lpirrs0muws" path="res://player.gd" id="1_y22ff"]
+[ext_resource type="Texture2D" uid="uid://8ftuale8ehyc" path="res://white.jpg" id="2_pygl0"]
+[ext_resource type="Texture2D" uid="uid://5faa83yjbl3v" path="res://addons/godot-git-plugin/particles.png" id="3_f5ftr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pat5w"]
+radius = 36.013885
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 64
+collision_mask = 8388865
+script = ExtResource("1_y22ff")
+SPEED = 350.0
+JUMP_VELOCITY = 555.0
+push_strength = 2
+dash_duration = 0.1
+dash_cooldown = 0.4
+
+[node name="dash timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.036979165, 0.06203704)
+texture = ExtResource("2_pygl0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pat5w")
+
+[node name="dash particles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+texture = ExtResource("3_f5ftr")
+lifetime = 0.2
+one_shot = true
+speed_scale = 1.5
+emission_shape = 1
+emission_sphere_radius = 8.42
+angle_min = -193.0
+angle_max = 89.1

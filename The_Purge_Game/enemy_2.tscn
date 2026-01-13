@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cfiswvee378bs"]
+[gd_scene load_steps=42 format=3 uid="uid://cfiswvee378bs"]
 
 [ext_resource type="Script" uid="uid://bsjtcpsh3nkxn" path="res://enemy_sword.gd" id="1_anlw3"]
 [ext_resource type="Texture2D" uid="uid://ci6kk0cecwn2y" path="res://Enemy/enemy-sword/enemy-sword-attack.png" id="2_anlw3"]
@@ -464,9 +464,16 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u64o8"]
 size = Vector2(116.604324, 203.59091)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_roo12"]
+size = Vector2(120.5, 233.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nii7r"]
+size = Vector2(120.5, 233.5)
+
 [node name="Enemy2" type="CharacterBody2D"]
+light_mask = 512
 collision_layer = 128
-collision_mask = 8388609
+collision_mask = 8392705
 script = ExtResource("1_anlw3")
 speed = 85.0
 health = 165.0
@@ -520,5 +527,22 @@ shape = SubResource("RectangleShape2D_u64o8")
 disabled = true
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
+[node name="remove" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4096
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="remove"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_roo12")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 73)
+collision_layer = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_nii7r")
+
 [connection signal="area_entered" from="visuals/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="visuals/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="remove" to="." method="_on_remove_area_entered"]

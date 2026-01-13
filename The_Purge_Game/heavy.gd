@@ -36,6 +36,7 @@ var dead := false
 var taunt_timer : float
 @export var ragdoll : PackedScene
 @export var turn_timer : float
+var knockback_velocity := Vector2.ZERO
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/heavy/heavy_footstep.ogg")
@@ -43,6 +44,7 @@ var swing = preload("res://sounds/enemy/heavy/swing.ogg")
 var scream = preload("res://sounds/enemy/heavy/heavy-taunt.ogg")
 
 func _ready() -> void:
+	Global.enemy_count += 1
 	anim = $visuals/AnimatedSprite2D
 	animation = $AnimationPlayer
 	randomize()
@@ -55,6 +57,7 @@ func play_sound (stream: AudioStream, pitch:= 1.0): # YOU CAN JUST COPY AND PAST
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
 	p.pitch_scale = pitch
+	p.bus = "sounds"
 	p.volume_db += 5
 	add_child(p) # adds to the world
 	p.play() # play first
@@ -78,6 +81,9 @@ func _physics_process(delta):
 	if attacking:
 		velocity.x = 0
 		velocity.y = 0
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	if not is_on_floor() and !dead:
 		on_floor = false
 		shoot_ray()
@@ -166,7 +172,7 @@ func _process(delta: float) -> void:
 		turn_timer = 0.6
 	if on_floor and !attacking and !dead:
 		if (velocity.x != 0) and !run:
-			animation.play("walk", 0, 0.3)
+			animation.play("walk", 0, 0.5)
 			if timer_footstep < 0 and !run and !idle:
 				play_sound(FOOTSTEP, randf_range(1, 1.5))
 				timer_footstep = randf_range(0.8, 1)
@@ -179,11 +185,15 @@ func _process(delta: float) -> void:
 		elif velocity.y > 0:
 			anim.play("fall")
 	if health < 0 and !dead:
+		Global.enemy_count -= 1
 		_death_sequence()
 
 func _death_sequence():
+	Global.enemy_kill_count += 1
 	dead = true
 	animation.play("death", 0, 0.7)
+	await animation.animation_finished
+	animation.play("death-idle")
 	await get_tree().create_timer(12).timeout
 	queue_free()
 
@@ -217,6 +227,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if body.has_method("apply_knockback") and attacking:
 			body.apply_knockback(Vector2(push_dir, 1200))
 			print ("I PUSHED")
+		if body.has_method("take_damage"):
+			body.take_damage(45)
+
+func _take_damage(amount: float, velo_x: float, velo_y : float):
+	health -= amount
+	var dir = 1 if position.x > Global.player_x else -1
+	knockback_velocity = Vector2(dir * velo_x/1.5, velo_y*0)
 
 func _swing_sound():
 	play_sound(swing)

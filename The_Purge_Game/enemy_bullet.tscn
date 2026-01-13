@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://gr3g27dxi4wa"]
+
+[ext_resource type="Script" uid="uid://dv71xl3twkpq1" path="res://enemy_bullet.gd" id="1_gl7bs"]
+[ext_resource type="Texture2D" uid="uid://ve354bv1u3wx" path="res://Enemy/enemy-bullet.png" id="2_mgp66"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7smgm"]
+size = Vector2(46.153824, 20)
+
+[sub_resource type="Gradient" id="Gradient_gl7bs"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mgp66"]
+gradient = SubResource("Gradient_gl7bs")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8598131, 0.18691589)
+metadata/_snap_count = 2
+
+[node name="enemy_bullet" type="CharacterBody2D"]
+scale = Vector2(0.4, 0.4)
+collision_layer = 0
+collision_mask = 65
+script = ExtResource("1_gl7bs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_mgp66")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(41.53845, 0)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_7smgm")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(44.999996, 0)
+color = Color(0.09411765, 0.78039217, 0.50980395, 1)
+energy = 2.24
+texture = SubResource("GradientTexture2D_mgp66")
+texture_scale = 4.48
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

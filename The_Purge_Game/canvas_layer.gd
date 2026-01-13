@@ -7,10 +7,18 @@ extends CanvasLayer
 @onready var options_panel = $options_panel
 @onready var exit = $Exit
 @onready var back = $options_panel/back_button
+@onready var start = %startgame
+@onready var exitmm = %exit
+@onready var optionsmm = %options
 
 var is_paused = false
 
+@onready var treeNode = get_tree().current_scene.find_child("ParallaxTree")
+@onready var mountainNode = get_tree().current_scene.find_child("ParallaxMountain")
+@onready var cloudNode = get_tree().current_scene.find_child("ParallaxCloud")
+
 func _ready():
+	Global.start_game = false
 	blur_bg.hide()
 	resume.hide()
 	options.hide()
@@ -18,25 +26,28 @@ func _ready():
 	exit.hide()
 	
 	$options_panel/HSlider.value = 70
+	$options_panel/HSlider2.value = 70
 	
 func _on_texture_button_mouse_entered():
-	anim_gear.play("hover move_setting")
+	if is_paused == false:
+		anim_gear.play("hover move_setting")
 	
 func _on_texture_button_mouse_exited():
 	if not is_paused:
 		anim_gear.play_backwards("hover move_setting")
 	
 func _on_texture_button_pressed():
-	is_paused = true
-	get_tree().paused = true
-	anim_gear.play("clicking_gear")
-	await anim_gear.animation_finished
-	
-	blur_bg.show()
-	resume.show()
-	options.show()
-	exit.show()
-	anim_gear.play("pause_in")
+	if is_paused == false:
+		is_paused = true
+		get_tree().paused = true
+		anim_gear.play("clicking_gear")
+		await anim_gear.animation_finished
+		anim_gear.stop()
+		blur_bg.show()
+		resume.show()
+		options.show()
+		exit.show()
+		anim_gear.play_backwards("hover move_setting")
 	
 
 	
@@ -63,6 +74,16 @@ func _on_option_button_pressed():
 func _on_back_button_pressed():
 	print("back")
 	await get_tree().create_timer(0.2).timeout
+	if Global.start_game == false:
+		options_panel.hide()
+		start.show()
+		exitmm.show()
+		optionsmm.show()
+		options.hide()
+		blur_bg.hide()
+		Global.camera_Type = 2
+		print("back to main menu")
+		return
 	
 	options_panel.hide()
 	resume.show()
@@ -80,7 +101,7 @@ func _on_exit_button_pressed():
 	
 	
 func _on_h_slider_value_changed(value:float) -> void:
-	var bus_index = 0
+	var bus_index = AudioServer.get_bus_index("sounds")
 	if bus_index != -1:
 		var linear_volume = value / 100.0
 		var db_volume = linear_to_db(linear_volume)
@@ -89,4 +110,50 @@ func _on_h_slider_value_changed(value:float) -> void:
 		AudioServer.set_bus_volume_db(bus_index, db_volume)
 		print("setting bus 0 to:", db_volume, "dB")
 	
+func _on_h_slider_2_value_changed(value: float) -> void:
+	var bus_index = AudioServer.get_bus_index("Music")
+	if bus_index != -1:
+		var linear_volume = value / 100.0
+		var db_volume = linear_to_db(linear_volume)
 	
+		print("slider value:", value, " | DB: ", db_volume)
+		AudioServer.set_bus_volume_db(bus_index, db_volume)
+		print("Music Volume set to: ", db_volume, " dB")
+
+func _on_exit_pressed() -> void:
+	print("return to main menu")
+	Global.start_game = false
+	Global.camera_Type = 2
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+
+func _on_mountain_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		print ("no more mountains :(")
+		Global.mountain = false
+		mountainNode._clear_mountain()
+	else:
+		print ("yay more mountains :)")
+		Global.mountain = true
+		mountainNode._clear_mountain()
+
+func _on_tree_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		print ("no more trees :(")
+		Global.tree = false
+		treeNode._clear_mountain()
+	else:
+		print ("yay more trees :)")
+		Global.tree = true
+		treeNode._clear_mountain()
+
+func _on_cloud_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		print ("no more clouds :(")
+		Global.cloud = false
+		cloudNode._clear_clouds()
+	else:
+		print ("yay more clouds :)")
+		Global.cloud = true
+		cloudNode._clear_clouds()

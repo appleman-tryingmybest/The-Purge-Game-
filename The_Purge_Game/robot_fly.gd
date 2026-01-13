@@ -20,8 +20,15 @@ var sound_timer : float
 var run_cooldown : float = 1
 var is_waiting := false
 @export var ragdoll : PackedScene
-#PRELOAD SOUND
+var knockback_velocity := Vector2.ZERO
+@export var attack_cooldown : float
+@export var attack_prob : int
+var attacking := false
+var attack_probb : float
+@export var enemy_bullet : PackedScene
 
+#PRELOAD SOUND
+var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
 
 func _ready() -> void:
 	Global.enemy_count += 1
@@ -43,6 +50,9 @@ func shoot_ray():
 func _physics_process(delta):
 	z_index = 7
 	var distance = position.distance_to(Global.player_position)
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	if health > 0:
 		shoot_ray()
 		just_fell = false
@@ -56,6 +66,12 @@ func _physics_process(delta):
 					velocity.y -= speedY
 				else:
 					velocity.y -= speedY
+		attack_cooldown -= delta
+		if distance < safe_distance + 650:
+			print (attack_cooldown)
+			if attack_cooldown < 0:
+				if randi_range(0, attack_prob) == 0 and !attacking:
+					_attack()
 		elif distance > safe_distance: # move to player if too far
 			if distance > safe_distance - safe_zone:# player is very far
 				if hugging_wall:
@@ -90,6 +106,7 @@ func _on_fly_sound_finished():
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	add_child(p) # adds to the world
 	p.play() # play first
 	p.finished.connect(p.queue_free) # remove itself after finished playing
@@ -105,8 +122,46 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _spawn_ragdoll():
+	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
 	var instance = ragdoll.instantiate()
+	if visuals.scale.x == 1:
+		instance.facing_direction = 1
+	elif visuals.scale.x == -1:
+		instance.facing_direction = -1
 	get_parent().add_child(instance)
 	instance.global_position = global_position
 	instance.global_position.y = global_position.y - 150
+
+
+func _on_remove_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(13):
+		Global.enemy_count -= 1
+		queue_free()
+
+func _take_damage(amount: float, velo_x: float, velo_y : float):
+	health -= amount
+	var dir = 1 if position.x > Global.player_x else -1
+	knockback_velocity = Vector2(dir * velo_x/2, velo_y/2)
+
+func _attack():
+	attacking = true
+	print ("IM GONNA KILL YOU")
+	_shoot(randi_range(2, 5))
+
+func _shoot(amount : int):
+	while amount != 0:
+		var spawn_at = $visuals/bullethole
+		var bullet = enemy_bullet.instantiate()
+		if visuals.scale.x == 1:
+			bullet.Rotation = -PI + rotation
+		if visuals.scale.x == -1:
+			bullet.Rotation = 0 + rotation
+		bullet.Rotation += deg_to_rad(randf_range(-6, 6))
+		get_parent().add_child(bullet)
+		play_sound(gun_shoot)
+		bullet.global_position = spawn_at.global_position
+		amount -= 1
+		await get_tree().create_timer(0.6).timeout
+	attacking = false
+	attack_cooldown = randf_range(4, 5)

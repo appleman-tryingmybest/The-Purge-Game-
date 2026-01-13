@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://f5tduge7u8wa"]
+[gd_scene load_steps=45 format=3 uid="uid://f5tduge7u8wa"]
 
 [ext_resource type="Script" uid="uid://bc2gj8wg5dm6f" path="res://sentry_buster.gd" id="1_xfjjh"]
 [ext_resource type="Texture2D" uid="uid://3jc4hu4krt3d" path="res://sentry_buster_explode.png" id="2_1x52x"]
@@ -285,6 +285,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(0, -137.5)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PointLight2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_w08wu"]
 resource_name = "explode"
@@ -403,6 +415,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(0, -137.5), Vector2(0, -475)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PointLight2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_awt1i"]
 resource_name = "run"
@@ -419,10 +443,26 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_awt1i"]
 size = Vector2(666.5, 942)
 
+[sub_resource type="Gradient" id="Gradient_hvwwx"]
+offsets = PackedFloat32Array(0.006666667, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_awt1i"]
+gradient = SubResource("Gradient_hvwwx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvwwx"]
+size = Vector2(120.5, 233.5)
+
 [node name="SentryBuster" type="CharacterBody2D"]
+light_mask = 512
 scale = Vector2(0.4, 0.4)
 collision_layer = 128
-collision_mask = 8388609
+collision_mask = 8392705
 script = ExtResource("1_xfjjh")
 speed = 15.0
 gravity = 800.0
@@ -489,4 +529,19 @@ position = Vector2(0, -511.5)
 scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_awt1i")
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -232.49998)
+energy = 2.0
+texture = SubResource("GradientTexture2D_awt1i")
+texture_scale = 37.12
+
+[node name="remove" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4096
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="remove"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_hvwwx")
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="area_entered" from="remove" to="." method="_on_remove_area_entered"]

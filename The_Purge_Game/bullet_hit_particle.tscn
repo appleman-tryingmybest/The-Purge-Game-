@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://baic5x3le6vif"]
+
+[ext_resource type="Texture2D" uid="uid://bmpqo2gqwur5i" path="res://white.png" id="1_hy270"]
+[ext_resource type="Script" uid="uid://cbahujdwib6u6" path="res://bullet_hit_particle.gd" id="2_d73xa"]
+
+[node name="bullet_hit_particle" type="CPUParticles2D"]
+z_index = 6
+emitting = false
+amount = 12
+texture = ExtResource("1_hy270")
+lifetime = 0.7
+one_shot = true
+preprocess = 0.1
+explosiveness = 1.0
+spread = 50.0
+gravity = Vector2(0, 200)
+initial_velocity_min = 221.31
+initial_velocity_max = 437.81
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+damping_min = 3.093
+damping_max = 8.542
+scale_amount_min = 0.04
+scale_amount_max = 0.1
+color = Color(0.8310733, 0.82563853, 0, 0.4509804)
+script = ExtResource("2_d73xa")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

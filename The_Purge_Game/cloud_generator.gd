@@ -57,7 +57,7 @@ func _generate_clouds():
 	var template = $AnimatedSprite2D # The Sprite2D child
 	var spawn_x = 0.0 # Start at the beginning of the layer
 	var frame_count = template.sprite_frames.get_frame_count("cloud-variant")
-	while currentCloudNum < randi_range(100, 200) and is_generating:
+	while currentCloudNum < randi_range(100, 200) and is_generating and Global.cloud:
 		# Randomize variety
 		var distance = randf_range(15, 100)
 		# Create the cloud sprite
@@ -115,3 +115,7 @@ func _process(delta: float) -> void:
 				cloud.global_position.x -= (screen_width + (buffer * 2)) / self.scroll_scale.x
 				cloud.position.x += (screen_width + (buffer * 2)) / self.scroll_scale.x
 				cloud.position.y = y_offset + randf_range(-250, 10)
+	if !Global.start_game:
+		visible = false
+	else:
+		visible = true

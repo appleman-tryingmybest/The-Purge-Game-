@@ -41,12 +41,19 @@ var charge_on_floor := false
 var rand_distance : float
 @export var ragdoll : PackedScene
 @export var turn_timer : float
+var knockback_velocity := Vector2.ZERO
+@export var attack_cooldown : float
+@export var attack_prob : int
+var attacking := false
+var attack_probb : float
+@export var enemy_bullet : PackedScene
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
 var CHARGE_INTRO = preload("res://sounds/enemy/enemy-charge-intro.ogg")
 var CHARGE_LOOP = preload("res://sounds/enemy/enemy-charge-loop.ogg")
 var CHARGE_CRASH = preload("res://sounds/enemy/enemy-charge-crash.ogg")
+var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
 
 func _ready() -> void:
 	Global.enemy_count += 1
@@ -77,6 +84,7 @@ func shoot_ray():
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	p.pitch_scale = randf_range(0.45, 0.6)
 	add_child(p) # adds to the world
 	p.play() # play first
@@ -86,6 +94,9 @@ func _physics_process(delta):
 	z_index = 7
 	var distance = abs(Global.player_x - position.x)
 	var yDistance = Global.player_y - position.y
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	if is_waiting:
 		return # stop moving
 	charge_cooldown -= 1
@@ -118,6 +129,12 @@ func _physics_process(delta):
 		on_floor = true
 		shoot_ray()
 		just_fell = false
+		attack_cooldown -= delta
+		if distance < safe_distance + 650 and !charging:
+			print (attack_cooldown)
+			if attack_cooldown < 0:
+				if randi_range(0, attack_prob) == 0:
+					_attack()
 		if distance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				if position.x < Global.player_x: # if we are in danger then we back up
@@ -164,6 +181,15 @@ func _physics_process(delta):
 		velocity.x = clamp(velocity.x, -max_speed, max_speed)
 		move_and_slide()
 	if charge_on_floor and !hitted and charge_move:
+		if health < 0:
+			_spawn_ragdoll()
+			queue_free()
+		if charge_on_floor and !hitted and charge_move:
+		# ADD THIS CHECK: 
+		# If the distance is greater than, say, your safe_distance + 600
+			if distance > (safe_distance + 450):
+				_stop_charging_early() # We will create this helper function
+				return
 		timer_footstep -= delta
 		if timer_footstep < 0 and !run:
 			play_sound(CHARGE_LOOP)
@@ -201,7 +227,7 @@ func _process(delta: float) -> void:
 				visuals.scale.x = -1 # right
 			elif position.x > Global.player_x:
 				visuals.scale.x = 1 # left
-			turn_timer = 0.6
+			turn_timer = 1
 		if on_floor:
 			if (velocity.x != 0) and !run:
 				animation.play("walk", 0, 0.7) # name, transition fading, speed
@@ -258,14 +284,72 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			pushed = true
 			print ("finished push")
 			_stun()
+		if body.has_method("take_damage"):
+			body.take_damage(30)
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		pushed = false
 
 func _spawn_ragdoll():
+	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
 	var instance = ragdoll.instantiate()
+	if visuals.scale.x == 1:
+		instance.facing_direction = 1
+	elif visuals.scale.x == -1:
+		instance.facing_direction = -1
 	get_parent().add_child(instance)
 	instance.global_position = global_position
 	instance.global_position.y = global_position.y - 150
+
+func _stop_charging_early():
+	print("Player too far, stopping charge.")
+	charging = false
+	charge_move = false
+	max_speed = 100
+	animation.play("idle") # Or walk, to return to normal behavior
+
+
+func _on_remove_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(13):
+		print ("im killing myself")
+		Global.enemy_count -= 1
+		queue_free()
+
+func _take_damage(amount: float, velo_x: float, velo_y : float):
+	var player_is_right = Global.player_x > position.x
+	var enemy_face_left = visuals.scale.x == 1
+	var enemy_face_right = visuals.scale.x == -1
+	var can_take_damage = false
+	if player_is_right and enemy_face_left:
+		can_take_damage = true
+	elif !player_is_right and enemy_face_right:
+		can_take_damage = true
+	if can_take_damage:
+		print ("eheheh that hurts")
+		health -= amount
+		var dir = 1 if position.x > Global.player_x else -1
+		knockback_velocity = Vector2(dir * velo_x, velo_y)
+
+func _attack():
+	attacking = true
+	print ("IM GONNA KILL YOU")
+	_shoot(8)
+
+func _shoot(amount : int):
+	while amount != 0:
+		var spawn_at = $visuals/bullethole
+		var bullet = enemy_bullet.instantiate()
+		if visuals.scale.x == 1:
+			bullet.Rotation = -PI
+		if visuals.scale.x == -1:
+			bullet.Rotation = 0
+		bullet.Rotation += deg_to_rad(randf_range(-20, 20))
+		bullet.shotgun = true
+		get_parent().add_child(bullet)
+		play_sound(gun_shoot)
+		bullet.global_position = spawn_at.global_position
+		amount -= 1
+	attacking = false
+	attack_cooldown = randf_range(4, 5)

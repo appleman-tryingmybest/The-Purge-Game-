@@ -23,6 +23,7 @@ var can_jump_fall := false
 @onready var anim = $AnimatedSprite2D  # first we make anim = to the animatedsprite2d child in here first
 @onready var animation = $AnimationPlayer
 @onready var collider = $Area2D/CollisionShape2D2
+@onready var light = $PointLight2D
 var run_cooldown : float = 1
 var is_waiting := false
 var timer : float = 1
@@ -38,6 +39,7 @@ var SFX_STARTEXPLODE = preload("res://addons/godot-git-plugin/Sentry_buster_expl
 var SFX_EXPLOSION = preload("res://addons/godot-git-plugin/funny-explosion-sound.ogg")
 
 func _ready() -> void: # I would suggest you to watch youtube tutorial on animations though but i try explain
+	light.enabled = false
 	Global.enemy_count += 1
 	collider.disabled = true
 	play_sound(SFX_SPAWN)
@@ -69,6 +71,7 @@ func shoot_ray():
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	add_child(p) # adds to the world
 	p.play() # play first
 	p.finished.connect(p.queue_free) # remove itself after finished playing
@@ -165,6 +168,7 @@ func explode_sequence() -> void:
 		await animation.animation_finished
 		$CPUParticles2D.emitting = true
 		animation.play("exploder")
+		play_sound(SFX_EXPLOSION)
 		await animation.animation_finished
 		Global.enemy_count -= 1
 		queue_free()
@@ -179,8 +183,6 @@ func _process(delta: float) -> void: # able to start multipe timer in here, its 
 		play_sound(SFX_FOOTSTEP) # footsteps
 		timer_foot = 0.35
 
-func _explosion_sound():
-	play_sound(SFX_EXPLOSION)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -192,3 +194,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if body.has_method("apply_knockback"):
 			body.apply_knockback(Vector2(push_dir, -1800))
 			print ("I PUSHED")
+
+func _on_remove_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(13):
+		print ("im killing myself")
+		Global.enemy_count -= 1
+		queue_free()

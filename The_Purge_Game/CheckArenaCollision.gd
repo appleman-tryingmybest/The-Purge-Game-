@@ -2,10 +2,10 @@ extends Area2D
 var final_xPos : float
 var teleportX: float
 var teleportY: float
-@export var arena_num: int
 @export var Enable := false
 var player_inside := false
 signal teleportPlayer
+@export var arena : int
 
 func _ready():
 	print ("where is trigger space ", position.x, " ", position.y)
@@ -16,19 +16,19 @@ func _ready():
 func _on_body_entered(body: Node2D) -> void:
 	print ("Entered the trigger space")
 	if Enable:
-		if arena_num == 0:
+		if Global.arena_num == 0:
 			var getPosition = get_parent().get_node("StoryArena1/PlayerSpawn")
 			teleportX = getPosition.global_position.x
 			teleportY = getPosition.global_position.y
-		if arena_num == 1:
+		if Global.arena_num == 1:
 			var getPosition = get_parent().get_node("StoryArena2/PlayerSpawn")
 			teleportX = getPosition.global_position.x
 			teleportY = getPosition.global_position.y
-		if arena_num == 2:
+		if Global.arena_num == 2:
 			var getPosition = get_parent().get_node("StoryArena3/PlayerSpawn")
 			teleportX = getPosition.global_position.x
 			teleportY = getPosition.global_position.y
-		if arena_num == 3:
+		if Global.arena_num == 3:
 			var getPosition = get_parent().get_node("StoryArena4/PlayerSpawn")
 			teleportX = getPosition.global_position.x
 			teleportY = getPosition.global_position.y

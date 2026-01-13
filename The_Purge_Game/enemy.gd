@@ -35,6 +35,8 @@ var attacking := false
 var attack_probb : float
 var dead := false
 @export var ragdoll : PackedScene
+@export var enemy_bullet : PackedScene
+var knockback_velocity := Vector2.ZERO
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
@@ -53,6 +55,7 @@ func _ready() -> void:
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	p.pitch_scale = randf_range(0.5, 1.5)
 	add_child(p) # adds to the world
 	p.play() # play first
@@ -73,6 +76,9 @@ func _physics_process(delta):
 	var yDistance = Global.player_y - position.y
 	if is_waiting:
 		return # stop moving
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	if not is_on_floor() and !dead:
 		on_floor = false
 		shoot_ray()
@@ -94,22 +100,23 @@ func _physics_process(delta):
 			velocity.y = jump_strength - randf_range(30, 80)
 			can_jump_fall = false
 	elif is_on_floor() and !attacking and !dead:
-		attack_cooldown -= delta
 		on_floor = true
 		shoot_ray()
 		just_fell = false
-		if distance < safe_distance:
+		attack_cooldown -= delta
+		if distance < safe_distance + 650:
 			print (attack_cooldown)
 			if attack_cooldown < 0:
 				if randi_range(0, attack_prob) == 0:
 					_attack()
+		if distance < safe_distance:
 			if distance < safe_distance - safe_zone: # check if we are in danger
 				if position.x < Global.player_x: # if we are in danger then we back up
 					velocity.x -= speed
 				else:
 					velocity.x += speed
 			else:
-				if randi_range(0, jump_prob) == 0 and yDistance < enemy_to_player_y and can_jump: # if we are in range not in danger then we can choose to jump or not
+				if randi_range(0, jump_prob) == 0 and yDistance < -100 and can_jump: # if we are in range not in danger then we can choose to jump or not
 					print ("Enemy jumps")
 					print (yDistance)
 					velocity.y = jump_strength - randf_range(30, 150) # to go up or jump we need the value to be negative for some reason
@@ -156,7 +163,7 @@ func _process(delta: float) -> void:
 		elif position.x > Global.player_x:
 			visuals.scale.x = 1 # left
 		turn_timer = 0.4
-	if on_floor and !attacking and !dead:
+	if on_floor and !dead:
 		if (velocity.x != 0) and !run:
 			animation.play("walk", 0, 0.7)
 			if timer_footstep < 0 and !run and !idle:
@@ -180,18 +187,51 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _spawn_ragdoll():
+	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
 	var instance = ragdoll.instantiate()
+	if visuals.scale.x == 1:
+		instance.facing_direction = 1
+	elif visuals.scale.x == -1:
+		instance.facing_direction = -1
 	get_parent().add_child(instance)
 	instance.global_position = global_position
 	instance.global_position.y = global_position.y - 150
 
 func _attack():
-	attacking = true
-	velocity.x = 0
-	velocity.y = 0
-	print ("IM GONNA KILL YOU")
-	animation.play("attack")
-	await get_tree().create_timer(0.8).timeout
+	if is_on_floor():
+		attacking = true
+		print ("IM GONNA KILL YOU")
+		_shoot(randi_range(2, 10))
+	else:
+		return
+
+
+
+func _on_remove_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(13):
+		print ("im killing myself")
+		Global.enemy_count -= 1
+		queue_free()
+		
+func _take_damage(amount: float, velo_x: float, velo_y : float):
+	health -= amount
+	var dir = 1 if position.x > Global.player_x else -1
+	knockback_velocity = Vector2(dir * velo_x, velo_y)
+
+func _shoot(amount : int):
+	while amount != 0:
+		var spawn_at = $visuals/bullethole
+		var bullet = enemy_bullet.instantiate()
+		if visuals.scale.x == 1:
+			bullet.Rotation = -PI
+		if visuals.scale.x == -1:
+			bullet.Rotation = 0
+		bullet.Rotation += deg_to_rad(randf_range(-6, 6))
+		get_parent().add_child(bullet)
+		play_sound(gun_shoot)
+		bullet.global_position = spawn_at.global_position
+		amount -= 1
+		await get_tree().create_timer(0.1).timeout
 	attacking = false
-	attack_cooldown = 1
+	attack_cooldown = randf_range(2, 5)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://byppoq1xx1c5w"]
+[gd_scene load_steps=33 format=3 uid="uid://byppoq1xx1c5w"]
 
 [ext_resource type="Script" uid="uid://dmkagfymfsy4b" path="res://enemy.gd" id="1_pjquw"]
 [ext_resource type="PackedScene" uid="uid://cnw6nu5s4m7b7" path="res://ragdoll_enemy_gun.tscn" id="2_3u0vs"]
+[ext_resource type="PackedScene" uid="uid://gr3g27dxi4wa" path="res://enemy_bullet.tscn" id="3_q5scw"]
 [ext_resource type="Texture2D" uid="uid://onkmgyvuckob" path="res://Enemy/enemy-gun/enemy-gun-fall.png" id="3_sa1y5"]
 [ext_resource type="Texture2D" uid="uid://dvlv0acdpfcpt" path="res://Enemy/enemy-gun/enemy-gun-idle.png" id="4_3u0vs"]
 [ext_resource type="Texture2D" uid="uid://bbarukp2sgmfu" path="res://Enemy/enemy-gun/enemy-gun-jump.png" id="5_q5scw"]
@@ -276,8 +277,9 @@ animations = [{
 }]
 
 [node name="Enemy" type="CharacterBody2D"]
+light_mask = 512
 collision_layer = 128
-collision_mask = 8388609
+collision_mask = 8392705
 script = ExtResource("1_pjquw")
 speed = 85.0
 health = 130.0
@@ -291,8 +293,11 @@ can_run = true
 run_prob = 5
 run_speed = 500.0
 ray_length = -100
+attack_cooldown = 2.0
+attack_prob = 3
 turn_timer = 0.4
 ragdoll = ExtResource("2_3u0vs")
+enemy_bullet = ExtResource("3_q5scw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -77.25)
@@ -333,3 +338,23 @@ position = Vector2(-19.33, -71.771)
 scale = Vector2(0.49240828, 0.49240825)
 sprite_frames = SubResource("SpriteFrames_3x3qx")
 animation = &"run"
+
+[node name="bullethole" type="Node2D" parent="visuals"]
+position = Vector2(-79, -120)
+
+[node name="remove" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4096
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="remove"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_aphpr")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -77.25)
+shape = SubResource("RectangleShape2D_aphpr")
+
+[connection signal="area_entered" from="remove" to="." method="_on_remove_area_entered"]

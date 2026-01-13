@@ -33,6 +33,7 @@ func _ready() -> void:
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	add_child(p) # adds to the world
 	p.play() # play first
 	p.finished.connect(p.queue_free) # remove itself after finished playing

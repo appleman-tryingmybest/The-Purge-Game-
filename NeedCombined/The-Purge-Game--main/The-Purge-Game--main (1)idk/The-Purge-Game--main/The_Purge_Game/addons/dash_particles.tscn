@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxll312agoint"]
+
+[ext_resource type="Texture2D" uid="uid://d35cku6p1hnpu" path="res://particles.png" id="1_bqy1t"]
+
+[node name="dash particles" type="CPUParticles2D"]
+emitting = false
+amount = 20
+texture = ExtResource("1_bqy1t")
+lifetime = 0.2
+one_shot = true
+speed_scale = 1.5
+emission_shape = 1
+emission_sphere_radius = 8.42
+angle_min = -193.0
+angle_max = 89.1

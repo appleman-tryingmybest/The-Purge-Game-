@@ -9,7 +9,7 @@ var currentMountainNum: float = 0
 var is_generating := false
 var allow_generate := true
 var buffer = 200
-
+var moved := false
 func _ready():
 	# Connect to your floor generator as before
 	var floorGenerator = get_parent().get_node("floorGenerator")
@@ -22,7 +22,9 @@ func _ready():
 
 func _clear_mountain():
 	is_generating = false
+	await get_tree().process_frame
 	currentMountainNum = 0
+	moved = false
 	# Delete only the generated sprites, not the template
 	for cloud in get_tree().get_nodes_in_group("generatedMountain"):
 		cloud.queue_free()
@@ -57,7 +59,7 @@ func _generate_clouds():
 	var template = $AnimatedSprite2D # The Sprite2D child
 	var spawn_x = 0.0 # Start at the beginning of the layer
 	var frame_count = template.sprite_frames.get_frame_count("mountain-variant")
-	while currentMountainNum < mountainNum and is_generating:
+	while currentMountainNum < mountainNum and is_generating and Global.mountain:
 		# Randomize variety
 		var distance = randf_range(75, 100)
 		# Create the cloud sprite
@@ -67,13 +69,15 @@ func _generate_clouds():
 		new_mountain.pause()
 		new_mountain.visible = true
 		new_mountain.add_to_group("generatedMountain")
-		self.scroll_scale = Vector2(0.6, 0)
+		self.scroll_scale = Vector2(0.5, 0)
 		var mountainSize = randf_range(0.6, 1.0)
 		add_child(new_mountain) # Adds it inside this Parallax2D layer
 		# Position it RELATIVE to this layer
 		spawn_x += distance
 		new_mountain.position.x = spawn_x
-		new_mountain.position.y = y_offset + randf_range(-15, 45)
+		new_mountain.position.y = y_offset + randf_range(5, 35)
+		if Global.arena_player:
+			new_mountain.position.y += 15
 		new_mountain.scale = Vector2(mountainSize, mountainSize)
 		if randi_range(0, 1) == 0:
 			new_mountain.scale.x *= -1
@@ -87,3 +91,16 @@ func _generate_clouds():
 			
 		await get_tree().process_frame
 	is_generating = false
+
+func _process(delta: float) -> void:
+	if Global.arena_player and !moved:
+		moved = true
+		var all_mountain = get_tree().get_nodes_in_group("generatedMountain")
+		for tree_node in all_mountain:
+			tree_node.position.y += 15
+			if mountain_debug:
+				print("Moving generated tree down: ", tree_node.name)
+	if !Global.start_game:
+		visible = false
+	else:
+		visible = true

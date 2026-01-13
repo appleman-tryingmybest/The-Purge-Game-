@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://5i8okvc7jh5p"
+path="res://.godot/imported/OPTIONSBUTTON - Copy.png-eece3e3ce92759727a50a9d6fb25d240.res"
+
+[deps]
+
+source_file="res://pause menu/OPTIONSBUTTON - Copy.png"
+dest_files=["res://.godot/imported/OPTIONSBUTTON - Copy.png-eece3e3ce92759727a50a9d6fb25d240.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

@@ -260,6 +260,7 @@ _data = {
 }
 
 [node name="dropship" type="CharacterBody2D"]
+light_mask = 512
 z_index = 2
 scale = Vector2(0.8, 0.8)
 collision_layer = 0
@@ -306,6 +307,7 @@ speed_scale = 1.85
 scale = Vector2(0.99999994, 0.99999994)
 stream = ExtResource("3_melr4")
 volume_db = 15.146
+bus = &"sounds"
 
 [node name="visuals" type="Node2D" parent="."]
 rotation = -0.17453292

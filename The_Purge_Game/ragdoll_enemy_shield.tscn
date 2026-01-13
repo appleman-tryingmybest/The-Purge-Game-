@@ -30,13 +30,14 @@ height = 221.28662
 
 [node name="ragdoll-enemy-shield" type="CharacterBody2D"]
 z_index = 2
+collision_mask = 8392705
 script = ExtResource("1_8jfsl")
 scale_body = 0.27
 
 [node name="body" type="RigidBody2D" parent="."]
 position = Vector2(22, 118)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D3" type="Sprite2D" parent="body"]
 z_index = -1
@@ -67,7 +68,7 @@ shape = SubResource("CapsuleShape2D_8jfsl")
 [node name="leg1" type="RigidBody2D" parent="."]
 position = Vector2(-7.2727127, 460)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="leg1"]
 texture = ExtResource("5_16t6a")
@@ -81,7 +82,7 @@ shape = SubResource("CapsuleShape2D_0v5vd")
 position = Vector2(-1.6363487, 640.3636)
 rotation = -0.031724263
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="leg2"]
 texture = ExtResource("6_w75al")
@@ -96,7 +97,7 @@ position = Vector2(-7.0908813, 751.27277)
 rotation = -0.063448526
 scale = Vector2(0.99999994, 0.99999994)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="leg3"]
 texture = ExtResource("7_ufgwy")

@@ -34,10 +34,11 @@ var timer_footstep: float
 var attacking := false
 var attack_probb : float
 @export var ragdoll : PackedScene
+var knockback_velocity := Vector2.ZERO
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/enemy-footsteps.ogg")
-var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
+var swing = preload("res://sounds/enemy/enemy-sword-swing.ogg")
 
 func _ready() -> void:
 	Global.enemy_count += 1
@@ -52,6 +53,7 @@ func _ready() -> void:
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
+	p.bus = "sounds"
 	p.pitch_scale = randf_range(0.5, 1.5)
 	add_child(p) # adds to the world
 	p.play() # play first
@@ -70,6 +72,9 @@ func _physics_process(delta):
 	z_index = 7
 	var distance = abs(Global.player_x - position.x)
 	var yDistance = Global.player_y - position.y
+	if knockback_velocity != Vector2.ZERO:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
 	if is_waiting:
 		return # stop moving
 	if not is_on_floor():
@@ -179,20 +184,30 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _spawn_ragdoll():
+	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
 	var instance = ragdoll.instantiate()
+	if visuals.scale.x == 1:
+		instance.facing_direction = 1
+	elif visuals.scale.x == -1:
+		instance.facing_direction = -1
 	get_parent().add_child(instance)
 	instance.global_position = global_position
 	instance.global_position.y = global_position.y - 150
 	
 func _attack():
-	attacking = true
-	velocity.x = 0
-	velocity.y = 0
-	animation.play("attack")
-	await get_tree().create_timer(0.8).timeout
-	attacking = false
-	attack_cooldown = 1
+	if is_on_floor():
+		attacking = true
+		velocity.x = 0
+		velocity.y = 0
+		animation.play("attack")
+		play_sound(swing)
+		await get_tree().create_timer(0.8).timeout
+		attacking = false
+		attack_cooldown = 1
+	else:
+		return
+
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -203,3 +218,17 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			push_dir = abs(push_dir)
 		if body.has_method("apply_knockback") and attacking:
 			body.apply_knockback(Vector2(push_dir, -500))
+		if body.has_method("take_damage"):
+			body.take_damage(8)
+
+
+func _on_remove_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(13):
+		print ("im killing myself")
+		Global.enemy_count -= 1
+		queue_free()
+
+func _take_damage(amount: float, velo_x: float, velo_y : float):
+	health -= amount
+	var dir = 1 if position.x > Global.player_x else -1
+	knockback_velocity = Vector2(dir * velo_x, velo_y)

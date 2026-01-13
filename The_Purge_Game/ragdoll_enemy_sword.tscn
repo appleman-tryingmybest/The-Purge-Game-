@@ -36,7 +36,7 @@ scale_body = 0.5
 [node name="body" type="RigidBody2D" parent="."]
 position = Vector2(22, 118)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="body"]
 texture = ExtResource("2_75fha")
@@ -53,7 +53,7 @@ texture = ExtResource("3_3ujif")
 [node name="leg1" type="RigidBody2D" parent="."]
 position = Vector2(38, 236)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="leg1"]
 texture = ExtResource("4_e6p73")
@@ -67,7 +67,7 @@ shape = SubResource("CapsuleShape2D_0v5vd")
 position = Vector2(40, 342)
 rotation = -0.031724263
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="leg2"]
 texture = ExtResource("5_b1ot0")
@@ -80,7 +80,7 @@ shape = SubResource("CapsuleShape2D_xmo2b")
 [node name="arm" type="RigidBody2D" parent="."]
 position = Vector2(16, 98)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="arm"]
 texture = ExtResource("6_ugsmo")
@@ -93,7 +93,7 @@ shape = SubResource("CapsuleShape2D_03ml7")
 [node name="hand" type="RigidBody2D" parent="."]
 position = Vector2(-33, 270)
 collision_layer = 536870912
-collision_mask = 65
+collision_mask = 8392769
 
 [node name="Sprite2D" type="Sprite2D" parent="hand"]
 texture = ExtResource("7_e13ki")

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgijrhidmytkg"]
+
+[ext_resource type="Script" uid="uid://1mgmpx5nsmiu" path="res://bullet.gd" id="1_v8qja"]
+[ext_resource type="PackedScene" uid="uid://baic5x3le6vif" path="res://bullet_hit_particle.tscn" id="2_2b2rl"]
+[ext_resource type="Texture2D" uid="uid://c2gfu3fayyadw" path="res://Player/bullet.png" id="2_t4vbm"]
+[ext_resource type="Texture2D" uid="uid://bmpqo2gqwur5i" path="res://white.png" id="3_t4vbm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7oki"]
+size = Vector2(15.384605, 1.5384674)
+
+[node name="Area2D" type="Area2D"]
+collision_mask = 16809984
+script = ExtResource("1_v8qja")
+speed = 2000
+damage = 35.0
+particleHit = ExtResource("2_2b2rl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v7oki")
+
+[node name="bullet" type="Sprite2D" parent="."]
+z_index = 10
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_t4vbm")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-24, 0)
+emitting = false
+amount = 12
+texture = ExtResource("3_t4vbm")
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+spread = 17.4
+gravity = Vector2(0, 200)
+initial_velocity_min = 221.31
+initial_velocity_max = 437.81
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+damping_min = 3.093
+damping_max = 8.542
+scale_amount_min = 0.02
+scale_amount_max = 0.06
+color = Color(1, 1, 1, 0.4509804)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
