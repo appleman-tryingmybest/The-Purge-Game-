@@ -25,6 +25,7 @@ var arena4_intro = preload("res://music/arena_music/arena_4/arena_4_intro.ogg")
 var arena4_p1 = preload("res://music/arena_music/arena_4/arena_4_part1.ogg")
 var arena4_p2 = preload("res://music/arena_music/arena_4/arena_4_part2.ogg")
 var cannon_shoot = preload("res://sounds/enemy/cannon_shoot.ogg")
+var boomsound = preload("res://addons/godot-git-plugin/funny-explosion-sound.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	animation.play("idle")
@@ -140,10 +141,9 @@ func _process(delta: float) -> void:
 			_spawnwave()
 			print ("testing if spawned")
 			wave -= 1
-	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_num != 4:
+	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_player:
+		destroy_gun()
 		Global.arena_player = false
-		var music_sys = get_parent().get_node("music-system")
-		music_sys.end_arena()
 		if is_instance_valid(current_loop_player):
 			current_loop_player.stop()
 			current_loop_player.queue_free()
@@ -184,3 +184,19 @@ func _activate_cannon():
 
 func _shoot_sound():
 	play_sound(cannon_shoot, 25)
+	
+func boom():
+	play_sound(boomsound)
+	
+func Mmu():
+	get_tree().paused = true
+	
+func destroy_gun():
+	print("hi")
+	animation.play("destroy")
+	await animation.animation_finished
+	await get_tree().create_timer(6).timeout
+	print("pls")
+	animation.play("mmu_boom")
+	Global.camera_Type = 3
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=437 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=458 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -117,6 +117,7 @@
 [ext_resource type="Texture2D" uid="uid://5j8qv6y5p65v" path="res://Arena/1.png" id="83_o5o5o"]
 [ext_resource type="Texture2D" uid="uid://21m1kijm24js" path="res://Arena/2.png" id="84_x0wtd"]
 [ext_resource type="Texture2D" uid="uid://ibu1lsnqa2oh" path="res://Arena/cannonshoot.png" id="85_ujfy7"]
+[ext_resource type="Texture2D" uid="uid://ddi461l7lvfgd" path="res://mmu.png" id="98_awnbw"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
@@ -4733,6 +4734,133 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj3pt"]
+atlas = ExtResource("45_naog5")
+region = Rect2(0, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya6b6"]
+atlas = ExtResource("45_naog5")
+region = Rect2(220, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlqap"]
+atlas = ExtResource("45_naog5")
+region = Rect2(440, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a412"]
+atlas = ExtResource("45_naog5")
+region = Rect2(660, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ltfvd"]
+atlas = ExtResource("45_naog5")
+region = Rect2(880, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmk1o"]
+atlas = ExtResource("45_naog5")
+region = Rect2(1100, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1w86"]
+atlas = ExtResource("45_naog5")
+region = Rect2(1320, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrvva"]
+atlas = ExtResource("45_naog5")
+region = Rect2(1540, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnm0s"]
+atlas = ExtResource("45_naog5")
+region = Rect2(1760, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3o1gj"]
+atlas = ExtResource("45_naog5")
+region = Rect2(1980, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anpit"]
+atlas = ExtResource("45_naog5")
+region = Rect2(2200, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atd4h"]
+atlas = ExtResource("45_naog5")
+region = Rect2(2420, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj6nr"]
+atlas = ExtResource("45_naog5")
+region = Rect2(2640, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yni4w"]
+atlas = ExtResource("45_naog5")
+region = Rect2(2860, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dakxl"]
+atlas = ExtResource("45_naog5")
+region = Rect2(3080, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qik4b"]
+atlas = ExtResource("45_naog5")
+region = Rect2(3300, 0, 220, 314)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efvqo"]
+atlas = ExtResource("45_naog5")
+region = Rect2(3520, 0, 220, 314)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g82a2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj3pt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ya6b6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rlqap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a412")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ltfvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmk1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1w86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrvva")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnm0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o1gj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anpit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atd4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj6nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yni4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dakxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qik4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efvqo")
+}],
+"loop": true,
+"name": &"boom",
+"speed": 5.0
+}]
+
 [sub_resource type="Animation" id="Animation_r3qtb"]
 length = 0.001
 tracks/0/type = "value"
@@ -4770,6 +4898,66 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("boom:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("boom:animation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("boom:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("gunholder/gun:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("boom:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-12.666687, -78.66687)]
 }
 
 [sub_resource type="Animation" id="Animation_nyng2"]
@@ -4852,6 +5040,30 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("gunholder/gun:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_lrxn3"]
 resource_name = "idle_up"
@@ -4910,12 +5122,162 @@ tracks/1/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_vccrt"]
+resource_name = "destroy"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 16]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("gunholder/gun:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"boom"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("boom:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-12.666687, -78.66687)]
+}
+
+[sub_resource type="Animation" id="Animation_crpmn"]
+resource_name = "mmu boom"
+length = 3.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7.333333, 2401.333)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("boom:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.2, 1.3000001, 1.5, 1.6, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 3, 4, 5]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"Mmu"
+}, {
+"args": [],
+"method": &"boom"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
 _data = {
 &"RESET": SubResource("Animation_r3qtb"),
+&"destroy": SubResource("Animation_vccrt"),
 &"fire": SubResource("Animation_nyng2"),
 &"idle": SubResource("Animation_ers0r"),
 &"idle_up": SubResource("Animation_lrxn3"),
+&"mmu_boom": SubResource("Animation_crpmn"),
 &"point_down": SubResource("Animation_ghr7w"),
 &"point_up": SubResource("Animation_xldcp")
 }
@@ -6340,6 +6702,7 @@ angular_velocity_max = 720.0
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
 z_index = 2
+position = Vector2(0, 17205)
 script = ExtResource("1_nnask")
 testingMode = false
 cameraYOffset = 250.0
@@ -6971,8 +7334,7 @@ texture_scale = 5.37
 position = Vector2(0, 13597)
 scale = Vector2(3, 3)
 script = ExtResource("82_r6lv2")
-wait_time = 11
-wave = 12
+wait_time = 1
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena4"]
 position = Vector2(19.666687, 47.5)
@@ -7073,6 +7435,7 @@ texture = ExtResource("83_o5o5o")
 position = Vector2(0, -55.333336)
 
 [node name="gun" type="Sprite2D" parent="StoryArena4/cannon/gunholder"]
+visible = false
 z_index = -2
 position = Vector2(-494, -24.666664)
 texture = ExtResource("84_x0wtd")
@@ -7085,7 +7448,33 @@ sprite_frames = SubResource("SpriteFrames_wvjge")
 animation = &"smoke"
 speed_scale = 2.0
 
+[node name="boom" type="AnimatedSprite2D" parent="StoryArena4/cannon"]
+visible = false
+position = Vector2(-12.666687, -78.66687)
+scale = Vector2(5.845454, 5.8454537)
+sprite_frames = SubResource("SpriteFrames_g82a2")
+animation = &"boom"
+
+[node name="mmu" type="StaticBody2D" parent="StoryArena4/cannon"]
+unique_name_in_owner = true
+process_mode = 3
+position = Vector2(-6, 3172.667)
+scale = Vector2(2, 2)
+
+[node name="floor" type="Sprite2D" parent="StoryArena4/cannon/mmu"]
+z_index = 79
+scale = Vector2(1.2, 1)
+texture = ExtResource("8_54s57")
+
+[node name="Mmu" type="Sprite2D" parent="StoryArena4/cannon"]
+process_mode = 3
+z_index = -10
+position = Vector2(69.33334, 2374.667)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("98_awnbw")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
+process_mode = 3
 root_node = NodePath("../cannon")
 libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
