@@ -12,7 +12,9 @@ extends CharacterBody2D
 @export var shoot_cooldown= 0.0
 @export var sword_dam :float
 @export var sword_force:float
-
+@export var health:float
+@export var shield_cooldown:float
+@export var reset_height=500
 
 
 var jump_count=0
@@ -28,10 +30,12 @@ var current_weapon = "sword"
 var can_fire=true
 var dead=false
 var sword_idle : AudioStreamPlayer2D
-var respawn:Vector2
-@export var health:float
 var sword_cooldown := true
 var intro_done := false
+var block=false
+var can_block=true
+var reset=false
+
 
 @onready var animation = $AnimationPlayer
 @onready var hand = %"player-hand"
@@ -40,7 +44,7 @@ var intro_done := false
 @onready var gun=%"player-handgun"
 @export var bullet: PackedScene
 @onready var muzzle=$visuals/handcontainer/muzzle
-@onready var dead_ani=$visuals/BOOM
+@onready var dead_ani=$BOOM
 
 
 #PRELOAD SOUNDS
@@ -71,7 +75,6 @@ func _ready() -> void:
 	sword_idle.stream = chainsword_idle
 	play_sound(chainsword_intro)
 	sword_idle.play()
-	respawn=global_position
 
 func play_sound (stream: AudioStream, pitch:= 1.0, volume:= 0): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
@@ -94,6 +97,20 @@ func _physics_process(delta: float) -> void:
 		intro_done = true
 		visible = true
 		apply_knockback(Vector2(2500, 25))
+	if reset:#let player cannot move when not on ground)
+		velocity.x = 0
+		velocity += get_gravity() * delta
+		move_and_slide()
+		if is_on_floor():
+			reset=false
+			velocity = Vector2.ZERO
+		return
+	if dead or block :#can let boom animation don't move
+		velocity=Vector2.ZERO
+		if !is_on_floor():
+			velocity += get_gravity() * delta
+		move_and_slide()
+		return
 	Global.player_x = global_position.x
 	Global.player_y = global_position.y
 	Global.player_position = global_position
@@ -146,7 +163,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x =direction * current_speed + knockback_velocity.x 
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-		
+
 	move_and_slide()
 
 
@@ -184,6 +201,17 @@ func apply_knockback(force: Vector2):
 	knockback_velocity = force
 	
 func _process(_delta):
+	if dead or reset:
+		return
+	if Input.is_action_pressed("shield") and is_on_floor() and can_block:
+		if not block:
+			block=true
+			_block()
+		return
+	else:
+		if block:
+			block=false
+			_block_cooldown()
 	if Input.is_action_just_pressed("switch"):
 		switch_gun()
 	if current_weapon == "gun":
@@ -204,13 +232,14 @@ func _process(_delta):
 	if is_dashing:
 		animation.play("dash")
 	var is_attack=animation.current_animation == "attack" or animation.current_animation == "attack 2"
-	if not is_attack and not is_dashing:
+	var is_hit=animation.current_animation=="shield-hitted"
+	if not is_attack and not is_dashing and not is_hit:
 		if Input.is_action_pressed("ui_left") :
 			visuals.scale.x = -1
 		if Input.is_action_pressed("ui_right"):
 			visuals.scale.x = 1
 	if animation.is_playing():
-		if is_attack:
+		if is_attack or is_hit:
 			return
 
 	
@@ -230,6 +259,7 @@ func _process(_delta):
 			animation.play("fall")
 	if animation.current_animation == "jump" and animation.is_playing():
 		return
+
 
 func switch_gun():
 	if current_weapon=="sword":
@@ -276,33 +306,35 @@ func _on_playerhandgun_animation_finished() -> void:
 		
 		
 func _death_sequence():
-	play_sound(death, randf_range(0.8, 2), 4)
+	play_sound(death, randf_range(0.8, 2), 25)
 	dead = true
+	visuals.hide()
+	dead_ani.show()
+	dead_ani.play()
 	print("Congratulations! You died")
 	await get_tree().create_timer(2).timeout
 	reset_player()
 
 # RECEIVE DAMAGE
 
-func take_damage(amount:float):
+func take_damage(amount:float):#enemy attack player
 	play_sound(unf, randf_range(0.8, 1.4), 4)
 	if dead:
 		return
-	health -= amount 
+	if block:
+		return
+	health -= amount
 	print ("Your remaining health: ", health)
+	animation.play("shield-hitted")
 	if health <= 0 :
 		_death_sequence()
 
-func _on_hurt_area_area_entered(area: Area2D) -> void:
+func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 	if area.has_method("give_damage"):
 		var damage_taken = area.give_damage()
 		take_damage(damage_taken)	
 
 # GIVE DAMAGE
-
-func get_damage():
-	return sword_dam
-	
 
 func _on_sword_hit_area_entered(area: Area2D) -> void:
 	if area.get_collision_layer_value(16):
@@ -334,12 +366,31 @@ func sword_attack():
 	
 func reset_player():
 	dead =false
-	global_position=respawn#initial place
+	visuals.show()
+	dead_ani.hide()
+	if Global.camera_Type == 0:
+		global_position.y-=800
+	else:
+		global_position.y -= reset_height
+	reset=true
+	animation.play("fall")
+	velocity = Vector2.ZERO
 	health=initial_health
-	animation.play("idle")
 	if current_weapon == "sword":
 		sword_idle.play()
 
 func _play_jump_sound():
 	play_sound(jump)
 	print ("played sound")
+
+func _block():
+	animation.play("shield intro")
+	await animation.animation_finished
+	animation.play("shield loop")
+
+func _block_cooldown():
+	can_block=false
+	await get_tree().create_timer(shield_cooldown).timeout
+	can_block=true
+	
+	
