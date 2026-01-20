@@ -19,6 +19,8 @@ var pause := false
 @onready var animation = $AnimationPlayer
 var current_loop_player: AudioStreamPlayer
 var boss_spawned := false
+@onready var score_board = $cannon/scoreboard
+var time_elapsed : float = 0.0
 
 #PRELOAD SOUNDS
 var arena4_intro = preload("res://music/arena_music/arena_4/arena_4_intro.ogg")
@@ -125,6 +127,15 @@ func spawn_enemy(enemy_type: String):
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	print ("modulate is ", score_board.modulate.a)
+	if Global.game_started:
+		time_elapsed += delta
+		var mins = int(time_elapsed/60)
+		var secs = int(time_elapsed) %60
+		var time_string = "%02d:%02d" % [mins, secs]
+		if score_board and score_board.has_node("timer_label"):
+			score_board.get_node("timer_label").text = "TIMER:" + time_string
+		
 	if Global.arena_player and spawn:
 		_manage_arena_music()
 	if !spawn or Global.enemy_count > 0 or spawning or pause:
@@ -147,7 +158,6 @@ func _process(delta: float) -> void:
 		if is_instance_valid(current_loop_player):
 			current_loop_player.stop()
 			current_loop_player.queue_free()
-
 
 func _spawnwave():
 	spawning = true
@@ -197,6 +207,25 @@ func destroy_gun():
 	await animation.animation_finished
 	await get_tree().create_timer(6).timeout
 	print("pls")
-	animation.play("mmu_boom")
 	Global.camera_Type = 3
+	animation.play("mmu_boom")
+	print("mmuboom?")
+	await animation.animation_finished
+	Global.game_started = false
+	scoreboard()
+	
+func scoreboard():
+	print("timer start")
+	score_board.show()
+	var mins= int(time_elapsed/60)
+	var secs = int(time_elapsed)%60
+	var time_string = "%02d:%02d" % [mins, secs]
+	score_board.get_node("timer_label").text = "Time: " + time_string
+	score_board.modulate.a  = 0.0
+	score_board.show()
+	var tween = create_tween()
+	tween.tween_property(score_board,"modulate:a",1.0,2.0)
+	
+
+	
 	

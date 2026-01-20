@@ -1,4 +1,4 @@
-[gd_scene load_steps=458 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=459 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -4861,6 +4861,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_hxxo4"]
+font = ExtResource("78_y4xcw")
+font_size = 30
+font_color = Color(0, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 1)
+
 [sub_resource type="Animation" id="Animation_r3qtb"]
 length = 0.001
 tracks/0/type = "value"
@@ -4954,6 +4960,84 @@ tracks/7/path = NodePath("boom:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-12.666687, -78.66687)]
+}
+
+[sub_resource type="Animation" id="Animation_vccrt"]
+resource_name = "destroy"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("boom:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("boom:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("boom:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 16]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("gunholder/gun:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"boom"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("boom:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -5080,126 +5164,6 @@ tracks/0/keys = {
 "values": [0.715585]
 }
 
-[sub_resource type="Animation" id="Animation_ghr7w"]
-resource_name = "point_down"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("gunholder:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.55478376, 5.8563375),
-"update": 0,
-"values": [0.715585, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_xldcp"]
-resource_name = "point_up"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("gunholder:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(2.6390157, 11.238361),
-"update": 0,
-"values": [0.0, 0.715585]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("effect:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_vccrt"]
-resource_name = "destroy"
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("boom:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("boom:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"boom"]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("boom:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 16]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("gunholder/gun:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("..")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"boom"
-}]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("boom:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-12.666687, -78.66687)]
-}
-
 [sub_resource type="Animation" id="Animation_crpmn"]
 resource_name = "mmu boom"
 length = 3.0
@@ -5270,6 +5234,53 @@ tracks/4/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_ghr7w"]
+resource_name = "point_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("gunholder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.55478376, 5.8563375),
+"update": 0,
+"values": [0.715585, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_xldcp"]
+resource_name = "point_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("gunholder:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.6390157, 11.238361),
+"update": 0,
+"values": [0.0, 0.715585]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_awnbw"]
+resource_name = "scoreboard"
+length = 0.6
+step = 0.1
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
 _data = {
 &"RESET": SubResource("Animation_r3qtb"),
@@ -5279,7 +5290,8 @@ _data = {
 &"idle_up": SubResource("Animation_lrxn3"),
 &"mmu_boom": SubResource("Animation_crpmn"),
 &"point_down": SubResource("Animation_ghr7w"),
-&"point_up": SubResource("Animation_xldcp")
+&"point_up": SubResource("Animation_xldcp"),
+&"scoreboard": SubResource("Animation_awnbw")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t843m"]
@@ -5403,12 +5415,6 @@ _data = {
 &"hover move_setting": SubResource("Animation_nf8kp"),
 &"pause_in": SubResource("Animation_wnwau")
 }
-
-[sub_resource type="LabelSettings" id="LabelSettings_hxxo4"]
-font = ExtResource("78_y4xcw")
-font_size = 30
-font_color = Color(0, 1, 1, 1)
-shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hxxo4"]
 bg_color = Color(0, 0.7709595, 0.73557705, 1)
@@ -6804,7 +6810,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 9.0
+tile_number = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
 position = Vector2(1, -34)
@@ -7331,6 +7337,7 @@ texture = SubResource("GradientTexture2D_o5o5o")
 texture_scale = 5.37
 
 [node name="StoryArena4" type="StaticBody2D" parent="."]
+process_mode = 3
 position = Vector2(0, 13597)
 scale = Vector2(3, 3)
 script = ExtResource("82_r6lv2")
@@ -7472,6 +7479,33 @@ z_index = -10
 position = Vector2(69.33334, 2374.667)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("98_awnbw")
+
+[node name="scoreboard" type="StaticBody2D" parent="StoryArena4/cannon"]
+modulate = Color(1, 1, 1, 0)
+z_index = 99
+position = Vector2(0, 2464.6667)
+
+[node name="container" type="Sprite2D" parent="StoryArena4/cannon/scoreboard"]
+modulate = Color(1, 1, 1, 0.4117647)
+scale = Vector2(66.410255, 158.88876)
+texture = ExtResource("35_dd6w0")
+
+[node name="timer_label" type="Label" parent="StoryArena4/cannon/scoreboard"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -343.33337
+offset_top = -385.99997
+offset_right = -122.333374
+offset_bottom = -348.99997
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.34, 1.34)
+text = "Timer :"
+label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
 process_mode = 3
