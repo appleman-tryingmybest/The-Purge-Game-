@@ -20,6 +20,7 @@ var pause := false
 var current_loop_player: AudioStreamPlayer
 var boss_spawned := false
 @onready var score_board = $cannon/scoreboard
+
 var time_elapsed : float = 0.0
 
 #PRELOAD SOUNDS
@@ -158,6 +159,9 @@ func _process(delta: float) -> void:
 		if is_instance_valid(current_loop_player):
 			current_loop_player.stop()
 			current_loop_player.queue_free()
+			
+		var music_sys = get_parent().get_node("music-system")
+		music_sys.end_arena()
 
 func _spawnwave():
 	spawning = true
@@ -216,16 +220,19 @@ func destroy_gun():
 	
 func scoreboard():
 	print("timer start")
-	score_board.show()
 	var mins= int(time_elapsed/60)
 	var secs = int(time_elapsed)%60
 	var time_string = "%02d:%02d" % [mins, secs]
-	score_board.get_node("timer_label").text = "Time: " + time_string
+	var label = $cannon/scoreboard/VBoxContainer
+	label.get_node("timer_label").text = "Time:   " + time_string
 	score_board.modulate.a  = 0.0
 	score_board.show()
 	var tween = create_tween()
 	tween.tween_property(score_board,"modulate:a",1.0,2.0)
+	var killcount_string = str(Global.enemy_kill_count)
+	var bulletscount = str(Global.bullets_count)
+	label.get_node("kill_count").text = "Kill  Count:   " + killcount_string
+	label.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
 	
-
 	
 	

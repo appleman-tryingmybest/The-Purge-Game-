@@ -6,6 +6,7 @@ extends Area2D
 @export var particleHit : PackedScene
 
 func _ready():
+	Global.bullets_count +=1
 	particle.emitting = true
 	await get_tree().create_timer(3.0).timeout
 	print ("deleted player bullet")

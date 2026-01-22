@@ -10,6 +10,10 @@ extends Control
 @onready var setting = %setting
 @onready var animation = $AnimationPlayer
 @onready var cameraAnimation = %AnimationPlayer
+@onready var _tutorial = %tuto
+@onready var tutoo = %tutorial
+@onready var black = %bg
+
 
 func _ready():
 	self.show()
@@ -54,4 +58,16 @@ func _on_options_pressed() -> void:
 	options_panel.show()
 	back.show()
 	print("Options page opened")
+
+func _on_tutorial_pressed() -> void:
+	print("tutorial mode")
+	start.hide()
+	exitmm.hide()
+	options.hide()
+	tutoo.hide()
+	_tutorial.show()
+	black.visible = true
+	print("r u there my black", black.visible, black.global_position)
+	
+	
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=460 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=459 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://crjkdfm80wpmm" path="res://Player/Trunk.png" id="6_8jran"]
 [ext_resource type="Texture2D" uid="uid://0p6gnseyqfw" path="res://Untitled 12.png" id="7_7erya"]
 [ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="7_036ib"]
-[ext_resource type="Texture2D" uid="uid://dtxgnjbfhhep7" path="res://pause menu/arrow1 (1).png" id="7_crpmn"]
 [ext_resource type="Texture2D" uid="uid://b7n0wivimuwsi" path="res://Enemy/particle/step-dust.png" id="7_s5vrf"]
 [ext_resource type="Texture2D" uid="uid://cm8vhve44kcx7" path="res://Red ground 2.png" id="8_54s57"]
 [ext_resource type="Script" uid="uid://c63psl1ac1hbh" path="res://spawner.gd" id="8_sdjp3"]
@@ -5520,44 +5519,6 @@ theme_override_fonts/font = ExtResource("78_y4xcw")
 text = "Exit"
 flat = true
 
-[node name="tutorial" type="Button" parent="main menu/on"]
-unique_name_in_owner = true
-process_mode = 3
-layout_mode = 0
-offset_left = 1367.0
-offset_top = 870.0
-offset_right = 1541.0
-offset_bottom = 898.0
-scale = Vector2(3, 3)
-focus_mode = 0
-theme_override_colors/font_color = Color(0.89188385, 0.92116946, 7.70092e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.6363033, 0.7286708, 0.15537634, 1)
-theme_override_colors/font_hover_color = Color(0.8942408, 0.9059705, 0.03648311, 1)
-theme_override_fonts/font = ExtResource("78_y4xcw")
-text = "tutorial"
-flat = true
-
-[node name="bg" type="Sprite2D" parent="main menu/on/tutorial"]
-unique_name_in_owner = true
-process_mode = 3
-visible = false
-modulate = Color(1, 1, 1, 0.46666667)
-z_index = 99
-z_as_relative = false
-position = Vector2(-95, -125.66666)
-scale = Vector2(60, 60)
-texture = ExtResource("35_dd6w0")
-
-[node name="tuto" type="StaticBody2D" parent="main menu/on/tutorial"]
-unique_name_in_owner = true
-position = Vector2(-145.66667, 0)
-
-[node name="Arrow1" type="Sprite2D" parent="main menu/on/tutorial"]
-position = Vector2(45.666656, -59.00003)
-rotation = -2.06647
-scale = Vector2(0.37296325, -0.40802965)
-texture = ExtResource("7_crpmn")
-
 [node name="Spaceship" type="Sprite2D" parent="main menu/on"]
 z_index = 2
 position = Vector2(1107.0001, 265)
@@ -6849,7 +6810,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 4.0
+tile_number = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
 position = Vector2(1, -34)
@@ -7381,6 +7342,9 @@ position = Vector2(0, 13597)
 scale = Vector2(3, 3)
 script = ExtResource("82_r6lv2")
 wait_time = 1
+random_distance = null
+random_enemy = null
+wave = null
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena4"]
 position = Vector2(19.666687, 47.5)
@@ -7529,54 +7493,56 @@ modulate = Color(1, 1, 1, 0.5137255)
 scale = Vector2(66.410255, 158.88876)
 texture = ExtResource("35_dd6w0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StoryArena4/cannon/scoreboard"]
-offset_left = -385.77777
-offset_top = -390.22223
-offset_right = 14.222229
-offset_bottom = -231.22223
-size_flags_stretch_ratio = 0.0
-theme_override_constants/separation = 45
-
-[node name="timer_label" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="timer_label" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Timer :
-"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -292.44443
+offset_top = -383.11108
+offset_right = -71.44443
+offset_bottom = -346.11108
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.34, 1.34)
+text = "Timer :"
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Kill count :  
-"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -325.3333
+offset_top = -248.889
+offset_right = 56.666687
+offset_bottom = -211.889
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+text = "Kill count :  "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -332.8889
+offset_top = -112.4446
+offset_right = 67.111115
+offset_bottom = -35.444603
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.34, 1.34)
 text = "Bullets 
-shot :  
-"
-label_settings = SubResource("LabelSettings_hxxo4")
-
-[node name="damage" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Bullets 
-shot :  
-"
+shot :  "
 label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
@@ -7858,7 +7824,6 @@ scale_amount_max = 2.0
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]
 [connection signal="pressed" from="main menu/on/exit" to="main menu/on" method="_on_exit_pressed"]
-[connection signal="pressed" from="main menu/on/tutorial" to="main menu/on" method="_on_tutorial_pressed"]
 [connection signal="area_entered" from="Player/hurt_area" to="Player" method="_on_hurt_area_area_entered"]
 [connection signal="area_entered" from="Player/visuals/player-hand/sword_hit" to="Player" method="_on_sword_hit_area_entered"]
 [connection signal="animation_finished" from="Player/visuals/handcontainer/player-handgun" to="Player" method="_on_playerhandgun_animation_finished"]

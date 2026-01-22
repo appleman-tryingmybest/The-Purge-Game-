@@ -115,7 +115,7 @@ func _physics_process(delta: float) -> void:
 	direction=Input.get_axis("ui_left", "ui_right")
 	if(direction !=0 or Input.is_action_just_pressed("ui_up")) and Global.game_started == false:
 			Global.game_started = true
-			print("timer started")
+			print("timer started")   #timer start when the play move
 			
 	if is_on_floor():
 		jump_count=0
