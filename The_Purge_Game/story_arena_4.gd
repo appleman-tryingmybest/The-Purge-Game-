@@ -20,6 +20,7 @@ var pause := false
 var current_loop_player: AudioStreamPlayer
 var boss_spawned := false
 @onready var score_board = $cannon/scoreboard
+@onready var setting = %setting
 
 var time_elapsed : float = 0.0
 
@@ -212,6 +213,7 @@ func destroy_gun():
 	await get_tree().create_timer(6).timeout
 	print("pls")
 	Global.camera_Type = 3
+	setting.hide()
 	animation.play("mmu_boom")
 	print("mmuboom?")
 	await animation.animation_finished
@@ -223,16 +225,28 @@ func scoreboard():
 	var mins= int(time_elapsed/60)
 	var secs = int(time_elapsed)%60
 	var time_string = "%02d:%02d" % [mins, secs]
-	var label = $cannon/scoreboard/VBoxContainer
-	label.get_node("timer_label").text = "Time:   " + time_string
+	var box = $cannon/scoreboard/VBoxContainer
+	box.get_node("timer_label").text = "Time:   " + time_string
 	score_board.modulate.a  = 0.0
+	var timer_ = $cannon/scoreboard/VBoxContainer/timer_label
+	var kill = $cannon/scoreboard/VBoxContainer/kill_count
+	var bullet = $cannon/scoreboard/VBoxContainer/bullets_shot
+	var damagee = $cannon/scoreboard/VBoxContainer/damage
+	timer_.modulate.a = 0.0
+	kill.modulate.a = 0.0
+	bullet.modulate.a = 0.0
+	damagee.modulate.a = 0.0
 	score_board.show()
 	var tween = create_tween()
-	tween.tween_property(score_board,"modulate:a",1.0,2.0)
+	tween.tween_property(score_board,"modulate:a",1.0,1.0)
+	tween.tween_property(timer_,"modulate:a",1.0,1.3)
+	tween.tween_property(kill,"modulate:a",1.0,1.6)
+	tween.tween_property(bullet,"modulate:a",1.0,1.9)
+	tween.tween_property(damagee,"modulate:a",1.0,2.1)
 	var killcount_string = str(Global.enemy_kill_count)
 	var bulletscount = str(Global.bullets_count)
-	label.get_node("kill_count").text = "Kill  Count:   " + killcount_string
-	label.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
+	box.get_node("kill_count").text = "Kill  Count:   " + killcount_string
+	box.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
 	
 	
 	
