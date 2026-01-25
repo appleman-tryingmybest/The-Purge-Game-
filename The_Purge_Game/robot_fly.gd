@@ -16,6 +16,8 @@ var can_jump_fall := false
 @onready var ray = $visuals/RayCast2D
 @onready var anim = $AnimatedSprite2D
 @onready var fly_sound = $AudioStreamPlayer2D
+@onready var yipi = $AudioStreamPlayer2D2
+@onready var ball = %ball
 var sound_timer : float
 var run_cooldown : float = 1
 var is_waiting := false
@@ -26,6 +28,7 @@ var knockback_velocity := Vector2.ZERO
 var attacking := false
 var attack_probb : float
 @export var enemy_bullet : PackedScene
+@export var ebee_chance : int
 
 #PRELOAD SOUND
 var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
@@ -33,10 +36,22 @@ var gun_shoot = preload("res://sounds/enemy/enemy-gun-shot.ogg")
 func _ready() -> void:
 	Global.enemy_count += 1
 	randomize()
+	ebee_chance = randi_range(0, Global.ebeeChance)
+	if ebee_chance != 0:
+		ball.play("normal")
+		Global.ebeeChance -= 1
+	elif ebee_chance == 0:
+		ball.play("ebee")
+		ball.scale = Vector2(0.395, 0.395)
+		Global.ebeeChance = 25
 	safe_distance += randf_range(-65, 65)
 	safe_Y += randf_range(0, 65)
-	fly_sound.finished.connect(_on_fly_sound_finished)
-	_on_fly_sound_finished()
+	if ebee_chance != 0:
+		fly_sound.finished.connect(_on_fly_sound_finished)
+		_on_fly_sound_finished()
+	elif ebee_chance == 0:
+		yipi.finished.connect(_yipi_sound_finished)
+		_yipi_sound_finished()
 
 func shoot_ray():
 	var direction = Vector2 (ray_length, 0)
@@ -103,6 +118,9 @@ func _physics_process(delta):
 func _on_fly_sound_finished():
 	fly_sound.play()
 
+func _yipi_sound_finished():
+	yipi.play()
+
 func play_sound (stream: AudioStream): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
 	p.stream = stream
@@ -124,6 +142,7 @@ func _process(delta: float) -> void:
 func _spawn_ragdoll():
 	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
+	Global.hammer_num+=2
 	var instance = ragdoll.instantiate()
 	if visuals.scale.x == 1:
 		instance.facing_direction = 1
@@ -143,6 +162,7 @@ func _take_damage(amount: float, velo_x: float, velo_y : float):
 	health -= amount
 	var dir = 1 if position.x > Global.player_x else -1
 	knockback_velocity = Vector2(dir * velo_x/2, velo_y/2)
+	_flash_damage()
 
 func _attack():
 	attacking = true
@@ -165,3 +185,8 @@ func _shoot(amount : int):
 		await get_tree().create_timer(0.6).timeout
 	attacking = false
 	attack_cooldown = randf_range(4, 5)
+
+func _flash_damage():
+	var tween = create_tween()
+	visuals.modulate = Color(10, 10, 10, 1)
+	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)

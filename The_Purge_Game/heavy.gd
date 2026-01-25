@@ -34,9 +34,11 @@ var attacking := false
 var attack_probb : float
 var dead := false
 var taunt_timer : float
-@export var ragdoll : PackedScene
+@export var shockwave : PackedScene
 @export var turn_timer : float
+@onready var here = $visuals/shockwavehere
 var knockback_velocity := Vector2.ZERO
+var lock_move := false
 
 #PRELOAD SOUNDS
 var FOOTSTEP = preload("res://sounds/enemy/heavy/heavy_footstep.ogg")
@@ -78,9 +80,9 @@ func _physics_process(delta):
 	var yDistance = Global.player_y - position.y
 	if dead or is_waiting:
 		return # stop moving
-	if attacking:
+	if attacking and lock_move:
 		velocity.x = 0
-		velocity.y = 0
+		print ("attacking ", attacking, " locking move ", lock_move)
 	if knockback_velocity != Vector2.ZERO:
 		velocity = knockback_velocity
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
@@ -191,7 +193,8 @@ func _process(delta: float) -> void:
 func _death_sequence():
 	Global.enemy_kill_count += 1
 	dead = true
-	animation.play("death", 0, 0.7)
+	Global.hammer_num+=8
+	animation.play("death", 0, 0.3)
 	await animation.animation_finished
 	animation.play("death-idle")
 	await get_tree().create_timer(12).timeout
@@ -201,21 +204,27 @@ func _attack():
 	attacking = true
 	velocity.x = 0
 	velocity.y = 0
+	var randAttack := 0
+	randAttack = randi_range(0, 3)
 	print ("IM GONNA KILL YOU")
-	if randi_range(0, 2) == 0:
+	if randAttack == 0:
+		lock_move = true
 		animation.play("attack2", 0, 0.5)
+		velocity.x = 0
 		await animation.animation_finished
-	else:
-		animation.play("attack", 0, 0.4)
+	elif randAttack == 1:
+		lock_move = false
+		velocity.x = 0
+		animation.play("attack", 0, 0.7)
 		await animation.animation_finished
+	elif randAttack == 2:
+		lock_move = true
+		velocity.x = 0
+		animation.play("taunt", 0, 0.2)
+		await get_tree().create_timer(2.2).timeout
 	attacking = false
 	attack_cooldown = 1
-
-func _taunt():
-	attacking = true
-	animation.play("taunt", 0, 0.2)
-	await await get_tree().create_timer(2.2).timeout
-	attacking = false
+	lock_move = false
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -225,15 +234,46 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if visuals.scale.x == -1: # left
 			push_dir = abs(push_dir)
 		if body.has_method("apply_knockback") and attacking:
-			body.apply_knockback(Vector2(push_dir, 1200))
+			body.apply_knockback(Vector2(push_dir, -1200))
 			print ("I PUSHED")
 		if body.has_method("take_damage"):
 			body.take_damage(45)
 
 func _take_damage(amount: float, velo_x: float, velo_y : float):
 	health -= amount
+	var dir = -1 if position.x > Global.player_x else 1
+	knockback_velocity = Vector2(dir * velo_x, velo_y*0)
+	_flash_damage()
+
+func _taunt():
+	attacking = true
+	var rand_attack = randi_range(0, 1)
+	if rand_attack == 0:
+		animation.play("taunt", 0, 0.2)
+		await get_tree().create_timer(2.2).timeout
+	elif rand_attack == 1:
+		animation.play("attack2", 0, 0.5)
+		await animation.animation_finished
+	attacking = false
+
+func _move_back():
 	var dir = 1 if position.x > Global.player_x else -1
-	knockback_velocity = Vector2(dir * velo_x/1.5, velo_y*0)
+	knockback_velocity = Vector2(dir * 2000, 0)
+
+func _shockwave():
+	var rightwave = shockwave.instantiate()
+	rightwave.direction = 1
+	get_parent().add_child(rightwave)
+	rightwave.global_position = here.global_position
+	var leftwave = shockwave.instantiate()
+	leftwave.direction = -1
+	get_parent().add_child(leftwave)
+	leftwave.global_position = here.global_position
+
+func _flash_damage():
+	var tween = create_tween()
+	visuals.modulate = Color(10, 10, 10, 1)
+	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)
 
 func _swing_sound():
 	play_sound(swing)

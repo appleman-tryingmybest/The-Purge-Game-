@@ -12,7 +12,11 @@ extends CharacterBody2D
 @export var shoot_cooldown= 0.0
 @export var sword_dam :float
 @export var sword_force:float
-
+@export var health:float
+@export var shield_cooldown:float
+@export var bullet: PackedScene
+@export var hammer_target:int=10
+@export var ham_dam:float
 
 
 var jump_count=0
@@ -28,19 +32,29 @@ var current_weapon = "sword"
 var can_fire=true
 var dead=false
 var sword_idle : AudioStreamPlayer2D
-var respawn:Vector2
-@export var health:float
 var sword_cooldown := true
 var intro_done := false
+var block=false
+var can_block=true
+var respawn=false
+var hammer_lock=true
+var dead_pos:Vector2=Vector2.ZERO
+var dropod_fall=false
+var dropod_velocity = 0.0
+
 
 @onready var animation = $AnimationPlayer
 @onready var hand = %"player-hand"
 @onready var handgun = $visuals/handcontainer
 @onready var visuals = $visuals
 @onready var gun=%"player-handgun"
-@export var bullet: PackedScene
 @onready var muzzle=$visuals/handcontainer/muzzle
-@onready var dead_ani=$visuals/BOOM
+@onready var dead_ani=$BOOM
+@onready var cam =$"../Camera2D"
+@onready var ham_part=$"hammer-bang"
+@onready var dropod=$Dropod
+@onready var floor_checker=$Dropod/check_floor
+
 
 
 #PRELOAD SOUNDS
@@ -55,6 +69,9 @@ var gun_shoot = preload("res://sounds/player/gun-shoot.ogg")
 var jump = preload("res://sounds/player/jump-jump.ogg")
 var unf = preload("res://sounds/player/unf.ogg")
 var death = preload("res://sounds/player/death-sound.ogg")
+var hammer_intro = preload("res://sounds/player/hammer-intro.ogg")
+var hammer_hit = preload("res://sounds/player/hammer_hit.ogg")
+
 
 
 func _ready() -> void:
@@ -71,7 +88,6 @@ func _ready() -> void:
 	sword_idle.stream = chainsword_idle
 	play_sound(chainsword_intro)
 	sword_idle.play()
-	respawn=global_position
 
 func play_sound (stream: AudioStream, pitch:= 1.0, volume:= 0): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
@@ -90,13 +106,32 @@ func setPosition():
 	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
+	Global.player_x = global_position.x
+	Global.player_y = global_position.y
+	Global.player_position = global_position
 	if !intro_done:
 		intro_done = true
 		visible = true
 		apply_knockback(Vector2(2500, 25))
-	Global.player_x = global_position.x
-	Global.player_y = global_position.y
-	Global.player_position = global_position
+	if respawn:#let player cannot move when not on ground)
+		velocity.x = 0
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+		move_and_slide()
+		return
+	if dead or block :#can let animation don't move
+		velocity=Vector2.ZERO
+		if !is_on_floor():
+			velocity += get_gravity() * delta
+		move_and_slide()
+		return
+	var hammer1= animation.current_animation=="hammer-intro"
+	var hammer2= animation.current_animation=="hammer-up"
+	var hammer3=animation.current_animation=="hammer-attack"
+	if hammer1 or hammer2 or hammer3:
+		velocity += get_gravity() * delta
+		move_and_slide()
+		return
 	if knockback_velocity != Vector2.ZERO:
 		velocity = knockback_velocity
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
@@ -146,7 +181,14 @@ func _physics_process(delta: float) -> void:
 			velocity.x =direction * current_speed + knockback_velocity.x 
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-		
+
+	if dropod_fall:
+		if not floor_checker.is_colliding():#check the ground where the collision shape
+			dropod_velocity += 5000* delta
+			dropod.global_position.y += dropod_velocity * delta
+		else:
+			dropod_fall=false
+			dropod_velocity = 0.0
 	move_and_slide()
 
 
@@ -183,7 +225,20 @@ func update_camera_for_new_area():
 func apply_knockback(force: Vector2):
 	knockback_velocity = force
 	
-func _process(_delta):
+func _process(_delta): #mostly ani here
+	var hammer1= animation.current_animation=="hammer-intro"
+	var hammer2= animation.current_animation=="hammer-up"
+	var hammer3=animation.current_animation=="hammer-attack"
+	if dead or respawn or hammer1 or hammer2 or hammer3:
+		return
+	if Input.is_action_pressed("shield") and is_on_floor() and can_block and current_weapon == "sword":
+		if not block:
+			block=true
+			_block()
+	else:
+		if block:
+			block=false
+			_block_cooldown()
 	if Input.is_action_just_pressed("switch"):
 		switch_gun()
 	if current_weapon == "gun":
@@ -204,17 +259,38 @@ func _process(_delta):
 	if is_dashing:
 		animation.play("dash")
 	var is_attack=animation.current_animation == "attack" or animation.current_animation == "attack 2"
-	if not is_attack and not is_dashing:
+	var is_hit=animation.current_animation=="shield-hitted"
+	if not is_attack and not is_dashing and not is_hit:
 		if Input.is_action_pressed("ui_left") :
 			visuals.scale.x = -1
 		if Input.is_action_pressed("ui_right"):
 			visuals.scale.x = 1
 	if animation.is_playing():
-		if is_attack:
+		if is_attack or is_hit:
 			return
-
 	
-	if is_on_floor() and !is_dashing:
+	if Input.is_action_just_pressed("s_hammer_attack") and Global.hammer_num>=hammer_target :
+		var weaponb4hammer=current_weapon
+		hand.hide()
+		handgun.hide()
+		play_sound(hammer_intro)
+		if is_on_floor():
+			animation.play("hammer-intro", 0, 1.5)
+			Global.hammer = true
+			await animation.animation_finished
+		animation.play("hammer-up")
+		await animation.animation_finished
+		animation.play("hammer-attack")
+		play_sound(hammer_hit)
+		Global.hammer_num=0
+		await animation.animation_finished
+		if weaponb4hammer=="sword":
+			hand.show()
+		elif weaponb4hammer=="gun":
+			handgun.show()
+		Global.hammer = false
+
+	if is_on_floor() and !is_dashing and !block:
 		if velocity.x==0:
 			animation.play("idle")
 		elif velocity.x != 0:
@@ -231,7 +307,9 @@ func _process(_delta):
 	if animation.current_animation == "jump" and animation.is_playing():
 		return
 
+
 func switch_gun():
+	block=false
 	if current_weapon=="sword":
 		current_weapon="gun"
 		hand.hide()
@@ -249,7 +327,7 @@ func switch_gun():
 
 	
 func _random_footstep_sound():
-	if randi_range(0, 1) == 0:
+	if randi_range(0, 1) == 0:#random range
 		play_sound(footstep1, randf_range(0.8, 1.5))
 	else:
 		play_sound(footstep2, randf_range(0.8, 1.5))
@@ -276,33 +354,39 @@ func _on_playerhandgun_animation_finished() -> void:
 		
 		
 func _death_sequence():
-	play_sound(death, randf_range(0.8, 2), 4)
+	play_sound(death, randf_range(0.8, 2), 25)
 	dead = true
+	dead_pos = global_position
+	visuals.hide()
+	dead_ani.show()
+	dead_ani.play()
 	print("Congratulations! You died")
 	await get_tree().create_timer(2).timeout
-	reset_player()
+	respawn_player()
 
 # RECEIVE DAMAGE
 
-func take_damage(amount:float):
-	play_sound(unf, randf_range(0.8, 1.4), 4)
-	if dead:
+func take_damage(amount:float):#enemy attack player
+	var hammer1= animation.current_animation=="hammer-intro"
+	var hammer2= animation.current_animation=="hammer-up"
+	var hammer3=animation.current_animation=="hammer-attack"
+	if dead or block or is_dashing or respawn or hammer1 or hammer2 or hammer3:#wiill break the aniamtion
 		return
-	health -= amount 
-	print ("Your remaining health: ", health)
-	if health <= 0 :
-		_death_sequence()
+	else:
+		play_sound(unf, randf_range(0.8, 1.4), 4)
+		health -= amount
+		print ("Your remaining health: ", health)
+		animation.play("shield-hitted")
+		_cam_shake(15)
+		if health <= 0 :
+			_death_sequence()
 
-func _on_hurt_area_area_entered(area: Area2D) -> void:
+func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 	if area.has_method("give_damage"):
 		var damage_taken = area.give_damage()
-		take_damage(damage_taken)	
+		take_damage(damage_taken)
 
 # GIVE DAMAGE
-
-func get_damage():
-	return sword_dam
-	
 
 func _on_sword_hit_area_entered(area: Area2D) -> void:
 	if area.get_collision_layer_value(16):
@@ -310,6 +394,7 @@ func _on_sword_hit_area_entered(area: Area2D) -> void:
 		
 		if enemy and enemy.has_method("_take_damage"):
 			enemy._take_damage(sword_dam, 1500, -600)
+			Global.hammer_num+=2
 			print("Hit enemy: ", enemy.name)
 		else:
 			print("Hit Layer 16 but no _take_damage method found!")
@@ -332,14 +417,58 @@ func sword_attack():
 	await get_tree().create_timer(0.1).timeout
 	sword_cooldown = true
 	
-func reset_player():
+func respawn_player():
 	dead =false
-	global_position=respawn#initial place
+	respawn=true
+	velocity = Vector2.ZERO
+	dead_ani.hide()
 	health=initial_health
-	animation.play("idle")
+	visuals.hide()
+	dropod.top_level = true# let this become independent from player
+	dropod.global_position = dead_pos+ Vector2(0, -100)
+	dropod.show()
+	dropod_velocity = 0.0
+	dropod_fall= true
+	animation.play("reset play")
+	await animation.animation_finished
+	visuals.show()
+	apply_knockback(Vector2(2500, 25))
+	respawn=false
 	if current_weapon == "sword":
+		sword_idle.play()
+	elif current_weapon =="gun":
+		handgun.hide()
+		hand.show()
 		sword_idle.play()
 
 func _play_jump_sound():
 	play_sound(jump)
 	print ("played sound")
+
+func _block():
+	animation.play("shield intro")
+	await animation.animation_finished
+	animation.play("shield loop")
+
+func _block_cooldown():
+	can_block=false
+	await get_tree().create_timer(shield_cooldown).timeout
+	can_block=true
+	
+func _cam_shake(strenght:float):
+	if cam.has_method("apply_shake"):
+		cam.apply_shake(strenght)
+
+
+func _on_hammer_area_entered(area: Area2D) -> void:
+	if area.get_collision_layer_value(16):
+		var enemy = area.owner 
+		
+		if enemy and enemy.has_method("_take_damage"):
+			enemy._take_damage(ham_dam,1500,-900)
+			print("ham Hit enemy: ", enemy.name)
+		else:
+			print("Hit Layer 16 but no _take_damage method found!")
+
+func _hammer_jump(up:float):
+	velocity.y=-up

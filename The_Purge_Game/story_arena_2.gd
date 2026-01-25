@@ -28,8 +28,9 @@ var arena2_p1 = preload("res://music/arena_music/arena_2/arena_2_part1.ogg")
 var arena2_p2 = preload("res://music/arena_music/arena_2/arena_2_part2.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	animation.play("off")
 	if !trigger_once and body.is_in_group("player"):
+		Global.allowSpawn = false
+		animation.play("off")
 		var getFunction = get_parent().get_node("music-system")
 		getFunction.play_arena_music()
 		play_sound_intro(arena2_intro, 2)
@@ -119,6 +120,7 @@ func spawn_enemy(enemy_type: String):
 		enemy.global_position = enemyspawn1.global_position
 	else:
 		enemy.global_position = enemyspawn2.global_position
+	enemy.global_position.x += randf_range(-random_distance, random_distance)
 	if enemy_type == "dropship":
 		enemy.global_position = Vector2(2723.0, 4933.0 + randf_range(-45, 45))
 	print ("enemy amount ", enemy_amount)
@@ -135,7 +137,7 @@ func _process(delta: float) -> void:
 		special_event = true
 		_activate_tower()
 		return
-	if wave <= 0 and Global.enemy_count == 0 and Global.arena_num != 2 and !teleported:
+	if wave <= 0 and Global.enemy_count == 0 and Global.arena_player and !teleported and spawn:
 		spawn = false
 		_destroy_tower()
 		Global.arena_player = false
@@ -149,6 +151,8 @@ func _process(delta: float) -> void:
 		camera_fade._fade()
 		await get_tree().create_timer(2).timeout
 		print ("moving player")
+		var ground = get_parent().get_node("floorGenerator")
+		ground._clear_Floor()
 		var player_node = get_tree().get_first_node_in_group("player")
 		var target_node = get_parent().get_node("wall")
 		teleported = true
@@ -158,19 +162,22 @@ func _process(delta: float) -> void:
 			print("Player moved to: ", target_node.global_position)
 		Global.camera_Type = 0
 		Global.arena_num = 2
+		Global.allowSpawn = true
+		queue_free()
 		return
 	# Handle Spawning
 	if enemy_amount == 0 and spawn:
 		wave -= 1
-		if special_event and Global.enemy_count == 0:
+		if special_event and Global.enemy_count == 0 and wave >= 0:
 			print("spawning dropships")
-			enemy_amount = randi_range(2, 3)
+			enemy_amount = 2
 			_spawndropship()
 		elif !special_event:
 			print("starting to spawn normal wave")
 			enemy_amount = randi_range(5, 7)
 			_spawnwave()
 			
+
 
 func _spawnwave():
 	spawning = true

@@ -294,6 +294,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _spawn_ragdoll():
 	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
+	Global.hammer_num+=6
 	var instance = ragdoll.instantiate()
 	if visuals.scale.x == 1:
 		instance.facing_direction = 1
@@ -322,15 +323,16 @@ func _take_damage(amount: float, velo_x: float, velo_y : float):
 	var enemy_face_left = visuals.scale.x == 1
 	var enemy_face_right = visuals.scale.x == -1
 	var can_take_damage = false
-	if player_is_right and enemy_face_left:
+	if player_is_right and enemy_face_left or Global.hammer:
 		can_take_damage = true
-	elif !player_is_right and enemy_face_right:
+	elif !player_is_right and enemy_face_right or Global.hammer:
 		can_take_damage = true
 	if can_take_damage:
 		print ("eheheh that hurts")
 		health -= amount
 		var dir = 1 if position.x > Global.player_x else -1
 		knockback_velocity = Vector2(dir * velo_x, velo_y)
+		_flash_damage()
 
 func _attack():
 	attacking = true
@@ -353,3 +355,8 @@ func _shoot(amount : int):
 		amount -= 1
 	attacking = false
 	attack_cooldown = randf_range(4, 5)
+
+func _flash_damage():
+	var tween = create_tween()
+	visuals.modulate = Color(10, 10, 10, 1)
+	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)

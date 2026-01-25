@@ -6,6 +6,7 @@ extends Area2D
 @export var particleHit : PackedScene
 
 func _ready():
+	Global.bullets_count += 1
 	particle.emitting = true
 	await get_tree().create_timer(3.0).timeout
 	print ("deleted player bullet")
@@ -20,7 +21,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if area.get_collision_layer_value(16):
 		var enemy = area.owner 
-		
+
 		if enemy and enemy.has_method("_take_damage"):
 			enemy._take_damage(damage, 250, 0)
 			print("Shot enemy: ", enemy.name)

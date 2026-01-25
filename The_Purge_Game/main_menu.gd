@@ -2,7 +2,7 @@ extends Control
 
 @onready var options = $options
 @onready var options_panel = %options_panel
-@onready var back = %back_button
+@onready var back = $backfortuto
 @onready var start = $startgame
 @onready var exitmm = $exit
 @onready var blur_bg = %blurry_bg
@@ -10,10 +10,17 @@ extends Control
 @onready var setting = %setting
 @onready var animation = $AnimationPlayer
 @onready var cameraAnimation = %AnimationPlayer
+@onready var _tutorial = %tuto
+@onready var tutoo = %tutorial
+@onready var black = %bg
+@onready var purge = $Purge
+@onready var rules = $container
 
 func _ready():
 	self.show()
 	setting.hide()
+	rules.hide()
+	back.hide()
 	get_tree().paused = true
 	
 func _process(_delta):
@@ -52,6 +59,39 @@ func _on_options_pressed() -> void:
 	options.hide()
 	blur_bg.show()
 	options_panel.show()
-	back.show()
 	print("Options page opened")
+
+func _on_tutorial_pressed() -> void:
+	print("tutorial mode")
+	black.visible = true
+	
+	back.show()
+	_tutorial.show()
+	black.visible = true
+	print("r u there my black", black.visible, black.global_position)
+	rules.show()
+	
+	black.modulate.a = 0.0
+	rules.modulate.a = 0.0
+	back.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(black,"modulate:a",1.0,1.0)
+	tween.tween_property(rules,"modulate:a",1.0,2.0)
+	tween.tween_property(back,"modulate:a",1.0,2.0)
+
+func _on_backfortuto_pressed() -> void:
+	print("r u working my bro")
+	black.modulate.a = 1.0
+	rules.modulate.a = 1.0
+	back.modulate.a = 1.0
+	var tween = create_tween()
+	tween.tween_property(rules,"modulate:a",0.0,0.3)
+	tween.tween_property(back,"modulate:a",0.0,1.0 )
+	tween.tween_property(black,"modulate:a",0.0,2.0)
+	
+	print("fading out")
+	await tween.finished
+	back.hide()
+	rules.hide()
+	black.hide()
 	
