@@ -124,6 +124,7 @@ func _process(delta: float) -> void:
 func _spawn_ragdoll():
 	Global.enemy_kill_count += 1
 	Global.enemy_count -= 1
+	Global.hammer_num+=4
 	var instance = ragdoll.instantiate()
 	if visuals.scale.x == 1:
 		instance.facing_direction = 1

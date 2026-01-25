@@ -14,3 +14,4 @@ var cloud := true
 var tree := true
 var arena_num := 0
 var enemy_kill_count := 0
+var hammer_num:=0

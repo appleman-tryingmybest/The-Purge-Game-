@@ -6,12 +6,20 @@ extends Camera2D
 @export var cameraXOffset : float
 @export var cameraYOffset : float
 @export var camera_debug := false
+@export var transition_speed: float = 3.0
+@export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 177)
+@export var shake_decay : float = 20.0#this more bigger will dissapear faster
+
+
 var fading := false
 var target_limits: Vector4
 var is_transitioning: bool = false
-@export var transition_speed: float = 3.0
-@export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 177)
+var shake_strength : float = 0.0 
+
+
 @onready var background = $AnimationPlayer
+
+
 
 func _ready() -> void:
 	cameraYOffset *= -1 # I have invert the value here cause for some reason godot's y-axis is flipped so when you put positive value it reverts to correct stuff
@@ -31,10 +39,11 @@ func _apply_initial_limits():
 	if camera_debug:
 		print("initial map limited: ", initial_map_limits)
 		
-func update_right_limits():
+func update_right_limits():#see the floor length
 	var floor=get_parent().get_node("floorGenerator")
 	if floor:
-		initial_map_limits.z = floor.furthest_x + 200
+		initial_map_limits.z =floor.furthest_x + (floor.tile_width / 2.0)#since the floor maybe will random length so/2 to get the length that actually the camera need to apply
+		limit_right = initial_map_limits.z
 	if camera_debug:
 		print("initial right limit update: ", initial_map_limits.z)
 		
@@ -78,6 +87,11 @@ func setPosition():
 	print("Camera switched to arena mode at: ", cameraX, ", ", cameraY)
 	
 func _process(delta):
+	if shake_strength > 0:
+		offset = Vector2(randf_range(-1, 1) * shake_strength, randf_range(-1, 1) * shake_strength)
+		shake_strength = move_toward(shake_strength, 0, shake_decay * delta)
+	else:
+		offset = Vector2.ZERO
 	Global.camera_y = global_position.y
 	var player = get_parent().get_node("Player")  # this is how we get values from other code, but since the code is under something we need to put it as player/CharacterBody2D just so it knows its under player
 	if Global.camera_Type == 0:
@@ -85,8 +99,8 @@ func _process(delta):
 			_apply_initial_limits()
 		if !fading:
 			background.play("main")
-		cameraX = player.Player_x + cameraXOffset
-		cameraY = player.Player_y + cameraYOffset # we need to add an offset just so we can adjust the cameras y position
+		cameraX = player.global_position.x+ cameraXOffset
+		cameraY =player.global_position.y+ cameraYOffset # we need to add an offset just so we can adjust the cameras y position
 		if player.Player_x > initial_map_limits.z - 500:
 			update_right_limits()
 			_apply_initial_limits()
@@ -115,10 +129,24 @@ func _process(delta):
 	if camera_debug:
 			print("Camera position ", position.x, " ", position.y)
 			print("Camera type: ", Global.camera_Type)
-func _clamp_to_initial_limits():
+			
+			
+func _clamp_to_initial_limits():#see the width
 	if Global.camera_Type==0:
-		position.x = clamp(position.x, initial_map_limits.x, initial_map_limits.z)
-		position.y = clamp(position.y, initial_map_limits.y, initial_map_limits.w)
+		var half_screen_width = (get_viewport_rect().size.x * zoom.x) / 2.0#put a safe range to ensure camera will no show the map without floor
+		var min_x = initial_map_limits.x + half_screen_width
+		var max_x = initial_map_limits.z - half_screen_width
+		var half_screen_height = (get_viewport_rect().size.y * zoom.y) / 2.0
+		var min_y = initial_map_limits.y + half_screen_height
+		var max_y = initial_map_limits.w - half_screen_height
+		if max_x < min_x:
+			position.x = min_x
+		else:
+			position.x = clamp(position.x, min_x, max_x)
+		if max_y < min_y:
+			position.y = (initial_map_limits.y + initial_map_limits.w) / 2.0
+		else:
+			position.y = clamp(position.y, min_y, max_y)
 
 func _apply_smooth_limits(delta):
 	limit_left = lerp(limit_left, target_limits.x, delta * transition_speed)
@@ -145,3 +173,6 @@ func _fade():
 	background.play("fade_out")
 	await background.animation_finished
 	fading = false
+
+func apply_shake(strength: float):
+	shake_strength = strength

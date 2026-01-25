@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bmpqo2gqwur5i" path="res://white.png" id="3_t4vbm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v7oki"]
-size = Vector2(15.384605, 1.5384674)
+size = Vector2(34, 4)
 
 [sub_resource type="Gradient" id="Gradient_gl7bs"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -26,11 +26,12 @@ damage = 35.0
 particleHit = ExtResource("2_2b2rl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
 shape = SubResource("RectangleShape2D_v7oki")
 
 [node name="bullet" type="Sprite2D" parent="."]
 z_index = 10
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_t4vbm")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -56,10 +57,11 @@ scale_amount_max = 0.06
 color = Color(1, 1, 1, 0.4509804)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(0.02766517, 0.7930136, 0.9999997, 1)
-energy = 2.08
+position = Vector2(19, 0)
+color = Color(0, 0.8123446, 0.88843995, 1)
+energy = 2.66
 texture = SubResource("GradientTexture2D_2b2rl")
-texture_scale = 2.0
+texture_scale = 3.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

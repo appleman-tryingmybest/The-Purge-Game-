@@ -190,6 +190,7 @@ func _process(delta: float) -> void:
 
 func _death_sequence():
 	Global.enemy_kill_count += 1
+	Global.hammer_num+=4
 	dead = true
 	animation.play("death", 0, 0.7)
 	await animation.animation_finished
