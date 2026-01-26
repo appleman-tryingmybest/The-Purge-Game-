@@ -113,6 +113,10 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 	direction=Input.get_axis("ui_left", "ui_right")
+	if(direction !=0 or Input.is_action_just_pressed("ui_up")) and Global.game_started == false:
+			Global.game_started = true
+			print("timer started")   #timer start when the play move
+			
 	if is_on_floor():
 		jump_count=0
 	# Handle jump.

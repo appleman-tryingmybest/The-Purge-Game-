@@ -107,10 +107,19 @@ func _process(delta):
 		var mainMenuPosition = get_parent().get_node("camerahere")
 		position = mainMenuPosition.position
 		background.play("black")
-		limit_left = initial_map_limits.x
-		limit_top = initial_map_limits.y
-		limit_right = initial_map_limits.z
-		limit_bottom = initial_map_limits.w
+		limit_left = -1000000
+		limit_top = -1000000
+		limit_right = 1000000
+		limit_bottom = 1000000
+		
+	elif Global.camera_Type == 3:
+		_remove_all_limits()
+		print("outro")
+		top_level = true
+		position =Vector2(0,17205.0)
+		print("where r u ", position)
+		zoom = Vector2(0.5, 0.5)
+
 		
 	if camera_debug:
 			print("Camera position ", position.x, " ", position.y)

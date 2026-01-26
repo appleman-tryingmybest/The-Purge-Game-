@@ -1,4 +1,4 @@
-[gd_scene load_steps=466 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=459 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://crjkdfm80wpmm" path="res://Player/Trunk.png" id="6_8jran"]
 [ext_resource type="Texture2D" uid="uid://0p6gnseyqfw" path="res://Untitled 12.png" id="7_7erya"]
 [ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="7_036ib"]
-[ext_resource type="Texture2D" uid="uid://dtxgnjbfhhep7" path="res://pause menu/arrow1 (1).png" id="7_crpmn"]
 [ext_resource type="Texture2D" uid="uid://b7n0wivimuwsi" path="res://Enemy/particle/step-dust.png" id="7_s5vrf"]
 [ext_resource type="Texture2D" uid="uid://cm8vhve44kcx7" path="res://Red ground 2.png" id="8_54s57"]
 [ext_resource type="Script" uid="uid://c63psl1ac1hbh" path="res://spawner.gd" id="8_sdjp3"]
@@ -119,9 +118,6 @@
 [ext_resource type="Texture2D" uid="uid://21m1kijm24js" path="res://Arena/2.png" id="84_x0wtd"]
 [ext_resource type="Texture2D" uid="uid://ibu1lsnqa2oh" path="res://Arena/cannonshoot.png" id="85_ujfy7"]
 [ext_resource type="Texture2D" uid="uid://ddi461l7lvfgd" path="res://mmu.png" id="98_awnbw"]
-[ext_resource type="Texture2D" uid="uid://dsbcechwm0pkq" path="res://Arena/mybeautifulboy0.png" id="103_oh2np"]
-[ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="104_tlnu2"]
-[ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="105_1hk0o"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
@@ -4806,18 +4802,6 @@ region = Rect2(3300, 0, 220, 314)
 atlas = ExtResource("45_naog5")
 region = Rect2(3520, 0, 220, 314)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g82a2"]
-atlas = ExtResource("103_oh2np")
-region = Rect2(0, 0, 498, 479)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vccrt"]
-atlas = ExtResource("104_tlnu2")
-region = Rect2(0, 0, 498, 479)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5jk04"]
-atlas = ExtResource("105_1hk0o")
-region = Rect2(0, 0, 498, 479)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_g82a2"]
 animations = [{
 "frames": [{
@@ -4874,20 +4858,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"boom",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g82a2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vccrt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5jk04")
-}],
-"loop": true,
-"name": &"mybeautifulboy",
 "speed": 5.0
 }]
 
@@ -4995,30 +4965,6 @@ tracks/7/keys = {
 "update": 0,
 "values": [Vector2(-12.666687, -78.66687)]
 }
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("boom:scale")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(5.845454, 5.8454537)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("boom:rotation")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [3.1415927]
-}
 
 [sub_resource type="Animation" id="Animation_vccrt"]
 resource_name = "destroy"
@@ -5096,18 +5042,6 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-12.666687, -78.66687)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("boom:scale")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(5.845454, 5.8454537)]
 }
 
 [sub_resource type="Animation" id="Animation_nyng2"]
@@ -5232,7 +5166,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_crpmn"]
 resource_name = "mmu boom"
-length = 8.0
+length = 3.0
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -5253,18 +5187,42 @@ tracks/1/path = NodePath("boom:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.1),
+"times": PackedFloat32Array(0, 1.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
 }
-tracks/2/type = "method"
+tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("..")
+tracks/2/path = NodePath("boom:animation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("boom:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.2, 1.3000001, 1.5, 1.6, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 3, 4, 5]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0, 1.2),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
@@ -5274,54 +5232,6 @@ tracks/2/keys = {
 "args": [],
 "method": &"boom"
 }]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("boom:animation")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"mybeautifulboy"]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("boom:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 5, 5.1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("boom:scale")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(1, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0.2, 0.2), Vector2(1.3, 1.3)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("boom:rotation")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0.7, 3.3),
-"transitions": PackedFloat32Array(14.420009, 3.7321289),
-"update": 0,
-"values": [0.0, -6.283185307179586]
 }
 
 [sub_resource type="Animation" id="Animation_ghr7w"]
@@ -5552,17 +5462,6 @@ offset_bottom = 465.0
 mouse_filter = 2
 script = ExtResource("1_xmjh7")
 
-[node name="bg" type="Sprite2D" parent="main menu/on"]
-unique_name_in_owner = true
-process_mode = 3
-visible = false
-modulate = Color(1, 1, 1, 0.5411765)
-z_index = 99
-z_as_relative = false
-position = Vector2(1082, 493.00003)
-scale = Vector2(180, 180)
-texture = ExtResource("35_dd6w0")
-
 [node name="startgame" type="Button" parent="main menu/on"]
 unique_name_in_owner = true
 process_mode = 3
@@ -5619,33 +5518,6 @@ theme_override_colors/font_hover_color = Color(0.45490196, 0.7372549, 0.7019608,
 theme_override_fonts/font = ExtResource("78_y4xcw")
 text = "Exit"
 flat = true
-
-[node name="tutorial" type="Button" parent="main menu/on"]
-unique_name_in_owner = true
-process_mode = 3
-layout_mode = 0
-offset_left = 1367.0
-offset_top = 870.0
-offset_right = 1541.0
-offset_bottom = 898.0
-scale = Vector2(3, 3)
-focus_mode = 0
-theme_override_colors/font_color = Color(0.89188385, 0.92116946, 7.70092e-07, 1)
-theme_override_colors/font_pressed_color = Color(0.6363033, 0.7286708, 0.15537634, 1)
-theme_override_colors/font_hover_color = Color(0.8942408, 0.9059705, 0.03648311, 1)
-theme_override_fonts/font = ExtResource("78_y4xcw")
-text = "tutorial"
-flat = true
-
-[node name="tuto" type="StaticBody2D" parent="main menu/on/tutorial"]
-unique_name_in_owner = true
-position = Vector2(-145.66667, 0)
-
-[node name="Arrow1" type="Sprite2D" parent="main menu/on/tutorial"]
-position = Vector2(45.666656, -59.00003)
-rotation = -2.06647
-scale = Vector2(0.37296325, -0.40802965)
-texture = ExtResource("7_crpmn")
 
 [node name="Spaceship" type="Sprite2D" parent="main menu/on"]
 z_index = 2
@@ -5710,47 +5582,6 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_cifak")
 }
-
-[node name="backfortuto" type="TextureButton" parent="main menu/on"]
-process_mode = 3
-z_index = 99
-layout_mode = 0
-offset_left = 1555.0
-offset_top = 878.0
-offset_right = 1818.0
-offset_bottom = 960.0
-texture_normal = ExtResource("74_naog5")
-texture_pressed = ExtResource("75_1vh3m")
-texture_hover = ExtResource("76_rdpn4")
-texture_click_mask = ExtResource("77_maayn")
-ignore_texture_size = true
-
-[node name="container" type="VBoxContainer" parent="main menu/on"]
-process_mode = 3
-layout_mode = 0
-offset_right = 1874.0
-offset_bottom = 956.0
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="main menu/on/container"]
-modulate = Color(0.7588528, 0.5768251, 0.4043983, 1)
-z_index = 99
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_s5vrf")
-theme_override_font_sizes/font_size = 65
-text = "Left mouse click for attack
-Q to switch weapons
-E to dash
-R to use hammer when available
-F to use shield
-Press spacebar mid air to double jump
-
-All damages done to you will knock you back,
- and same goes for the enemies
-Enemies that are jumping are not able to attack
-"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="star_container" type="StaticBody2D" parent="main menu"]
 
@@ -6979,7 +6810,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 4.0
+tile_number = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
 position = Vector2(1, -34)
@@ -7511,6 +7342,9 @@ position = Vector2(0, 13597)
 scale = Vector2(3, 3)
 script = ExtResource("82_r6lv2")
 wait_time = 1
+random_distance = null
+random_enemy = null
+wave = null
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena4"]
 position = Vector2(19.666687, 47.5)
@@ -7627,7 +7461,6 @@ speed_scale = 2.0
 [node name="boom" type="AnimatedSprite2D" parent="StoryArena4/cannon"]
 visible = false
 position = Vector2(-12.666687, -78.66687)
-rotation = 3.1415927
 scale = Vector2(5.845454, 5.8454537)
 sprite_frames = SubResource("SpriteFrames_g82a2")
 animation = &"boom"
@@ -7651,7 +7484,6 @@ scale = Vector2(1.2, 1.2)
 texture = ExtResource("98_awnbw")
 
 [node name="scoreboard" type="StaticBody2D" parent="StoryArena4/cannon"]
-visible = false
 z_index = 99
 position = Vector2(0, 2412.667)
 scale = Vector2(1.5, 1.5)
@@ -7661,54 +7493,56 @@ modulate = Color(1, 1, 1, 0.5137255)
 scale = Vector2(66.410255, 158.88876)
 texture = ExtResource("35_dd6w0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StoryArena4/cannon/scoreboard"]
-offset_left = -385.77777
-offset_top = -390.22223
-offset_right = 14.222229
-offset_bottom = -231.22223
-size_flags_stretch_ratio = 0.0
-theme_override_constants/separation = 45
-
-[node name="timer_label" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="timer_label" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Timer :
-"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -292.44443
+offset_top = -383.11108
+offset_right = -71.44443
+offset_bottom = -346.11108
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.34, 1.34)
+text = "Timer :"
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Kill count :  
-"
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -325.3333
+offset_top = -248.889
+offset_right = 56.666687
+offset_bottom = -211.889
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+text = "Kill count :  "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -332.8889
+offset_top = -112.4446
+offset_right = 67.111115
+offset_bottom = -35.444603
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.34, 1.34)
 text = "Bullets 
-shot :  
-"
-label_settings = SubResource("LabelSettings_hxxo4")
-
-[node name="damage" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Bullets 
-shot :  
-"
+shot :  "
 label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
@@ -7990,8 +7824,6 @@ scale_amount_max = 2.0
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]
 [connection signal="pressed" from="main menu/on/exit" to="main menu/on" method="_on_exit_pressed"]
-[connection signal="pressed" from="main menu/on/tutorial" to="main menu/on" method="_on_tutorial_pressed"]
-[connection signal="pressed" from="main menu/on/backfortuto" to="main menu/on" method="_on_backfortuto_pressed"]
 [connection signal="area_entered" from="Player/hurt_area" to="Player" method="_on_hurt_area_area_entered"]
 [connection signal="area_entered" from="Player/visuals/player-hand/sword_hit" to="Player" method="_on_sword_hit_area_entered"]
 [connection signal="animation_finished" from="Player/visuals/handcontainer/player-handgun" to="Player" method="_on_playerhandgun_animation_finished"]
