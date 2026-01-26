@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kiod5qpg4nn5"
-path="res://.godot/imported/player-animation-hammer.png-a8e33df670eb9469b7b00b6067de7a32.ctex"
+uid="uid://1c4wp8dk5aip"
+path="res://.godot/imported/player-animation-hammer part1.png-330c95470205c201f7fd438ad3a52cf6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/player-animation-hammer.png"
-dest_files=["res://.godot/imported/player-animation-hammer.png-a8e33df670eb9469b7b00b6067de7a32.ctex"]
+source_file="res://Player/player-animation-hammer part1.png"
+dest_files=["res://.godot/imported/player-animation-hammer part1.png-330c95470205c201f7fd438ad3a52cf6.ctex"]
 
 [params]
 

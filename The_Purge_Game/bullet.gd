@@ -29,6 +29,7 @@ func _on_area_entered(area: Area2D) -> void:
 			get_parent().add_child(hit)
 			hit.global_position = global_position
 			hit.rotation = rotation
+			Global.hammer_num+=1
 			queue_free()
 		else:
 			print("Shot Layer 16 but no _take_damage method found!")

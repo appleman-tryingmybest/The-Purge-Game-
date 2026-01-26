@@ -20,6 +20,7 @@ signal getNumTile(num_Tile: float)
 signal resetWorld #sends to tree_generator to trigger function to clear all trees
 signal resetPosition
 
+
 func _ready():
 	z_index = 100 # z_index is layers, the bigger the number, the more front it will be
 	if done_generate:
@@ -60,7 +61,7 @@ func _generate_terrain():
 			print ("Stopped ", is_generated)
 		return
 	if Floor_random:
-		random_tile = randi_range(30, 45)
+		random_tile = randi_range(20, 30)
 		tile_number = random_tile
 	while current_number < tile_number:
 		var new_ground = duplicate() # we duplicate and then store it in new_ground

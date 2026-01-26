@@ -14,8 +14,4 @@ var cloud := true
 var tree := true
 var arena_num := 3
 var enemy_kill_count := 0
-var current_score : int
-var game_started := false
-var start_time := 0.0
-var final_time_display := ""
-var bullets_count = 0
+var hammer_num:=0
