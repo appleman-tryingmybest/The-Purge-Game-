@@ -19,12 +19,17 @@ var pause := false
 @onready var animation = $AnimationPlayer
 var current_loop_player: AudioStreamPlayer
 var boss_spawned := false
+@onready var score_board = $cannon/scoreboard
+@onready var setting = %setting
+
+var time_elapsed : float = 0.0
 
 #PRELOAD SOUNDS
 var arena4_intro = preload("res://music/arena_music/arena_4/arena_4_intro.ogg")
 var arena4_p1 = preload("res://music/arena_music/arena_4/arena_4_part1.ogg")
 var arena4_p2 = preload("res://music/arena_music/arena_4/arena_4_part2.ogg")
 var cannon_shoot = preload("res://sounds/enemy/cannon_shoot.ogg")
+var boomsound = preload("res://addons/godot-git-plugin/funny-explosion-sound.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	animation.play("idle")
@@ -124,6 +129,15 @@ func spawn_enemy(enemy_type: String):
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	print ("modulate is ", score_board.modulate.a)
+	if Global.game_started:
+		time_elapsed += delta
+		var mins = int(time_elapsed/60)
+		var secs = int(time_elapsed) %60
+		var time_string = "%02d:%02d" % [mins, secs]
+		if score_board and score_board.has_node("timer_label"):
+			score_board.get_node("timer_label").text = "TIMER:" + time_string
+		
 	if Global.arena_player and spawn:
 		_manage_arena_music()
 	if !spawn or Global.enemy_count > 0 or spawning or pause:
@@ -140,14 +154,15 @@ func _process(delta: float) -> void:
 			_spawnwave()
 			print ("testing if spawned")
 			wave -= 1
-	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_num != 4:
+	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_player:
+		destroy_gun()
 		Global.arena_player = false
-		var music_sys = get_parent().get_node("music-system")
-		music_sys.end_arena()
 		if is_instance_valid(current_loop_player):
 			current_loop_player.stop()
 			current_loop_player.queue_free()
-
+			
+		var music_sys = get_parent().get_node("music-system")
+		music_sys.end_arena()
 
 func _spawnwave():
 	spawning = true
@@ -184,3 +199,54 @@ func _activate_cannon():
 
 func _shoot_sound():
 	play_sound(cannon_shoot, 25)
+	
+func boom():
+	play_sound(boomsound)
+	
+func Mmu():
+	get_tree().paused = true
+	
+func destroy_gun():
+	print("hi")
+	animation.play("destroy")
+	await animation.animation_finished
+	await get_tree().create_timer(6).timeout
+	print("pls")
+	Global.camera_Type = 3
+	setting.hide()
+	animation.play("mmu_boom")
+	print("mmuboom?")
+	await animation.animation_finished
+	Global.game_started = false
+	scoreboard()
+	
+func scoreboard():
+	print("timer start")
+	var mins= int(time_elapsed/60)
+	var secs = int(time_elapsed)%60
+	var time_string = "%02d:%02d" % [mins, secs]
+	var box = $cannon/scoreboard/VBoxContainer
+	box.get_node("timer_label").text = "Time:   " + time_string
+	score_board.modulate.a  = 0.0
+	var timer_ = $cannon/scoreboard/VBoxContainer/timer_label
+	var kill = $cannon/scoreboard/VBoxContainer/kill_count
+	var bullet = $cannon/scoreboard/VBoxContainer/bullets_shot
+	var damagee = $cannon/scoreboard/VBoxContainer/damage
+	timer_.modulate.a = 0.0
+	kill.modulate.a = 0.0
+	bullet.modulate.a = 0.0
+	damagee.modulate.a = 0.0
+	score_board.show()
+	var tween = create_tween()
+	tween.tween_property(score_board,"modulate:a",1.0,1.0)
+	tween.tween_property(timer_,"modulate:a",1.0,1.3)
+	tween.tween_property(kill,"modulate:a",1.0,1.6)
+	tween.tween_property(bullet,"modulate:a",1.0,1.9)
+	tween.tween_property(damagee,"modulate:a",1.0,2.1)
+	var killcount_string = str(Global.enemy_kill_count)
+	var bulletscount = str(Global.bullets_count)
+	box.get_node("kill_count").text = "Kill  Count:   " + killcount_string
+	box.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
+	
+	
+	

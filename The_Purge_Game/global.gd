@@ -12,6 +12,6 @@ var camera_Type := 2
 var mountain := true
 var cloud := true
 var tree := true
-var arena_num := 0
+var arena_num := 3
 var enemy_kill_count := 0
 var hammer_num:=0

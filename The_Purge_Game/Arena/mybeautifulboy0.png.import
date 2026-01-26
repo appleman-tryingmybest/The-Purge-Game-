@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmpqo2gqwur5i"
-path="res://.godot/imported/white.png-d8533361663a5f8fe5200e5b5262a62d.ctex"
+uid="uid://dsbcechwm0pkq"
+path="res://.godot/imported/mybeautifulboy0.png-e7abb1686a1b3a5f0c9b9c8ba41d22be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://white.png"
-dest_files=["res://.godot/imported/white.png-d8533361663a5f8fe5200e5b5262a62d.ctex"]
+source_file="res://Arena/mybeautifulboy0.png"
+dest_files=["res://.godot/imported/mybeautifulboy0.png-e7abb1686a1b3a5f0c9b9c8ba41d22be.ctex"]
 
 [params]
 
