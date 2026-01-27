@@ -227,7 +227,7 @@ func _process(delta: float) -> void:
 				visuals.scale.x = -1 # right
 			elif position.x > Global.player_x:
 				visuals.scale.x = 1 # left
-			turn_timer = 1
+			turn_timer = 3
 		if on_floor:
 			if (velocity.x != 0) and !run:
 				animation.play("walk", 0, 0.7) # name, transition fading, speed
@@ -328,6 +328,8 @@ func _take_damage(amount: float, velo_x: float, velo_y : float):
 	elif !player_is_right and enemy_face_right or Global.hammer:
 		can_take_damage = true
 	if can_take_damage:
+		turn_timer = 3
+		attack_cooldown = 4
 		print ("eheheh that hurts")
 		health -= amount
 		var dir = 1 if position.x > Global.player_x else -1

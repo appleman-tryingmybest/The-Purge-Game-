@@ -7758,7 +7758,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 12.0
+tile_number = 1.0
 Floor_Debug = true
 Floor_random = true
 
@@ -7942,13 +7942,16 @@ shape = SubResource("RectangleShape2D_pat5w")
 [node name="StoryArena2" type="StaticBody2D" parent="."]
 position = Vector2(0, 5767)
 scale = Vector2(3, 3)
+collision_layer = 1025
 script = ExtResource("41_xtrul")
 wait_time = 24
 random_distance = 15.0
-wave = 8
+wave = 9
+missile_cooldown = 5.0
 
 [node name="One-way-platform4" type="StaticBody2D" parent="StoryArena2"]
 position = Vector2(0, 85.66667)
+collision_layer = 1025
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena2/One-way-platform4"]
 position = Vector2(6.3333335, 0)
@@ -7962,6 +7965,7 @@ one_way_collision = true
 
 [node name="One-way-platform3" type="StaticBody2D" parent="StoryArena2"]
 position = Vector2(350, 58)
+collision_layer = 1025
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena2/One-way-platform3"]
 position = Vector2(-1, -43.666668)
@@ -7973,6 +7977,7 @@ shape = SubResource("RectangleShape2D_0rska")
 
 [node name="One-way-platform5" type="StaticBody2D" parent="StoryArena2"]
 position = Vector2(-350, 58)
+collision_layer = 1025
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena2/One-way-platform5"]
 position = Vector2(0, -32.333336)
@@ -8303,6 +8308,7 @@ position = Vector2(19.666687, 86.16667)
 collision_layer = 8388608
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena4/One-way-platform"]
+visible = false
 scale = Vector2(1.2798649, 0.88194525)
 texture = ExtResource("11_pat5w")
 
@@ -8316,6 +8322,7 @@ scale = Vector2(1.12, 1)
 collision_layer = 8388608
 
 [node name="Sprite2D" type="Sprite2D" parent="StoryArena4/One-way-platform2"]
+visible = false
 scale = Vector2(1.2798649, 0.88194525)
 texture = ExtResource("11_pat5w")
 
@@ -8775,6 +8782,10 @@ initial_velocity_max = 1000.0
 angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
+
+[node name="Mybeautifulboy0" type="Sprite2D" parent="."]
+position = Vector2(-1303, 4445)
+texture = ExtResource("103_oh2np")
 
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]

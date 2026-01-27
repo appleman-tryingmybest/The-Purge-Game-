@@ -7,6 +7,7 @@ var enemy2 = preload("res://enemy_2.tscn")
 var enemy3 = preload("res://robot_fly.tscn")
 var enemy4 = preload("res://robot_shield.tscn")
 var dropship = preload("res://dropship.tscn")
+var icbm = preload("res://icbm.tscn")
 @export var random_distance : float
 @export var random_enemy : int
 var spawn := false
@@ -19,6 +20,7 @@ var pause := false
 @onready var animation = $AnimationPlayer
 var current_loop_player: AudioStreamPlayer
 var teleported	:= false
+@export var missile_cooldown : float
 
 #PRELOAD SOUNDS
 var intro_sound = preload("res://sounds/enemy/tower-alarm.ogg")
@@ -98,6 +100,7 @@ func _start_stuff():
 func spawn_enemy(enemy_type: String):
 	var enemyspawn1 = $"level-detail-shared/enemy_spawn"
 	var enemyspawn2 = $"level-detail-shared/enemy_spawn2"
+	var icbmspawn = $"DETECTORTOWER"
 	var world = get_parent()
 	var scene_to_spawn: PackedScene
 
@@ -112,6 +115,8 @@ func spawn_enemy(enemy_type: String):
 			scene_to_spawn = enemy4
 		"dropship":
 			scene_to_spawn = dropship
+		"icbm":
+			scene_to_spawn = icbm
 		_:
 			return
 	var enemy = scene_to_spawn.instantiate() # copies stuff and prepares it	
@@ -123,6 +128,8 @@ func spawn_enemy(enemy_type: String):
 	enemy.global_position.x += randf_range(-random_distance, random_distance)
 	if enemy_type == "dropship":
 		enemy.global_position = Vector2(2723.0, 4933.0 + randf_range(-45, 45))
+	if enemy_type == "icbm":
+		enemy.global_position = icbmspawn.global_position + Vector2(randf_range(-15, 15), 0)
 	print ("enemy amount ", enemy_amount)
 	print ("wave ", wave)
 	
@@ -130,10 +137,18 @@ func spawn_enemy(enemy_type: String):
 func _process(delta: float) -> void:
 	if Global.arena_player and spawn:
 		_manage_arena_music()
+	if special_event and Global.arena_player:
+		missile_cooldown -= delta
+		if missile_cooldown < 0:
+			print ("spawning icbm's")
+			var icbm_amount = randi_range(1, 3)
+			for i in icbm_amount:
+				spawn_enemy("icbm")
+			missile_cooldown = randf_range(4, 12)
 	if !spawn or Global.enemy_count > 0 or spawning or pause:
 		return # Stop here if we aren't ready to spawn yet
 	# Trigger the Tower Activation once when wave hits 4
-	if wave <= 4 and !special_event and Global.enemy_count == 0:
+	if wave <= 5 and !special_event and Global.enemy_count == 0:
 		special_event = true
 		_activate_tower()
 		return

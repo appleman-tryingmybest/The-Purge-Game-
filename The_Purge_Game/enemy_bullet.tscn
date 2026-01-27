@@ -21,6 +21,7 @@ scale = Vector2(0.4, 0.4)
 collision_layer = 0
 collision_mask = 65
 script = ExtResource("1_gl7bs")
+speed = 1950
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_mgp66")
