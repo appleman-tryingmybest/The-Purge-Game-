@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://blspfgfuwc633"]
+[gd_scene load_steps=20 format=3 uid="uid://blspfgfuwc633"]
 
 [ext_resource type="Texture2D" uid="uid://b7n0wivimuwsi" path="res://Enemy/particle/step-dust.png" id="1_4i51w"]
 [ext_resource type="Script" uid="uid://b81jae0jd15v4" path="res://dropship.gd" id="1_mbjea"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://x0qk1qhxux3r" path="res://Enemy/enemy-dropship/thruster1.png" id="4_melr4"]
 [ext_resource type="PackedScene" uid="uid://be6n8ywojqs45" path="res://robot_fly.tscn" id="5_bcw8w"]
 [ext_resource type="Texture2D" uid="uid://daa0o5bhsci7k" path="res://Enemy/enemy-dropship/thruster2.png" id="5_k72rh"]
+[ext_resource type="Texture2D" uid="uid://bmpqo2gqwur5i" path="res://white.png" id="10_t4xo0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s2bpt"]
 
@@ -259,6 +260,9 @@ _data = {
 &"stop": SubResource("Animation_4i51w")
 }
 
+[sub_resource type="Gradient" id="Gradient_dew4q"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
 [node name="dropship" type="CharacterBody2D"]
 light_mask = 512
 z_index = 2
@@ -320,9 +324,43 @@ position = Vector2(-460, 0)
 rotation = -0.17453292
 texture = ExtResource("4_melr4")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="visuals/LEFT"]
+z_index = -1
+position = Vector2(-27.894226, 111.027214)
+amount = 20
+texture = ExtResource("10_t4xo0")
+direction = Vector2(0, 1)
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 282.51
+initial_velocity_max = 478.39
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+color = Color(0.7097572, 0.48327893, 0.10422561, 1)
+color_ramp = SubResource("Gradient_dew4q")
+
 [node name="RIGHT" type="Sprite2D" parent="visuals"]
 position = Vector2(460, 0)
 rotation = -0.17453292
 texture = ExtResource("5_k72rh")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="visuals/RIGHT"]
+z_index = -1
+position = Vector2(13.0906725, 112.38296)
+amount = 20
+texture = ExtResource("10_t4xo0")
+direction = Vector2(0, 1)
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 282.51
+initial_velocity_max = 478.39
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+scale_amount_min = 0.1
+scale_amount_max = 0.3
+color = Color(0.7097572, 0.48327893, 0.10422561, 1)
+color_ramp = SubResource("Gradient_dew4q")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

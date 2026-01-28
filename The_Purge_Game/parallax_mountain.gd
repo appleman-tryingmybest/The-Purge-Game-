@@ -69,7 +69,7 @@ func _generate_clouds():
 		new_mountain.pause()
 		new_mountain.visible = true
 		new_mountain.add_to_group("generatedMountain")
-		self.scroll_scale = Vector2(0.5, 0)
+		self.scroll_scale = Vector2(0.1, 0)
 		var mountainSize = randf_range(0.6, 1.0)
 		add_child(new_mountain) # Adds it inside this Parallax2D layer
 		# Position it RELATIVE to this layer

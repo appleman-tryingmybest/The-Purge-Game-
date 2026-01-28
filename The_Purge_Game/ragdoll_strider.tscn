@@ -163,7 +163,7 @@ animations = [{
 }]
 
 [node name="ragdoll-strider" type="CharacterBody2D"]
-z_index = 2
+z_index = -10
 collision_layer = 2147483648
 collision_mask = 8388608
 script = ExtResource("1_g3tl8")

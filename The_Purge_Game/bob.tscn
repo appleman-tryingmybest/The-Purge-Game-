@@ -1,0 +1,421 @@
+[gd_scene load_steps=22 format=3 uid="uid://c6oxqnehwo5uv"]
+
+[ext_resource type="Script" uid="uid://mxma0gv0isuw" path="res://bob.gd" id="1_68p3u"]
+[ext_resource type="Texture2D" uid="uid://cihwnhh67rfd8" path="res://Enemy/extra/Head2.png" id="1_cqe2c"]
+[ext_resource type="Texture2D" uid="uid://u1ppn37bii04" path="res://Enemy/extra/Jaw2.png" id="2_68p3u"]
+[ext_resource type="Texture2D" uid="uid://cw8nbtfksqok1" path="res://Enemy/extra/Gear1.png" id="3_kfnk3"]
+[ext_resource type="Texture2D" uid="uid://cvy8rdevmkjsr" path="res://Enemy/extra/Gear2.png" id="4_tihm8"]
+[ext_resource type="Texture2D" uid="uid://bmpqo2gqwur5i" path="res://white.png" id="6_kfnk3"]
+
+[sub_resource type="Animation" id="Animation_f51ti"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0053097]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-74.41861, -427.90698)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("visuals/Head2/Jaw2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 386.0465)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Head2/PointLight2D:texture_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.01]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("visuals/Head2/PointLight2D:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("visuals/Head2/PointLight2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_h5oqx"]
+resource_name = "idle"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3.0000002, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.17453292, 0.0, 0.25132743, 0.0, -0.17453292]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3.0000002, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-283.72092, 0), Vector2(-3.0517578e-05, -386.0465), Vector2(306.97675, 3.0517578e-05), Vector2(0, 65.11628), Vector2(-283.72092, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("visuals/Head2/Jaw2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 386.0465)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Head2/PointLight2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_cqe2c"]
+resource_name = "scream"
+length = 2.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6666666, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 46.511627), Vector2(0, -186.04651)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("visuals/Head2/Jaw2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6666666, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-0.06593527, 432.5187), Vector2(-0.0065485314, 390.66202), Vector2(-0.25729233, 567.3901)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("visuals/Head2/PointLight2D:texture_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.01, 32.67]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("visuals/Head2/PointLight2D:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 3.35]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("visuals/Head2/PointLight2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b5fkr"]
+_data = {
+&"RESET": SubResource("Animation_f51ti"),
+&"idle": SubResource("Animation_h5oqx"),
+&"scream": SubResource("Animation_cqe2c")
+}
+
+[sub_resource type="Animation" id="Animation_oukea"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../visuals/Head2/Gear1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../visuals/Head2/Gear2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0cnkt"]
+resource_name = "gear1"
+length = 5.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../visuals/Head2/Gear1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(3.0314353, 0.18946461),
+"update": 0,
+"values": [0.0, 33.44923511447133]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i6n4r"]
+_data = {
+&"RESET": SubResource("Animation_oukea"),
+&"gear1": SubResource("Animation_0cnkt")
+}
+
+[sub_resource type="Animation" id="Animation_8m5sf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head2/Gear2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_muvn3"]
+resource_name = "gear2"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head2/Gear2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-6.283185307179586, 6.283185307179586]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_twlrq"]
+_data = {
+&"RESET": SubResource("Animation_8m5sf"),
+&"gear2": SubResource("Animation_muvn3")
+}
+
+[sub_resource type="Gradient" id="Gradient_kfnk3"]
+offsets = PackedFloat32Array(0, 0.6)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tihm8"]
+gradient = SubResource("Gradient_kfnk3")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+metadata/_snap_count = 6
+
+[sub_resource type="Gradient" id="Gradient_68p3u"]
+offsets = PackedFloat32Array(0, 0.64)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kfnk3"]
+gradient = SubResource("Gradient_68p3u")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_tihm8"]
+offsets = PackedFloat32Array(0.01369863, 1)
+
+[node name="bob" type="CharacterBody2D"]
+z_index = 90
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_68p3u")
+teleport_timer = 5.0
+distance = 555.0
+speedX = 100.0
+speedY = 100.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_b5fkr")
+}
+
+[node name="gear1" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimationPlayer")
+libraries = {
+&"": SubResource("AnimationLibrary_i6n4r")
+}
+
+[node name="gear2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_twlrq")
+}
+
+[node name="visuals" type="Node2D" parent="."]
+z_index = 125
+
+[node name="Head2" type="Sprite2D" parent="visuals"]
+position = Vector2(-74.41861, -427.90698)
+rotation = 1.0053097
+scale = Vector2(1.005566, 1.0000921)
+skew = -0.0014265776
+texture = ExtResource("1_cqe2c")
+
+[node name="Jaw2" type="Sprite2D" parent="visuals/Head2"]
+position = Vector2(0, 386.0465)
+scale = Vector2(1.0000001, 1.0000001)
+texture = ExtResource("2_68p3u")
+
+[node name="Gear1" type="Sprite2D" parent="visuals/Head2"]
+position = Vector2(0, -241.8605)
+scale = Vector2(1.0000001, 1.0000001)
+texture = ExtResource("3_kfnk3")
+
+[node name="PointLight2D" type="PointLight2D" parent="visuals/Head2/Gear1"]
+position = Vector2(0.33693692, 4.3821287)
+scale = Vector2(0.9944645, 0.9999097)
+skew = 0.0014187098
+color = Color(0.827451, 0, 0, 1)
+energy = 2.55
+texture = SubResource("GradientTexture2D_tihm8")
+texture_scale = 9.74
+
+[node name="Gear2" type="Sprite2D" parent="visuals/Head2"]
+position = Vector2(0, -83.72101)
+scale = Vector2(1.0000001, 1.0000001)
+texture = ExtResource("4_tihm8")
+
+[node name="PointLight2D" type="PointLight2D" parent="visuals/Head2"]
+z_index = 1000
+position = Vector2(-0.5740713, 404.6142)
+scale = Vector2(0.9944647, 0.9999099)
+skew = 0.0014187098
+enabled = false
+texture = SubResource("GradientTexture2D_kfnk3")
+texture_scale = 0.01
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="visuals"]
+z_index = -1
+emitting = false
+amount = 99
+texture = ExtResource("6_kfnk3")
+one_shot = true
+preprocess = 0.25
+explosiveness = 1.0
+emission_shape = 2
+emission_sphere_radius = 46.38
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1650.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+scale_amount_min = 0.2
+scale_amount_max = 0.3
+color = Color(0.90561676, 0.21977317, 0.6175665, 0.5568628)
+color_ramp = SubResource("Gradient_tihm8")
