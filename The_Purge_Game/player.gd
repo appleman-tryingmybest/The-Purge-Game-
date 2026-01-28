@@ -388,8 +388,10 @@ func take_damage(amount:float):#enemy attack player
 	print ("Your remaining health: ", health)
 	animation.play("shield-hitted")
 	_cam_shake(15)
+	_flash_damage()
 	if health <= 0 :
 		_death_sequence()
+	
 
 func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 	if area.has_method("give_damage"):
@@ -482,3 +484,8 @@ func _on_hammer_area_entered(area: Area2D) -> void:
 
 func _hammer_jump(up:float):
 	velocity.y=-up
+	
+func _flash_damage():
+	var tween = create_tween()
+	visuals.modulate = Color(10, 10, 10, 1)
+	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)
