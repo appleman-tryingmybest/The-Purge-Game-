@@ -17,7 +17,7 @@ extends CharacterBody2D
 @export var bullet: PackedScene
 @export var hammer_target:int=10
 @export var ham_dam:float
-
+@export var timer_death:float=1
 
 var jump_count=0
 var max_jump=2
@@ -49,11 +49,11 @@ var dropod_velocity = 0.0
 @onready var visuals = $visuals
 @onready var gun=%"player-handgun"
 @onready var muzzle=$visuals/handcontainer/muzzle
-@onready var dead_ani=$BOOM
 @onready var cam =$"../Camera2D"
 @onready var ham_part=$"hammer-bang"
 @onready var dropod=$Dropod
 @onready var floor_checker=$Dropod/check_floor
+@onready var boom=$BOOM
 
 
 
@@ -69,6 +69,8 @@ var gun_shoot = preload("res://sounds/player/gun-shoot.ogg")
 var jump = preload("res://sounds/player/jump-jump.ogg")
 var unf = preload("res://sounds/player/unf.ogg")
 var death = preload("res://sounds/player/death-sound.ogg")
+var hammer_intro = preload("res://sounds/player/hammer-intro.ogg")
+var hammer_hit = preload("res://sounds/player/hammer_hit.ogg")
 
 
 
@@ -233,7 +235,7 @@ func _process(_delta): #mostly ani here
 	var hammer3=animation.current_animation=="hammer-attack"
 	if dead or respawn or hammer1 or hammer2 or hammer3:
 		return
-	if Input.is_action_pressed("shield") and is_on_floor() and can_block and current_weapon == "sword":
+	if Input.is_action_pressed("shield") and is_on_floor() and can_block and current_weapon == "sword" and not is_dashing:
 		if not block:
 			block=true
 			_block()
@@ -246,9 +248,14 @@ func _process(_delta): #mostly ani here
 	if current_weapon == "gun":
 		handgun.look_at(get_global_mouse_position())
 		if Input.is_action_just_pressed("attack"):
+			if current_weapon=="sword":
+				return
 			shoot()
+			
 	elif current_weapon=="sword":
 		if Input.is_action_just_pressed("attack") and sword_cooldown and !is_dashing:
+			if current_weapon=="gun":
+				return
 			sword_attack()
 	if position.x> get_global_mouse_position().x and visuals.scale.x == 1 and current_weapon == "gun":
 		handgun.scale.y=-1
@@ -275,30 +282,22 @@ func _process(_delta): #mostly ani here
 		var weaponb4hammer=current_weapon
 		hand.hide()
 		handgun.hide()
-		animation.play("hammer-intro", 0, 1.5)
-		await animation.animation_finished
+		play_sound(hammer_intro)
+		if is_on_floor():
+			animation.play("hammer-intro", 0, 1.5)
+			Global.hammer = true
+			await animation.animation_finished
 		animation.play("hammer-up")
 		await animation.animation_finished
 		animation.play("hammer-attack")
+		play_sound(hammer_hit)
 		Global.hammer_num=0
 		await animation.animation_finished
 		if weaponb4hammer=="sword":
 			hand.show()
 		elif weaponb4hammer=="gun":
 			handgun.show()
-	elif Input.is_action_just_pressed("s_hammer_attack") and Global.hammer_num>=hammer_target and is_on_floor():
-		var weaponb4hammer=current_weapon
-		hand.hide()
-		handgun.hide()
-		animation.play("hammer-up")
-		await animation.animation_finished
-		animation.play("hammer-attack")
-		Global.hammer_num=0
-		await animation.animation_finished
-		if weaponb4hammer=="sword":
-			hand.show()
-		elif weaponb4hammer=="gun":
-			handgun.show()
+		Global.hammer = false
 		
 	if is_on_floor() and !is_dashing and !block:
 		if velocity.x==0:
@@ -368,10 +367,12 @@ func _death_sequence():
 	dead = true
 	dead_pos = global_position
 	visuals.hide()
-	dead_ani.show()
-	dead_ani.play()
+	boom.show()
+	animation.play("boom")
+	await animation.animation_finished
+	boom.hide()
 	print("Congratulations! You died")
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(timer_death).timeout
 	respawn_player()
 
 # RECEIVE DAMAGE
@@ -398,9 +399,10 @@ func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 # GIVE DAMAGE
 
 func _on_sword_hit_area_entered(area: Area2D) -> void:
+	if current_weapon!="sword":
+		print("oi why gun leh")
 	if area.get_collision_layer_value(16):
 		var enemy = area.owner 
-		
 		if enemy and enemy.has_method("_take_damage"):
 			enemy._take_damage(sword_dam, 1500, -600)
 			Global.hammer_num+=2
@@ -411,6 +413,8 @@ func _on_sword_hit_area_entered(area: Area2D) -> void:
 
 		
 func sword_attack():
+	if block or current_weapon!="sword":
+		return
 	sword_cooldown = false
 	var random_attack = randi_range(0, 1)
 	var attack_dir=visuals.scale.x
@@ -430,7 +434,6 @@ func respawn_player():
 	dead =false
 	respawn=true
 	velocity = Vector2.ZERO
-	dead_ani.hide()
 	health=initial_health
 	visuals.hide()
 	dropod.top_level = true# let this become independent from player
@@ -441,14 +444,12 @@ func respawn_player():
 	animation.play("reset play")
 	await animation.animation_finished
 	visuals.show()
-	apply_knockback(Vector2(2500, 25))
+	apply_knockback(Vector2(2500, 30))
 	respawn=false
-	if current_weapon == "sword":
-		sword_idle.play()
-	elif current_weapon =="gun":
-		handgun.hide()
-		hand.show()
-		sword_idle.play()
+	current_weapon="sword" #direct force the weaopon ==sword if use if current... hand hide or gun hide is only eye see it  
+	handgun.hide()
+	hand.show()
+	animation.play("idle")
 
 func _play_jump_sound():
 	play_sound(jump)
