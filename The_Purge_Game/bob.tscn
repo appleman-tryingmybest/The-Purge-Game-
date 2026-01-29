@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c6oxqnehwo5uv"]
+[gd_scene load_steps=23 format=3 uid="uid://c6oxqnehwo5uv"]
 
 [ext_resource type="Script" uid="uid://mxma0gv0isuw" path="res://bob.gd" id="1_68p3u"]
 [ext_resource type="Texture2D" uid="uid://cihwnhh67rfd8" path="res://Enemy/extra/Head2.png" id="1_cqe2c"]
@@ -330,9 +330,12 @@ metadata/_snap_enabled = true
 [sub_resource type="Gradient" id="Gradient_tihm8"]
 offsets = PackedFloat32Array(0.01369863, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kfnk3"]
+size = Vector2(141.265, 215.17)
+
 [node name="bob" type="CharacterBody2D"]
 z_index = 90
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 script = ExtResource("1_68p3u")
 teleport_timer = 5.0
 distance = 555.0
@@ -419,3 +422,14 @@ scale_amount_min = 0.2
 scale_amount_max = 0.3
 color = Color(0.90561676, 0.21977317, 0.6175665, 0.5568628)
 color_ramp = SubResource("Gradient_tihm8")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-6.2499537, 46.250015)
+scale = Vector2(3.9999988, 3.9999988)
+shape = SubResource("RectangleShape2D_kfnk3")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

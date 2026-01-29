@@ -51,5 +51,17 @@ func _teleport():
 	teleport_timer = 5
 	allowAction = true
 	state = 0
-	animation.play("idle", 0, 1.7)
+	animation.play("idle", 0, 1.7) #(start immediately,speed)
 	pink.emitting = true
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		var push_dir := 4500.0
+		if position.x > Global.player_x: # right
+			push_dir = push_dir * -1
+		if position.x < Global.player_x: # left
+			push_dir = abs(push_dir)
+		if body.has_method("apply_knockback"):
+			body.apply_knockback(Vector2(push_dir, -800))
+		if body.has_method("take_damage"):
+			body.take_damage(50)

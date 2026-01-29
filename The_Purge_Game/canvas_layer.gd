@@ -10,12 +10,16 @@ extends CanvasLayer
 @onready var start = %startgame
 @onready var exitmm = %exit
 @onready var optionsmm = %options
+@onready var bobb = $options_panel/bob
+@onready var adamm = $options_panel/adam
 
 var is_paused = false
 
 @onready var treeNode = get_tree().current_scene.find_child("ParallaxTree")
 @onready var mountainNode = get_tree().current_scene.find_child("ParallaxMountain")
 @onready var cloudNode = get_tree().current_scene.find_child("ParallaxCloud")
+@onready var bob = preload("res://bob.tscn")
+@onready var adam = preload("res://adam.tscn")
 
 func _ready():
 	Global.start_game = false
@@ -157,3 +161,19 @@ func _on_cloud_toggled(toggled_on: bool) -> void:
 		print ("yay more clouds :)")
 		Global.cloud = true
 		cloudNode._clear_clouds()
+
+func _on_bob_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		print("bob added")
+		var BOB = bob.instantiate()
+		BOB.global_position = Vector2(1018,-290)
+		get_parent().add_child(BOB)
+		bobb.hide()
+	
+func _on_adam_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		print("adam added")
+		var ADAM = adam.instantiate()
+		get_parent().add_child(ADAM)
+		adamm.hide()
+		
