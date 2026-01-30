@@ -1,4 +1,5 @@
 extends CharacterBody2D
+
 @export var SPEED = 200.0
 @export var runspeed= 300
 @export var JUMP_VELOCITY : float
@@ -54,6 +55,7 @@ var dropod_velocity = 0.0
 @onready var dropod=$Dropod
 @onready var floor_checker=$Dropod/check_floor
 @onready var boom=$BOOM
+@onready var health_bar=$"CanvasLayer2/health-bar"
 
 
 
@@ -77,6 +79,11 @@ var hammer_hit = preload("res://sounds/player/hammer_hit.ogg")
 func _ready() -> void:
 	visible = false
 	initial_health = health
+	if health_bar:
+		health_bar.max_value=initial_health
+		health_bar.value=health
+
+			
 	JUMP_VELOCITY *= -1
 	var getPosition = get_parent().get_node("AreaTrigger")
 	getPosition.teleportPlayer.connect(setPosition)
@@ -110,6 +117,7 @@ func _physics_process(delta: float) -> void:
 		intro_done = true
 		visible = true
 		apply_knockback(Vector2(2500, 25))
+	health_bar.show()
 	if respawn:#let player cannot move when not on ground)
 		velocity.x = 0
 		if not is_on_floor():
@@ -385,6 +393,8 @@ func take_damage(amount:float):#enemy attack player
 	if dead or block or is_dashing or respawn or hammer1 or hammer2 or hammer3:#wiill break the aniamtion
 		return
 	health -= amount
+	health_bar.value = health
+	health_bar.create_tween().tween_property(health_bar, "value", health, 0.1)#let it mmore smooth
 	print ("Your remaining health: ", health)
 	animation.play("shield-hitted")
 	_cam_shake(15)
@@ -437,6 +447,7 @@ func respawn_player():
 	respawn=true
 	velocity = Vector2.ZERO
 	health=initial_health
+	
 	visuals.hide()
 	dropod.top_level = true# let this become independent from player
 	dropod.global_position = dead_pos+ Vector2(0, -100)
@@ -444,8 +455,10 @@ func respawn_player():
 	dropod_velocity = 0.0
 	dropod_fall= true
 	animation.play("reset play")
+	health_bar.value = health
 	await animation.animation_finished
 	visuals.show()
+	
 	apply_knockback(Vector2(2500, 30))
 	respawn=false
 	current_weapon="sword" #direct force the weaopon ==sword if use if current... hand hide or gun hide is only eye see it  

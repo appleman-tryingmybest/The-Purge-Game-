@@ -1,4 +1,4 @@
-[gd_scene load_steps=468 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=470 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -85,7 +85,9 @@
 [ext_resource type="Texture2D" uid="uid://b2jpn5fghboex" path="res://addons/godot-git-plugin/DETECTORTOWER/tower-intro2.png" id="38_m3xuu"]
 [ext_resource type="Script" uid="uid://b2g4wh7jrbcsn" path="res://story_arena_3.gd" id="40_m3xuu"]
 [ext_resource type="Script" uid="uid://dmto4gl7fk8bf" path="res://story_arena_2.gd" id="41_xtrul"]
+[ext_resource type="Texture2D" uid="uid://01eimyiockm3" path="res://Player/Health .png" id="45_f1tjs"]
 [ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="45_naog5"]
+[ext_resource type="Texture2D" uid="uid://cjjlypg1jygpr" path="res://Player/Bar.png" id="46_8nd12"]
 [ext_resource type="Script" uid="uid://bhupw1nf2vd2n" path="res://applyforce.gd" id="47_8eqi4"]
 [ext_resource type="PackedScene" uid="uid://blspfgfuwc633" path="res://dropship.tscn" id="49_x1eik"]
 [ext_resource type="Script" uid="uid://t37vham7ysgo" path="res://canvas_layer.gd" id="64_ooit5"]
@@ -7595,6 +7597,22 @@ initial_velocity_max = 1000.0
 angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="Player"]
+
+[node name="health-bar" type="TextureProgressBar" parent="Player/CanvasLayer2"]
+visible = false
+z_index = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -94.0
+offset_right = 250.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture_under = ExtResource("45_f1tjs")
+texture_progress = ExtResource("46_8nd12")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
