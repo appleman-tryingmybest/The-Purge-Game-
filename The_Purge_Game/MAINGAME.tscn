@@ -1,4 +1,4 @@
-[gd_scene load_steps=470 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=473 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -89,7 +89,10 @@
 [ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="45_naog5"]
 [ext_resource type="Texture2D" uid="uid://cjjlypg1jygpr" path="res://Player/Bar.png" id="46_8nd12"]
 [ext_resource type="Script" uid="uid://bhupw1nf2vd2n" path="res://applyforce.gd" id="47_8eqi4"]
+[ext_resource type="Texture2D" uid="uid://ddx27u32m6mrq" path="res://Player/weapon/Gun1.png" id="47_dchly"]
+[ext_resource type="Texture2D" uid="uid://kylmoualjw76" path="res://Player/weapon/Sword.png" id="48_xtt2u"]
 [ext_resource type="PackedScene" uid="uid://blspfgfuwc633" path="res://dropship.tscn" id="49_x1eik"]
+[ext_resource type="Texture2D" uid="uid://fvwen03cinj4" path="res://Player/weapon/Hammer.png" id="49_xtt2u"]
 [ext_resource type="Script" uid="uid://t37vham7ysgo" path="res://canvas_layer.gd" id="64_ooit5"]
 [ext_resource type="Texture2D" uid="uid://xchydswa2v01" path="res://pause menu/Setting.png" id="65_n8cbv"]
 [ext_resource type="Texture2D" uid="uid://bj5eu0cnm018n" path="res://pause menu/RESUMEBUTTON1.png" id="66_wp73k"]
@@ -7429,7 +7432,7 @@ sword_force = 1000.0
 health = 100.0
 shield_cooldown = 0.6
 bullet = ExtResource("2_r6lv2")
-hammer_target = 0
+hammer_target = 5
 ham_dam = 455.0
 
 [node name="dash timer" type="Timer" parent="Player"]
@@ -7606,13 +7609,59 @@ z_index = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -94.0
+offset_top = -90.0
 offset_right = 250.0
+offset_bottom = 4.0
 grow_vertical = 0
+scale = Vector2(0.9, 0.9)
 size_flags_horizontal = 0
 size_flags_vertical = 8
 texture_under = ExtResource("45_f1tjs")
 texture_progress = ExtResource("46_8nd12")
+
+[node name="hammer" type="TextureRect" parent="Player/CanvasLayer2"]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 311.00003
+offset_top = -219.00003
+offset_right = 1085.0
+offset_bottom = 828.0
+grow_vertical = 0
+rotation = 0.52883476
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("49_xtt2u")
+flip_h = true
+
+[node name="gun" type="TextureRect" parent="Player/CanvasLayer2"]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 233.0
+offset_top = -143.0
+offset_right = 1313.0
+offset_bottom = 583.0
+grow_vertical = 0
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("47_dchly")
+
+[node name="sword" type="TextureRect" parent="Player/CanvasLayer2"]
+visible = false
+anchors_preset = -1
+anchor_left = -0.024305582
+anchor_top = 0.7506551
+anchor_right = 0.20488864
+anchor_bottom = 0.7506551
+offset_left = 238.00005
+offset_top = 164.5755
+offset_right = 1593.9683
+offset_bottom = 890.5755
+rotation = -0.45204028
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("48_xtt2u")
+metadata/_edit_use_anchors_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
@@ -8474,14 +8523,14 @@ offset_bottom = 40.0
 [node name="setting" type="TextureButton" parent="CanvasLayer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 1039.0
-offset_top = -27.0
-offset_right = 1099.0
-offset_bottom = 28.999924
-grow_horizontal = 0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 1079.0
+offset_top = -67.0
+offset_right = 1139.0
+offset_bottom = -11.000076
+grow_vertical = 0
 pivot_offset = Vector2(30, 27)
 texture_normal = ExtResource("65_n8cbv")
 ignore_texture_size = true
