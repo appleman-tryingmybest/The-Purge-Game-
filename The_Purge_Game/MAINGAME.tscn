@@ -7432,8 +7432,10 @@ sword_force = 1000.0
 health = 100.0
 shield_cooldown = 0.6
 bullet = ExtResource("2_r6lv2")
-hammer_target = 5
+hammer_target = 0
 ham_dam = 455.0
+player_heal_amout = 5
+heal_timer = 3.0
 
 [node name="dash timer" type="Timer" parent="Player"]
 wait_time = 0.2

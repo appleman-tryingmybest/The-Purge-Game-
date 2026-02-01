@@ -19,6 +19,9 @@ extends CharacterBody2D
 @export var hammer_target:int=10
 @export var ham_dam:float
 @export var timer_death:float=1
+@export var player_heal_amout:int
+@export var heal_timer:float
+
 
 var jump_count=0
 var max_jump=2
@@ -42,6 +45,7 @@ var hammer_lock=true
 var dead_pos:Vector2=Vector2.ZERO
 var dropod_fall=false
 var dropod_velocity = 0.0
+var last_dam:float
 
 
 @onready var animation = $AnimationPlayer
@@ -203,7 +207,12 @@ func _physics_process(delta: float) -> void:
 			velocity.x =direction * current_speed + knockback_velocity.x 
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	if !dead and !respawn and health < initial_health:
+		last_dam += delta
+		if last_dam>=heal_timer:
+			health+=player_heal_amout* delta
+			health=min(health,initial_health)
+			health_bar.value = health
 	if dropod_fall:
 		if not floor_checker.is_colliding():#check the ground where the collision shape
 			dropod_velocity += 5000* delta
@@ -303,6 +312,7 @@ func _process(_delta): #mostly ani here
 		gun_pic.hide()
 		sword_pic.hide()
 		hammer_pic.show()
+		hammer_pic.modulate=Color(0.5,0.5,0.5)
 		play_sound(hammer_intro)
 		if is_on_floor():
 			animation.play("hammer-intro", 0, 1.5)
@@ -310,8 +320,10 @@ func _process(_delta): #mostly ani here
 			await animation.animation_finished
 		Global.hammer = true
 		animation.play("hammer-up")
+		create_tween().tween_property(hammer_pic, "modulate", Color.WHITE, 0.3)
 		await animation.animation_finished
 		animation.play("hammer-attack")
+		hammer_pic.modulate=Color(1.0, 1.0, 1.0, 1.0)
 		play_sound(hammer_hit)
 		Global.hammer_num=0
 		await animation.animation_finished
@@ -420,6 +432,7 @@ func take_damage(amount:float):#enemy attack player
 	if dead or block or is_dashing or respawn or hammer1 or hammer2 or hammer3:#wiill break the aniamtion
 		return
 	health -= amount
+	last_dam=0
 	health_bar.value = health
 	health_bar.create_tween().tween_property(health_bar, "value", health, 0.1)#let it mmore smooth
 	print ("Your remaining health: ", health)
