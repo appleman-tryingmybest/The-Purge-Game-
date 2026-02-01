@@ -7622,14 +7622,13 @@ texture_under = ExtResource("45_f1tjs")
 texture_progress = ExtResource("46_8nd12")
 
 [node name="hammer" type="TextureRect" parent="Player/CanvasLayer2"]
-visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 311.00003
-offset_top = -219.00003
-offset_right = 1085.0
-offset_bottom = 828.0
+offset_left = 99.99997
+offset_top = -285.0
+offset_right = 874.0
+offset_bottom = 762.0
 grow_vertical = 0
 rotation = 0.52883476
 scale = Vector2(0.2, 0.2)
