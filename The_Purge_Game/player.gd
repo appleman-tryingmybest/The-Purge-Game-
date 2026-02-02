@@ -46,7 +46,7 @@ var dead_pos:Vector2=Vector2.ZERO
 var dropod_fall=false
 var dropod_velocity = 0.0
 var last_dam:float
-
+var gravity: float = 980.0
 
 @onready var animation = $AnimationPlayer
 @onready var hand = %"player-hand"
@@ -135,20 +135,20 @@ func _physics_process(delta: float) -> void:
 	if respawn:#let player cannot move when not on ground)
 		velocity.x = 0
 		if not is_on_floor():
-			velocity += get_gravity() * delta
+			velocity.y += gravity * delta
 		move_and_slide()
 		return
 	if dead or block :#can let animation don't move
 		velocity=Vector2.ZERO
 		if !is_on_floor():
-			velocity += get_gravity() * delta
+			velocity.y += gravity * delta
 		move_and_slide()
 		return
 	var hammer1= animation.current_animation=="hammer-intro"
 	var hammer2= animation.current_animation=="hammer-up"
 	var hammer3=animation.current_animation=="hammer-attack"
 	if hammer1 or hammer2 or hammer3:
-		velocity += get_gravity() * delta
+		velocity.y += gravity * delta
 		move_and_slide()
 		return
 	Global.player_x = global_position.x
@@ -168,7 +168,7 @@ func _physics_process(delta: float) -> void:
 	was_on_floor = currently_on_floor
 	# Add the gravity.
 	if not is_on_floor() and not is_dashing:
-		velocity += get_gravity() * delta
+		velocity.y += gravity * delta
 	direction=Input.get_axis("ui_left", "ui_right")
 	if(direction !=0 or Input.is_action_just_pressed("ui_up")) and Global.game_started == false:
 			Global.game_started = true
