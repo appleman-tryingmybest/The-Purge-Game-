@@ -26,7 +26,6 @@ var spawn_at := 0
 @onready var score_board = $cannon/scoreboard
 @onready var setting = %setting
 
-var time_elapsed : float = 0.0
 
 #PRELOAD SOUNDS
 var arena4_intro = preload("res://music/arena_music/arena_4/arena_4_intro.ogg")
@@ -39,8 +38,10 @@ var slip = preload("res://sounds/slip.ogg")
 var scream = preload("res://sounds/scream.ogg")
 var punch = preload("res://sounds/punch.ogg")
 
+
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if !trigger_once and body.is_in_group("player"):
+		Global.start_game = true #newstuff
 		Global.allowSpawn = false
 		animation.play("idle")
 		trigger_once = true
@@ -150,13 +151,14 @@ func spawn_enemy(enemy_type: String):
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	print ("modulate is ", score_board.modulate.a)
-	if Global.game_started:
-		time_elapsed += delta
-		var mins = int(time_elapsed/60)
-		var secs = int(time_elapsed) %60
+	if Global.start_game:
+		Global.start_time += delta
+		var mins = int(Global.start_time/60)
+		var secs = int(Global.start_time) %60
 		var time_string = "%02d:%02d" % [mins, secs]
 		if score_board and score_board.has_node("timer_label"):
 			score_board.get_node("timer_label").text = "TIMER:" + time_string
+		print("Timerswitch:",Global.start_game,"|Current time",Global.start_time)
 		
 	if Global.arena_player and spawn:
 		_manage_arena_music()
@@ -263,15 +265,16 @@ func destroy_gun():
 	animation.play("mmu_boom")
 	print("mmuboom?")
 	await animation.animation_finished
-	Global.game_started = false
+	Global.start_game = false
 	scoreboard()
 	
 func scoreboard():
 	var music_sys = get_parent().get_node("music-system")
 	music_sys.end_arena()
 	print("timer start")
-	var mins= int(time_elapsed/60)
-	var secs = int(time_elapsed)%60
+	Global.start_game = false
+	var mins= int(Global.start_time/60)
+	var secs = int(Global.start_time)%60
 	var time_string = "%02d:%02d" % [mins, secs]
 	var box = $cannon/scoreboard/VBoxContainer
 	box.get_node("timer_label").text = "Time:   " + time_string
@@ -279,29 +282,50 @@ func scoreboard():
 	var timer_ = $cannon/scoreboard/VBoxContainer/timer_label
 	var kill = $cannon/scoreboard/VBoxContainer/kill_count
 	var bullet = $cannon/scoreboard/VBoxContainer/bullets_shot
-	var damagee = $cannon/scoreboard/VBoxContainer/damage
+	var death = $cannon/scoreboard/VBoxContainer/death_count
+	var damage = $cannon/scoreboard/VBoxContainer/damage_taken
+	var deathcount = str(Global.death_count)
 	var killcount_string = str(Global.enemy_kill_count)
 	var bulletscount = str(Global.bullets_count)
+	var take_damage = str(int(Global.total_damage_taken))
+	box.get_node("death_count").text = "Death  Count:   " + deathcount
 	box.get_node("kill_count").text = "Kill  Count:   " + killcount_string
 	box.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
+	box.get_node("damage_taken").text = "Damage  Taken :    " + take_damage
 	timer_.hide()
 	kill.hide()
 	bullet.hide()
-	damagee.hide()
+	death.hide()
+	damage.hide()
 	score_board.show()
 	var tween = create_tween()
 	tween.tween_property(score_board,"modulate:a",1.0,1.0)
 	await get_tree().create_timer(1).timeout
 	timer_.show()
-	await get_tree().create_timer(1).timeout
-	kill.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
 	bullet.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
-	damagee.show()
+	kill.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
-
+	death.show()
+	play_sound(punch)
+	await get_tree().create_timer(1).timeout
+	damage.show()
+	play_sound(punch)
+	await get_tree().create_timer(1).timeout
 	
+func damage_record(amount:int):
+	var player = get_parent().get_node("Player")
+	var _health :int = 100
+	var player_hurtbox = player.get_node("hurt_area")
+	player_hurtbox.area_entered.connect(_damage_detect)
+	
+func _damage_detect(area: Area2D):
+	if area.has_method("give_damage"):  #has_method= do you have this
+		var amount = area.give_damage()
+		Global.total_damage_taken += amount #record
+		print("detected",amount,"Total:", Global.total_damage_taken)
+		

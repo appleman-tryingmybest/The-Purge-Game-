@@ -363,6 +363,7 @@ func _death_sequence():
 	print("Congratulations! You died")
 	await get_tree().create_timer(2).timeout
 	respawn_player()
+	add_death() #scoreboard
 
 # RECEIVE DAMAGE
 
@@ -375,6 +376,7 @@ func take_damage(amount:float):#enemy attack player
 	else:
 		play_sound(unf, randf_range(0.8, 1.4), 4)
 		health -= amount
+		Global.total_damage_taken += amount    #for scoreboard
 		print ("Your remaining health: ", health)
 		animation.play("shield-hitted")
 		_cam_shake(15)
@@ -472,3 +474,10 @@ func _on_hammer_area_entered(area: Area2D) -> void:
 
 func _hammer_jump(up:float):
 	velocity.y=-up
+
+
+
+#scoreboard
+func add_death():
+	Global.death_count += 1
+	print("current deaths:", Global.death_count)

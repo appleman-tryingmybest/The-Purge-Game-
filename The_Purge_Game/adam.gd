@@ -21,6 +21,7 @@ func _ready() -> void:
 	start_posHead = head1.position
 	start_posJaw = jaw.position
 
+#o = normal, 1= scream
 func _process(delta: float) -> void:
 	if state == 0:
 		head1.position += Vector2(randf_range(-head_rand,head_rand), randf_range(-head_rand, head_rand))
@@ -41,7 +42,8 @@ func _physics_process(delta: float) -> void:
 	var cam_center = cam.get_screen_center_position()
 	position = cam_center + Vector2(0, offsetY)
 	timer -= delta
-	if timer < 0 and allowAction:
+	
+	if timer < 0 and allowAction and Global.start_game:
 		show()
 		if !startscream:
 			print ("reset timer2")
@@ -52,6 +54,8 @@ func _physics_process(delta: float) -> void:
 		if timer2 < 0:
 			allowAction = false
 			_scream()
+	elif !Global.start_game:
+		hide()
 	if startscream:
 		timer2 -= delta
 		print ("timer2 is ", timer2)
@@ -70,7 +74,7 @@ func _scream():
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("something entered the area:", body.name)
 	if body.is_in_group("player"):
-		if body.is_on_floor():
+		if body.is_on_floor() and Global.start_game:
 			print("is on floor")
 			var push_dir := 0
 			if position.x < Global.player_x: # right
@@ -83,3 +87,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				body.take_damage(50)
 		else:
 			print("is not on floor")
+	elif !Global.start_game:
+		hide()

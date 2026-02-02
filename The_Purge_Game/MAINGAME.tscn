@@ -1,4 +1,4 @@
-[gd_scene load_steps=476 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=499 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -124,6 +124,7 @@
 [ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="104_tlnu2"]
 [ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="105_1hk0o"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
+[ext_resource type="Script" uid="uid://gaqk5nwina61" path="res://gpu_particles_2d.gd" id="125_1hk0o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -3932,6 +3933,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3t2ia"]
 size = Vector2(598, 54)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1hk0o"]
+polygon = PackedVector2Array(-299, -79, -294, 176, 295, 172, 298, -80)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe0f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uc67x"]
@@ -6234,6 +6238,107 @@ shadow_size = 2
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6lv2"]
 size = Vector2(52, 1113)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1hk0o"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 13.33
+initial_velocity_max = 46.67
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 100, 0)
+scale_max = 3.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tlnu2"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_1hk0o"]
+_limits = [0.0, 0.3, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26797387, 0.2871202), 0.0, 0.0, 0, 0, Vector2(0.50326794, 0.3), 0.0, 0.0, 0, 0, Vector2(0.76797384, 0.2819683), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_f1tjs"]
+curve = SubResource("Curve_1hk0o")
+
+[sub_resource type="Gradient" id="Gradient_8nd12"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dchly"]
+gradient = SubResource("Gradient_8nd12")
+
+[sub_resource type="Curve" id="Curve_xtt2u"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_l8ssf"]
+_limits = [0.0, 30.0, 0.0, 1.0]
+_data = [Vector2(0, 15.3170395), 0.0, 0.0, 0, 0, Vector2(0.15686274, 28.969616), 0.0, 0.0, 0, 0, Vector2(0.25490198, 30), 0.0, 0.0, 0, 0, Vector2(0.99999, 30), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_hnp11"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_8b1ck"]
+curve_x = SubResource("Curve_xtt2u")
+curve_y = SubResource("Curve_l8ssf")
+curve_z = SubResource("Curve_hnp11")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tlnu2"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -950, 0)
+emission_shape_scale = Vector3(30, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(80, 1, 1)
+direction = Vector3(-90, 0, 0)
+spread = 0.0
+initial_velocity_min = -200.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 4000, 0)
+linear_accel_min = -44.0
+linear_accel_max = 80.59
+radial_accel_min = -2.0000021
+radial_accel_max = -2.0000021
+scale_min = 2.0
+scale_max = 3.0
+scale_over_velocity_curve = SubResource("CurveXYZTexture_8b1ck")
+color_initial_ramp = SubResource("GradientTexture1D_dchly")
+alpha_curve = SubResource("CurveTexture_f1tjs")
+collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_f1tjs"]
+polygon = PackedVector2Array(-1009, -497, -646, -495, -651, -438, -665, -401, -674, -316, -622, -118, -686, 68)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_8nd12"]
+polygon = PackedVector2Array(-1006, -489, -654, -499, -665, -450, -964, 59)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_dchly"]
+polygon = PackedVector2Array(-1023, -476, -37, -469, -42, -358, -1023, -375)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xtt2u"]
+polygon = PackedVector2Array(-1006, -489, 47, -486, 87, -217, -1056, -245)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l8ssf"]
+polygon = PackedVector2Array(-3299, -209, 2901, -236, 1007, -132, 798, -115, -1934, -158)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_hnp11"]
+polygon = PackedVector2Array(-1194, 3266, -543, 3258, -543, 3820)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_8b1ck"]
+polygon = PackedVector2Array(-972, 3258, -336, 3268, -967, 3765)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7f3ce"]
+polygon = PackedVector2Array(-980, 3262, -1030, 3340, -303, 3349, -286, 3270)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gpf6m"]
+polygon = PackedVector2Array(-790, 7619, -85, 7031, 471, 7043, 1156, 7622)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fcy60"]
+polygon = PackedVector2Array(-376, 12508, -390, 12461, -306, 12428, -236, 12315, -132, 12249, -74, 12227, -56, 12169, -16, 12132, 10, 12126, 144, 12027, 290, 12021, 329, 12095, 466, 12124, 487, 12105, 485, 12015, 567, 12019, 565, 12042, 581, 12040, 610, 12021, 635, 12015, 659, 12023, 723, 12029, 770, 12027, 776, 12009, 1011, 12003, 1037, 12003, 1039, 12029, 1074, 11982, 1150, 11980, 1160, 12001, 1173, 12001, 1200, 11980, 1230, 11974, 1300, 11982, 1294, 12208, 1341, 12208, 1339, 12262, 692, 12410, 684, 12444, 787, 12508)
+
 [node name="Node2D" type="Node2D"]
 
 [node name="main menu" type="CanvasLayer" parent="."]
@@ -6329,7 +6434,7 @@ scale = Vector2(3, 3)
 focus_mode = 0
 theme_override_colors/font_color = Color(0.89188385, 0.92116946, 7.70092e-07, 1)
 theme_override_colors/font_pressed_color = Color(0.6363033, 0.7286708, 0.15537634, 1)
-theme_override_colors/font_hover_color = Color(0.8942408, 0.9059705, 0.03648311, 1)
+theme_override_colors/font_hover_color = Color(1, 0.90588236, 0.03529412, 1)
 theme_override_fonts/font = ExtResource("78_y4xcw")
 text = "tutorial"
 flat = true
@@ -7760,7 +7865,6 @@ script = ExtResource("2_cbkd1")
 tile_width = 575.0
 tile_number = 1.0
 Floor_Debug = true
-Floor_random = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
 position = Vector2(1, -34)
@@ -7771,6 +7875,12 @@ debug_color = Color(2.7915835e-06, 0.6120229, 0.6268773, 0.41960785)
 position = Vector2(0, 63)
 scale = Vector2(0.49, 0.695)
 texture = ExtResource("8_54s57")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="floorGenerator"]
+process_mode = 3
+z_index = 101
+position = Vector2(0, 16)
+occluder = SubResource("OccluderPolygon2D_1hk0o")
 
 [node name="Spawner" type="StaticBody2D" parent="."]
 position = Vector2(-75, 0)
@@ -8456,6 +8566,22 @@ modulate = Color(1, 1, 1, 0.5137255)
 scale = Vector2(66.410255, 158.88876)
 texture = ExtResource("35_dd6w0")
 
+[node name="Button" type="Button" parent="StoryArena4/cannon/scoreboard/container"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.671171
+offset_top = -4.01958
+offset_right = 176.32883
+offset_bottom = 23.98042
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.015, 0.015)
+theme_override_fonts/font = ExtResource("78_y4xcw")
+text = "Main Menu"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="StoryArena4/cannon/scoreboard"]
 offset_left = -385.77777
 offset_top = -390.22223
@@ -8474,16 +8600,6 @@ text = "Timer :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Kill count :  
-"
-label_settings = SubResource("LabelSettings_hxxo4")
-
 [node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
@@ -8495,15 +8611,34 @@ shot :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="damage" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Bullets 
-shot :  
-"
+text = "Kill 
+count :  "
+label_settings = SubResource("LabelSettings_hxxo4")
+
+[node name="death_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Death
+count : "
+label_settings = SubResource("LabelSettings_hxxo4")
+
+[node name="damage_taken" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Damage
+taken :"
 label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
@@ -8513,17 +8648,17 @@ libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="paused_menu" type="CanvasLayer" parent="."]
 process_mode = 3
 script = ExtResource("64_ooit5")
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="paused_menu"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="setting" type="TextureButton" parent="CanvasLayer/Control"]
+[node name="setting" type="TextureButton" parent="paused_menu/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
@@ -8539,10 +8674,10 @@ texture_normal = ExtResource("65_n8cbv")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasLayer"]
+[node name="BackBufferCopy" type="BackBufferCopy" parent="paused_menu"]
 copy_mode = 2
 
-[node name="blurry_bg" type="ColorRect" parent="CanvasLayer"]
+[node name="blurry_bg" type="ColorRect" parent="paused_menu"]
 unique_name_in_owner = true
 visible = false
 material = SubResource("ShaderMaterial_t843m")
@@ -8554,7 +8689,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.3803922)
 
-[node name="Resume_button" type="TextureButton" parent="CanvasLayer"]
+[node name="Resume_button" type="TextureButton" parent="paused_menu"]
 unique_name_in_owner = true
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
@@ -8571,7 +8706,7 @@ texture_click_mask = ExtResource("69_xldp0")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Option_button" type="TextureButton" parent="CanvasLayer"]
+[node name="Option_button" type="TextureButton" parent="paused_menu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
 offset_left = 442.0
@@ -8585,29 +8720,29 @@ texture_click_mask = ExtResource("73_8eqi4")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="paused_menu"]
 process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_8ecis")
 }
 
-[node name="options_panel" type="Control" parent="CanvasLayer"]
+[node name="options_panel" type="Control" parent="paused_menu"]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
-offset_top = 157.0
+offset_top = 67.0
 offset_right = 40.0
-offset_bottom = 197.0
+offset_bottom = 107.0
 
-[node name="back_button" type="TextureButton" parent="CanvasLayer/options_panel"]
+[node name="back_button" type="TextureButton" parent="paused_menu/options_panel"]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 0
-offset_left = 887.0
-offset_top = 437.0
-offset_right = 1022.0
-offset_bottom = 477.0
+offset_left = 1594.0
+offset_top = 821.0
+offset_right = 1729.0
+offset_bottom = 861.0
 texture_normal = ExtResource("74_naog5")
 texture_pressed = ExtResource("75_1vh3m")
 texture_hover = ExtResource("76_rdpn4")
@@ -8615,7 +8750,7 @@ texture_click_mask = ExtResource("77_maayn")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="CanvasLayer/options_panel"]
+[node name="Label" type="Label" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 104.0
 offset_top = 192.0
@@ -8623,20 +8758,22 @@ offset_right = 537.0
 offset_bottom = 250.0
 text = "Performance
 
-disable mountain
+disable  mountain
 
-disable tree
+disable  tree
 
-disable cloud
+disable  cloud
+
+disable  rain
 
 Extras
 
-add bob
+add  bob
 
-add adam"
+add  adam"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="HSlider2" type="HSlider" parent="CanvasLayer/options_panel"]
+[node name="HSlider2" type="HSlider" parent="paused_menu/options_panel"]
 process_mode = 3
 layout_mode = 0
 offset_left = 371.0
@@ -8647,7 +8784,7 @@ theme_override_styles/slider = SubResource("StyleBoxFlat_hxxo4")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_s5cbt")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ivick")
 
-[node name="Label" type="Label" parent="CanvasLayer/options_panel/HSlider2"]
+[node name="Label" type="Label" parent="paused_menu/options_panel/HSlider2"]
 layout_mode = 0
 offset_left = -269.0
 offset_top = 59.0
@@ -8657,7 +8794,7 @@ text = "Music
 Volume"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/options_panel"]
+[node name="HSlider" type="HSlider" parent="paused_menu/options_panel"]
 process_mode = 3
 layout_mode = 0
 offset_left = 373.0
@@ -8668,7 +8805,7 @@ theme_override_styles/slider = SubResource("StyleBoxFlat_hxxo4")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_s5cbt")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ivick")
 
-[node name="Label" type="Label" parent="CanvasLayer/options_panel/HSlider"]
+[node name="Label" type="Label" parent="paused_menu/options_panel/HSlider"]
 layout_mode = 0
 offset_left = -269.0
 offset_top = 59.0
@@ -8678,67 +8815,85 @@ text = "Sound
 volume"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="mountain" type="CheckButton" parent="CanvasLayer/options_panel"]
+[node name="mountain" type="CheckButton" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 688.00006
 offset_top = 256.0
 offset_right = 732.00006
 offset_bottom = 280.0
 scale = Vector2(3, 3)
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="tree" type="CheckButton" parent="CanvasLayer/options_panel"]
+[node name="tree" type="CheckButton" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 688.00006
 offset_top = 328.0
 offset_right = 732.00006
 offset_bottom = 352.0
 scale = Vector2(3, 3)
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="cloud" type="CheckButton" parent="CanvasLayer/options_panel"]
+[node name="cloud" type="CheckButton" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 688.0
 offset_top = 408.0
 offset_right = 732.0
 offset_bottom = 432.0
 scale = Vector2(3, 3)
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="bob" type="CheckButton" parent="CanvasLayer/options_panel"]
+[node name="bob" type="CheckButton" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 688.0
-offset_top = 577.0
+offset_top = 661.0
 offset_right = 732.0
-offset_bottom = 601.0
+offset_bottom = 685.0
 scale = Vector2(3, 3)
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="adam" type="CheckButton" parent="CanvasLayer/options_panel"]
+[node name="adam" type="CheckButton" parent="paused_menu/options_panel"]
 layout_mode = 0
 offset_left = 688.0
-offset_top = 654.0
+offset_top = 730.0
 offset_right = 732.0
-offset_bottom = 678.0
+offset_bottom = 754.0
 scale = Vector2(3, 3)
+focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="Exit" type="TextureButton" parent="CanvasLayer"]
+[node name="Rain" type="CheckButton" parent="paused_menu/options_panel"]
+layout_mode = 0
+offset_left = 688.0
+offset_top = 494.0
+offset_right = 732.0
+offset_bottom = 518.0
+scale = Vector2(3, 3)
+focus_mode = 0
+theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
+theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
+
+[node name="Exit" type="TextureButton" parent="paused_menu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
 offset_left = 447.0
@@ -8810,9 +8965,100 @@ angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
 
-[node name="Mybeautifulboy0" type="Sprite2D" parent="."]
-position = Vector2(-1303, 4445)
-texture = ExtResource("103_oh2np")
+[node name="splash" type="GPUParticles2D" parent="."]
+process_mode = 3
+z_index = 101
+position = Vector2(-95109, -40479)
+emitting = false
+amount = 10000
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-100, -100, 1000000000000, 1000000000000)
+trail_lifetime = 0.08
+process_material = SubResource("ParticleProcessMaterial_1hk0o")
+
+[node name="rain" type="GPUParticles2D" parent="."]
+z_index = 99
+material = SubResource("CanvasItemMaterial_tlnu2")
+position = Vector2(663, 0)
+amount = 1000
+sub_emitter = NodePath("../splash")
+lifetime = 5.0
+preprocess = 1.0
+collision_base_size = 170.0
+visibility_rect = Rect2(-2300, -1000, 4600, 2000)
+process_material = SubResource("ParticleProcessMaterial_tlnu2")
+script = ExtResource("125_1hk0o")
+rain_height = -600.0
+timer = 120.0
+rain = 8
+
+[node name="rain_floor" type="StaticBody2D" parent="."]
+position = Vector2(-187, 2384)
+
+[node name="arena1" type="StaticBody2D" parent="rain_floor"]
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena1"]
+occluder = SubResource("OccluderPolygon2D_f1tjs")
+
+[node name="LightOccluder2D4" type="LightOccluder2D" parent="rain_floor/arena1"]
+position = Vector2(2020, 7)
+occluder = SubResource("OccluderPolygon2D_8nd12")
+
+[node name="LightOccluder2D5" type="LightOccluder2D" parent="rain_floor/arena1"]
+position = Vector2(721, -354)
+occluder = SubResource("OccluderPolygon2D_dchly")
+
+[node name="LightOccluder2D6" type="LightOccluder2D" parent="rain_floor/arena1"]
+position = Vector2(653, 323)
+occluder = SubResource("OccluderPolygon2D_xtt2u")
+
+[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena1"]
+position = Vector2(653, 323)
+occluder = SubResource("OccluderPolygon2D_l8ssf")
+
+[node name="arena2" type="StaticBody2D" parent="rain_floor"]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena2"]
+occluder = SubResource("OccluderPolygon2D_hnp11")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="rain_floor/arena2"]
+position = Vector2(1887, 46)
+occluder = SubResource("OccluderPolygon2D_8b1ck")
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena2"]
+position = Vector2(840, 211)
+occluder = SubResource("OccluderPolygon2D_7f3ce")
+sdf_collision = false
+
+[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena2"]
+position = Vector2(565, 4029)
+occluder = SubResource("OccluderPolygon2D_l8ssf")
+
+[node name="arena3" type="StaticBody2D" parent="rain_floor"]
+
+[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena3"]
+position = Vector2(751, 7835)
+occluder = SubResource("OccluderPolygon2D_l8ssf")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena3"]
+z_index = 101
+occluder = SubResource("OccluderPolygon2D_gpf6m")
+
+[node name="arena4" type="StaticBody2D" parent="rain_floor"]
+
+[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena4"]
+z_index = 2101
+position = Vector2(651, 12747)
+occluder = SubResource("OccluderPolygon2D_l8ssf")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena4"]
+occluder = SubResource("OccluderPolygon2D_fcy60")
+
+[node name="LightOccluder2D8" type="LightOccluder2D" parent="rain_floor/arena4"]
+position = Vector2(634, 16865)
+occluder = SubResource("OccluderPolygon2D_l8ssf")
 
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]
@@ -8828,19 +9074,20 @@ texture = ExtResource("103_oh2np")
 [connection signal="body_entered" from="StoryArena2/PlayerSpawn/Area2D" to="StoryArena2" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena3/PlayerSpawn/Area2D" to="StoryArena3" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena4/PlayerSpawn/Area2D" to="StoryArena4" method="_on_area_2d_body_entered"]
-[connection signal="mouse_entered" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_exited"]
-[connection signal="pressed" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Resume_button" to="CanvasLayer" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Option_button" to="CanvasLayer" method="_on_option_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/options_panel/back_button" to="CanvasLayer" method="_on_back_button_pressed"]
-[connection signal="value_changed" from="CanvasLayer/options_panel/HSlider2" to="CanvasLayer" method="_on_h_slider_2_value_changed"]
-[connection signal="value_changed" from="CanvasLayer/options_panel/HSlider" to="CanvasLayer" method="_on_h_slider_value_changed"]
-[connection signal="toggled" from="CanvasLayer/options_panel/mountain" to="CanvasLayer" method="_on_mountain_toggled"]
-[connection signal="toggled" from="CanvasLayer/options_panel/tree" to="CanvasLayer" method="_on_tree_toggled"]
-[connection signal="toggled" from="CanvasLayer/options_panel/cloud" to="CanvasLayer" method="_on_cloud_toggled"]
-[connection signal="toggled" from="CanvasLayer/options_panel/bob" to="CanvasLayer" method="_on_bob_toggled"]
-[connection signal="toggled" from="CanvasLayer/options_panel/adam" to="CanvasLayer" method="_on_adam_toggled"]
-[connection signal="mouse_entered" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_mouse_exited"]
-[connection signal="pressed" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_pressed"]
+[connection signal="mouse_entered" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_exited"]
+[connection signal="pressed" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="paused_menu/Resume_button" to="paused_menu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="paused_menu/Option_button" to="paused_menu" method="_on_option_button_pressed"]
+[connection signal="pressed" from="paused_menu/options_panel/back_button" to="paused_menu" method="_on_back_button_pressed"]
+[connection signal="value_changed" from="paused_menu/options_panel/HSlider2" to="paused_menu" method="_on_h_slider_2_value_changed"]
+[connection signal="value_changed" from="paused_menu/options_panel/HSlider" to="paused_menu" method="_on_h_slider_value_changed"]
+[connection signal="toggled" from="paused_menu/options_panel/mountain" to="paused_menu" method="_on_mountain_toggled"]
+[connection signal="toggled" from="paused_menu/options_panel/tree" to="paused_menu" method="_on_tree_toggled"]
+[connection signal="toggled" from="paused_menu/options_panel/cloud" to="paused_menu" method="_on_cloud_toggled"]
+[connection signal="toggled" from="paused_menu/options_panel/bob" to="paused_menu" method="_on_bob_toggled"]
+[connection signal="toggled" from="paused_menu/options_panel/adam" to="paused_menu" method="_on_adam_toggled"]
+[connection signal="toggled" from="paused_menu/options_panel/Rain" to="paused_menu" method="_on_rain_toggled"]
+[connection signal="mouse_entered" from="paused_menu/Exit" to="paused_menu" method="_on_exit_mouse_entered"]
+[connection signal="mouse_exited" from="paused_menu/Exit" to="paused_menu" method="_on_exit_mouse_exited"]
+[connection signal="pressed" from="paused_menu/Exit" to="paused_menu" method="_on_exit_pressed"]

@@ -13,14 +13,15 @@ var camera_Type := 2
 var mountain := true
 var cloud := true
 var tree := true
-var arena_num := 3
+var arena_num := 2
 var enemy_kill_count := 0
 var ebeeChance := 25
 var allowSpawn := true
 var current_score : int
-var game_started := false
 var start_time := 0.0
 var final_time_display := ""
 var bullets_count = 0
 var hammer_num:=0
 var hammer := false
+var death_count : int = 0
+var total_damage_taken: float = 0

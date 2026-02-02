@@ -37,7 +37,7 @@ func _physics_process(delta: float) -> void:
 			_teleport()
 
 	elif state == 1: # teleport
-		velocity = Vector2(0, 0)
+		velocity = Vector2(0, 0) #not moving
 	
 	move_and_slide()
 	
@@ -48,11 +48,13 @@ func _teleport():
 	var getScaleX = get_parent().get_node("Player")
 	var dir = getScaleX.visuals.scale.x
 	position.x = Global.player_x + (distance * dir)
+	position.y  = Global.player_y
 	teleport_timer = 5
 	allowAction = true
 	state = 0
 	animation.play("idle", 0, 1.7) #(start immediately,speed)
 	pink.emitting = true
+	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -61,7 +63,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			push_dir = push_dir * -1
 		if position.x < Global.player_x: # left
 			push_dir = abs(push_dir)
-		if body.has_method("apply_knockback"):
+		if body.has_method("apply_knockback"):  #checking
 			body.apply_knockback(Vector2(push_dir, -800))
 		if body.has_method("take_damage"):
 			body.take_damage(50)
