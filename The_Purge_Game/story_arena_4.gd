@@ -322,6 +322,7 @@ func damage_record(amount:int):
 	var _health :int = 100
 	var player_hurtbox = player.get_node("hurt_area")
 	player_hurtbox.area_entered.connect(_damage_detect)
+
 	
 func _damage_detect(area: Area2D):
 	if area.has_method("give_damage"):  #has_method= do you have this
@@ -329,3 +330,22 @@ func _damage_detect(area: Area2D):
 		Global.total_damage_taken += amount #record
 		print("detected",amount,"Total:", Global.total_damage_taken)
 		
+
+
+func _on_button_pressed() -> void:
+	print("return to main menu from last scene")
+	get_tree().paused = false
+	Global.arena_player = true
+	Global.allowSpawn = true
+	Global.restart = true
+	Global.start_game = false
+	Global.camera_Type = 2
+	
+	Global.restart = false
+	Global.total_damage_taken = 0
+	Global.death_count = 0
+	Global.enemy_kill_count = 0
+	Global.bullets_count = 0
+	Global.start_time = 0.0
+	print("reset value mm")
+	get_tree().reload_current_scene()

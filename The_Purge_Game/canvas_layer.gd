@@ -180,11 +180,22 @@ func _on_h_slider_2_value_changed(value: float) -> void:
 
 func _on_exit_pressed() -> void:
 	print("return to main menu")
+	get_tree().paused = false
+	Global.arena_player = false
+	Global.allowSpawn = true
+	Global.restart = true
 	Global.start_game = false
 	Global.camera_Type = 2
-	get_tree().paused = false
+	Global.enemy_count = 0 
+	Global.total_damage_taken = 0
+	Global.death_count = 0
+	Global.enemy_kill_count = 0
+	Global.bullets_count = 0
+	Global.start_time = 0.0
+	print("reset value pm")
+	Global.restart = false
 	get_tree().reload_current_scene()
-
+	return
 
 func _on_mountain_toggled(toggled_on: bool) -> void:
 	if toggled_on:

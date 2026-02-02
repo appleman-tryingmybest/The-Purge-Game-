@@ -6286,18 +6286,18 @@ curve_y = SubResource("Curve_l8ssf")
 curve_z = SubResource("Curve_hnp11")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tlnu2"]
+resource_local_to_scene = true
+particle_flag_align_y = true
 particle_flag_disable_z = true
 emission_shape_offset = Vector3(0, -950, 0)
 emission_shape_scale = Vector3(30, 1, 1)
 emission_shape = 3
-emission_box_extents = Vector3(80, 1, 1)
-direction = Vector3(-90, 0, 0)
+emission_box_extents = Vector3(150, 1, 1)
+direction = Vector3(0, 0, 0)
 spread = 0.0
 initial_velocity_min = -200.0
 initial_velocity_max = 200.0
-gravity = Vector3(0, 4000, 0)
-linear_accel_min = -44.0
-linear_accel_max = 80.59
+gravity = Vector3(0, 2000, 0)
 radial_accel_min = -2.0000021
 radial_accel_max = -2.0000021
 scale_min = 2.0
@@ -6331,7 +6331,7 @@ polygon = PackedVector2Array(-1194, 3266, -543, 3258, -543, 3820)
 polygon = PackedVector2Array(-972, 3258, -336, 3268, -967, 3765)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7f3ce"]
-polygon = PackedVector2Array(-980, 3262, -1030, 3340, -303, 3349, -286, 3270)
+polygon = PackedVector2Array(-134, 3472, 531, 3477, 557, 3492, -172, 3502)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gpf6m"]
 polygon = PackedVector2Array(-790, 7619, -85, 7031, 471, 7043, 1156, 7622)
@@ -7863,7 +7863,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 1.0
+tile_number = 6.0
 Floor_Debug = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
@@ -8694,10 +8694,18 @@ unique_name_in_owner = true
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
 custom_minimum_size = Vector2(-0.06, 0)
-offset_left = 445.0
-offset_top = 87.0
-offset_right = 688.0
-offset_bottom = 159.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.5
+offset_top = -134.0
+offset_right = 121.5
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 action_mode = 0
 texture_normal = ExtResource("66_wp73k")
 texture_pressed = ExtResource("67_gh4k4")
@@ -8709,10 +8717,18 @@ stretch_mode = 5
 [node name="Option_button" type="TextureButton" parent="paused_menu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-offset_left = 442.0
-offset_top = 183.0
-offset_right = 693.0
-offset_bottom = 256.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.5
+offset_top = -36.5
+offset_right = 125.5
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 texture_normal = ExtResource("70_xtrul")
 texture_pressed = ExtResource("71_d8wvr")
 texture_hover = ExtResource("72_1lxef")
@@ -8896,10 +8912,18 @@ theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 
 [node name="Exit" type="TextureButton" parent="paused_menu"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-offset_left = 447.0
-offset_top = 277.0
-offset_right = 693.0
-offset_bottom = 358.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.0
+offset_top = 66.0
+offset_right = 123.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 texture_normal = ExtResource("79_yfnas")
 texture_pressed = ExtResource("80_j1hax")
 texture_hover = ExtResource("81_q0rty")
@@ -8970,7 +8994,7 @@ process_mode = 3
 z_index = 101
 position = Vector2(-95109, -40479)
 emitting = false
-amount = 10000
+amount = 20000
 lifetime = 0.75
 one_shot = true
 explosiveness = 1.0
@@ -8981,8 +9005,8 @@ process_material = SubResource("ParticleProcessMaterial_1hk0o")
 [node name="rain" type="GPUParticles2D" parent="."]
 z_index = 99
 material = SubResource("CanvasItemMaterial_tlnu2")
-position = Vector2(663, 0)
-amount = 1000
+position = Vector2(663, -2)
+amount = 2000
 sub_emitter = NodePath("../splash")
 lifetime = 5.0
 preprocess = 1.0
@@ -9027,14 +9051,12 @@ occluder = SubResource("OccluderPolygon2D_hnp11")
 position = Vector2(1887, 46)
 occluder = SubResource("OccluderPolygon2D_8b1ck")
 
-[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena2"]
-position = Vector2(840, 211)
-occluder = SubResource("OccluderPolygon2D_7f3ce")
-sdf_collision = false
-
 [node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena2"]
 position = Vector2(565, 4029)
 occluder = SubResource("OccluderPolygon2D_l8ssf")
+
+[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena2"]
+occluder = SubResource("OccluderPolygon2D_7f3ce")
 
 [node name="arena3" type="StaticBody2D" parent="rain_floor"]
 
@@ -9074,6 +9096,7 @@ occluder = SubResource("OccluderPolygon2D_l8ssf")
 [connection signal="body_entered" from="StoryArena2/PlayerSpawn/Area2D" to="StoryArena2" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena3/PlayerSpawn/Area2D" to="StoryArena3" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena4/PlayerSpawn/Area2D" to="StoryArena4" method="_on_area_2d_body_entered"]
+[connection signal="pressed" from="StoryArena4/cannon/scoreboard/container/Button" to="StoryArena4" method="_on_button_pressed"]
 [connection signal="mouse_entered" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_entered"]
 [connection signal="mouse_exited" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_exited"]
 [connection signal="pressed" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_pressed"]
