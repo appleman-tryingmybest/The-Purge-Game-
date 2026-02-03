@@ -1,4 +1,4 @@
-[gd_scene load_steps=499 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=501 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -125,6 +125,7 @@
 [ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="105_1hk0o"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
 [ext_resource type="Script" uid="uid://gaqk5nwina61" path="res://gpu_particles_2d.gd" id="125_1hk0o"]
+[ext_resource type="AudioStream" uid="uid://cq32w6fopvm3f" path="res://sounds/rainloop.ogg" id="126_f1tjs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -3934,7 +3935,7 @@ animations = [{
 size = Vector2(598, 54)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1hk0o"]
-polygon = PackedVector2Array(-299, -79, -294, 176, 295, 172, 298, -80)
+polygon = PackedVector2Array(-286, -8, -294, 176, 295, 172, 298, -10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe0f"]
 
@@ -5708,6 +5709,18 @@ tracks/9/keys = {
 "update": 0,
 "values": [3.1415927]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../Weirdnuke:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3.333313, -803.00006)]
+}
 
 [sub_resource type="Animation" id="Animation_vccrt"]
 resource_name = "destroy"
@@ -6066,6 +6079,21 @@ resource_name = "scoreboard"
 length = 0.6
 step = 0.1
 
+[sub_resource type="Animation" id="Animation_dchly"]
+resource_name = "weird_nuke"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Weirdnuke:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3.333313, -949.3334), Vector2(-3.333, -24)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
 _data = {
 &"RESET": SubResource("Animation_r3qtb"),
@@ -6076,7 +6104,8 @@ _data = {
 &"mmu_boom": SubResource("Animation_f1tjs"),
 &"point_down": SubResource("Animation_ghr7w"),
 &"point_up": SubResource("Animation_xldcp"),
-&"scoreboard": SubResource("Animation_8nd12")
+&"scoreboard": SubResource("Animation_8nd12"),
+&"weird_nuke": SubResource("Animation_dchly")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t843m"]
@@ -8557,6 +8586,7 @@ scale = Vector2(1.2, 1.2)
 texture = ExtResource("102_awnbw")
 
 [node name="scoreboard" type="StaticBody2D" parent="StoryArena4/cannon"]
+visible = false
 z_index = 99
 position = Vector2(0, 2610.0002)
 scale = Vector2(1.5, 1.5)
@@ -8647,6 +8677,36 @@ root_node = NodePath("../cannon")
 libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
 }
+
+[node name="Weirdnuke" type="Sprite2D" parent="StoryArena4"]
+process_mode = 3
+z_index = 99
+position = Vector2(3.333313, -803.00006)
+scale = Vector2(13, 13)
+texture = ExtResource("78_s8jdi")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="StoryArena4/Weirdnuke"]
+z_index = 99
+position = Vector2(0, 11.384615)
+scale = Vector2(2, 2)
+emitting = false
+amount = 99
+texture = ExtResource("7_s5vrf")
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector2(1, -20)
+spread = 90.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 15.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+linear_accel_min = 43.48
+linear_accel_max = 43.48
+scale_amount_min = 2.0
+scale_amount_max = 4.0
 
 [node name="paused_menu" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -9006,17 +9066,27 @@ process_material = SubResource("ParticleProcessMaterial_1hk0o")
 z_index = 99
 material = SubResource("CanvasItemMaterial_tlnu2")
 position = Vector2(663, -2)
-amount = 2000
+amount = 1000
 sub_emitter = NodePath("../splash")
 lifetime = 5.0
-preprocess = 1.0
+preprocess = 5.0
 collision_base_size = 170.0
 visibility_rect = Rect2(-2300, -1000, 4600, 2000)
 process_material = SubResource("ParticleProcessMaterial_tlnu2")
 script = ExtResource("125_1hk0o")
 rain_height = -600.0
 timer = 120.0
-rain = 8
+rain = 15
+p = 0.6
+thunder_timer = 10.0
+
+[node name="rainsound" type="AudioStreamPlayer2D" parent="rain"]
+position = Vector2(-663, 2)
+stream = ExtResource("126_f1tjs")
+volume_db = 18.0
+pitch_scale = 3.0
+bus = &"sounds"
+parameters/looping = true
 
 [node name="rain_floor" type="StaticBody2D" parent="."]
 position = Vector2(-187, 2384)

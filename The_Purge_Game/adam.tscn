@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://uvc2534hmvin"]
+[gd_scene load_steps=11 format=3 uid="uid://uvc2534hmvin"]
 
 [ext_resource type="Script" uid="uid://djar64fvfblum" path="res://adam.gd" id="1_86y6c"]
 [ext_resource type="Texture2D" uid="uid://cecc42on5gj63" path="res://Enemy/extra/Head1.png" id="1_vbrut"]
 [ext_resource type="Texture2D" uid="uid://d1urlhdywyy73" path="res://Enemy/extra/Jaw1.png" id="2_86y6c"]
+[ext_resource type="AudioStream" uid="uid://f3dod8oudcgp" path="res://sounds/adam sound/chain.ogg" id="4_8pn64"]
+[ext_resource type="AudioStream" uid="uid://dggt0cu0he4b3" path="res://sounds/adam sound/heart.ogg" id="4_hh20m"]
 
 [sub_resource type="Animation" id="Animation_hh20m"]
 length = 0.001
@@ -170,5 +172,17 @@ position = Vector2(2.8571153, -622.8572)
 scale = Vector2(0.99999976, 0.99999976)
 shape = SubResource("RectangleShape2D_86y6c")
 disabled = true
+
+[node name="Chain" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_8pn64")
+volume_db = 20.0
+bus = &"sounds"
+parameters/looping = true
+
+[node name="Heart" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_hh20m")
+volume_db = 10.0
+bus = &"sounds"
+parameters/looping = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

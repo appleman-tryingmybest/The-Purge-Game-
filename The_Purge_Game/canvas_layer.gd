@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var bobb = $options_panel/bob
 @onready var adamm = $options_panel/adam
 @onready var tuto = %tutorial
+@onready var options = %options
 
 var is_paused = false
 
@@ -48,7 +49,6 @@ func _on_texture_button_pressed():
 		anim_gear.play("clicking_gear")
 		await anim_gear.animation_finished
 		anim_gear.stop()
-		anim_gear.play_backwards("hover move_setting")
 		blur_bg.modulate.a = 0.0
 		optionspm.modulate.a = 0.0
 		resume.modulate.a = 0.0
@@ -134,6 +134,10 @@ func _on_back_button_pressed():
 
 		Global.camera_Type = 2
 		print("back to main menu")
+		options.disabled = false
+		tuto.disabled = false
+		exitmm.disabled =  false
+		start.disabled = false
 		return
 	
 	exit.modulate.a = 0.0
@@ -156,6 +160,7 @@ func _on_exit_button_pressed():
 	resume.hide()
 	optionspm.hide()
 	options_panel.hide()
+	anim_gear.play_backwards("hover move_setting")
 	
 	
 func _on_h_slider_value_changed(value:float) -> void:

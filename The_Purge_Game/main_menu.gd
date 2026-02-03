@@ -28,6 +28,10 @@ func _process(_delta):
 		_on_exit_pressed()
 
 func _on_startgame_pressed() -> void:
+	start.disabled = true
+	tuto.disabled = true
+	options.disabled = true
+	exitmm.disabled = true
 	print("start")
 	animation.play("start")
 	await animation.animation_finished
@@ -38,10 +42,7 @@ func _on_startgame_pressed() -> void:
 	setting.show()
 	await animation.animation_finished
 	get_tree().paused = false
-	
-func _on_exit_button_pressed():
-	print("exit game")
-	_on_exit_pressed()
+
 	
 func _on_exit_pressed():
 	get_tree().quit()
@@ -71,6 +72,9 @@ func _on_options_pressed() -> void:
 	blur_bg.show()
 	options_panel.show()
 	back_button.show()
+	start.disabled = true
+	tuto.disabled = true
+	exitmm.disabled =  true
 
 func _on_tutorial_pressed() -> void:
 	print("tutorial mode")

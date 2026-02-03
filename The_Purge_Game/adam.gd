@@ -14,12 +14,21 @@ var allowAction = true
 var startscream := false
 @export var timer2 :float
 @export var timer :float
+@onready var shaking = $Chain
+@onready var heartbeat = $Heart
+
+var scream = preload("res://sounds/adam sound/scream.ogg")
+
 
 func _ready() -> void:
 	head1 = $visuals/Head1
 	jaw = $visuals/Head1/Jaw1
 	start_posHead = head1.position
 	start_posJaw = jaw.position
+	shaking.stop()
+	heartbeat.stop()
+	hide()
+	print("r u hiding adam")
 
 #o = normal, 1= scream
 func _process(delta: float) -> void:
@@ -42,19 +51,25 @@ func _physics_process(delta: float) -> void:
 	var cam_center = cam.get_screen_center_position()
 	position = cam_center + Vector2(0, offsetY)
 	timer -= delta
-	
 	if timer < 0 and allowAction and Global.start_game:
 		show()
+		print("adam is here")
 		if !startscream:
 			print ("reset timer2")
 			timer2 = 3
-		state = 0
-		startscream = true
-		animation.play("idle")
+			state = 0
+			startscream = true
+			animation.play("idle")
+			heartbeat.play()
+			shaking.play()
 		if timer2 < 0:
 			allowAction = false
+			heartbeat.stop()
+			shaking.stop()
 			_scream()
 	elif !Global.start_game:
+		heartbeat.stop()
+		shaking.stop()
 		hide()
 	if startscream:
 		timer2 -= delta
@@ -64,12 +79,14 @@ func _physics_process(delta: float) -> void:
 func _scream():
 	state = 1
 	animation.play("screaming")
+	play_sound(scream,40)
 	await animation.animation_finished
 	state = 0
-	timer = randf_range(0.1,2)
+	timer = randf_range(5,10)
 	allowAction = true
 	startscream = false
 	hide()
+	print("bye adam")
 	
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("something entered the area:", body.name)
@@ -89,3 +106,12 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			print("is not on floor")
 	elif !Global.start_game:
 		hide()
+		
+func play_sound (stream: AudioStream, volume:int = 0.0): 
+	var r = AudioStreamPlayer2D.new() 
+	r.stream = stream
+	r.bus = "sounds"
+	r.volume_db = 20
+	add_child(r) # adds to the world
+	r.play() # play first
+	r.finished.connect(r.queue_free)
