@@ -30,7 +30,6 @@ func _ready():
 	optionspm.hide()
 	options_panel.hide()
 	exit.hide()
-	
 	$options_panel/HSlider.value = 70
 	$options_panel/HSlider2.value = 70
 	
@@ -48,7 +47,7 @@ func _on_texture_button_pressed():
 		get_tree().paused = true
 		anim_gear.play("clicking_gear")
 		await anim_gear.animation_finished
-		anim_gear.stop()
+		anim_gear.play("pause_in")
 		blur_bg.modulate.a = 0.0
 		optionspm.modulate.a = 0.0
 		resume.modulate.a = 0.0
@@ -77,7 +76,7 @@ func _on_resume_button_pressed():
 	optionspm.hide()
 	exit.hide()
 	get_tree().paused = false
-	anim_gear.play_backwards("pause_in")
+	anim_gear.play_backwards("hover move_setting")
 	
 func _on_option_button_pressed():
 	await get_tree().create_timer(0.2,true,false,true).timeout
@@ -154,14 +153,6 @@ func _on_back_button_pressed():
 	anim_gear.play("pause_in")
 	anim_gear.seek(anim_gear.current_animation_length, true)
 
-func _on_exit_button_pressed():
-	print("exit")
-	await get_tree().create_timer(0.2).timeout
-	resume.hide()
-	optionspm.hide()
-	options_panel.hide()
-	anim_gear.play_backwards("hover move_setting")
-	
 	
 func _on_h_slider_value_changed(value:float) -> void:
 	var bus_index = AudioServer.get_bus_index("sounds")
@@ -199,7 +190,11 @@ func _on_exit_pressed() -> void:
 	Global.start_time = 0.0
 	print("reset value pm")
 	Global.restart = false
+	Global.mountain = true
+	Global.cloud = true
+	Global.tree = true
 	get_tree().reload_current_scene()
+
 	return
 
 func _on_mountain_toggled(toggled_on: bool) -> void:

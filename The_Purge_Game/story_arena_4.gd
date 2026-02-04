@@ -25,6 +25,7 @@ var spawn_at := 0
 @export var ship_chance := 8
 @onready var score_board = $cannon/scoreboard
 @onready var setting = %setting
+@onready var weirdNuke = $Weirdnuke/CPUParticles2D
 
 
 #PRELOAD SOUNDS
@@ -256,9 +257,18 @@ func Mmu():
 	
 func destroy_gun():
 	print("hi")
+	weirdNuke.emitting = false
+	animation.play("weird_nuke")
+	await get_tree().create_timer(1).timeout
+	var shake = get_parent().get_node("Player")
+	if shake and shake.has_method("_cam_shake"):
+		shake._cam_shake(50)
+	weirdNuke.emitting = true
+	print("is emitting?: ",weirdNuke.emitting, "| Nuke position: ", weirdNuke.global_position)
+	await get_tree().create_timer(1).timeout
 	animation.play("destroy")
 	await animation.animation_finished
-	await get_tree().create_timer(6).timeout
+	await get_tree().create_timer(3).timeout
 	print("pls")
 	Global.camera_Type = 3
 	setting.hide()
@@ -269,6 +279,10 @@ func destroy_gun():
 	scoreboard()
 	
 func scoreboard():
+	Global.mountain = true
+	Global.cloud = true
+	Global.tree = true
+
 	var music_sys = get_parent().get_node("music-system")
 	music_sys.end_arena()
 	print("timer start")
@@ -335,13 +349,16 @@ func _damage_detect(area: Area2D):
 func _on_button_pressed() -> void:
 	print("return to main menu from last scene")
 	get_tree().paused = false
-	Global.arena_player = true
+	Global.arena_player = false
 	Global.allowSpawn = true
 	Global.restart = true
 	Global.start_game = false
 	Global.camera_Type = 2
-	
-	Global.restart = false
+	Global.mountain = true
+	Global.cloud = true
+	Global.tree = true
+	Global.restart = true
+	Global.enemy_count = 0
 	Global.total_damage_taken = 0
 	Global.death_count = 0
 	Global.enemy_kill_count = 0
@@ -349,3 +366,6 @@ func _on_button_pressed() -> void:
 	Global.start_time = 0.0
 	print("reset value mm")
 	get_tree().reload_current_scene()
+	
+
+	
