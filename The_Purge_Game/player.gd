@@ -123,15 +123,21 @@ func _physics_process(delta: float) -> void:
 		visible = true
 		apply_knockback(Vector2(2500, 25))
 	health_bar.show()
-	if !Global.hammer: 
-		if current_weapon == "sword":
-			sword_pic.show()
-			gun_pic.hide()
-			hammer_pic.hide()
-		elif current_weapon == "gun":
-			sword_pic.hide()
-			hammer_pic.hide()
-
+	hammer_pic.show()
+	if Global.hammer_num >= hammer_target: 
+		hammer_pic.modulate=Color(1.0, 1.0, 1.0, 1.0)
+		create_tween().tween_property(hammer_pic, "modulate", Color.WHITE, 0.3)
+	elif Global.hammer_num <= hammer_target:
+		hammer_pic.modulate=Color(0.5,0.5,0.5)
+	if Global.hammer:
+		hand.hide()
+		handgun.hide()
+	if current_weapon=="sword":
+		sword_pic.show()
+		gun_pic.hide()
+	elif current_weapon=="gun":
+		gun_pic.show()
+		sword_pic.hide()
 	if respawn:#let player cannot move when not on ground)
 		velocity.x = 0
 		if not is_on_floor():
@@ -309,10 +315,6 @@ func _process(_delta): #mostly ani here
 		var weaponb4hammer=current_weapon
 		hand.hide()
 		handgun.hide()
-		gun_pic.hide()
-		sword_pic.hide()
-		hammer_pic.show()
-		hammer_pic.modulate=Color(0.5,0.5,0.5)
 		play_sound(hammer_intro)
 		if is_on_floor():
 			animation.play("hammer-intro", 0, 1.5)
@@ -320,21 +322,17 @@ func _process(_delta): #mostly ani here
 			await animation.animation_finished
 		Global.hammer = true
 		animation.play("hammer-up")
-		create_tween().tween_property(hammer_pic, "modulate", Color.WHITE, 0.3)
 		await animation.animation_finished
 		animation.play("hammer-attack")
-		hammer_pic.modulate=Color(1.0, 1.0, 1.0, 1.0)
 		play_sound(hammer_hit)
 		Global.hammer_num=0
 		await animation.animation_finished
 		if weaponb4hammer=="sword":
 			hand.show()
 			sword_pic.show()
-			hammer_pic.hide()
 			gun_pic.hide()
 		elif weaponb4hammer=="gun":
 			handgun.show()
-			hammer_pic.hide()
 			gun_pic.show()
 			sword_pic.hide()
 		Global.hammer = false
@@ -366,7 +364,6 @@ func switch_gun():
 		handgun.show()
 		gun_pic.show()
 		sword_pic.hide()
-		hammer_pic.hide()
 		gun.play("idle")
 		play_sound(gun_intro)
 		if sword_idle.is_playing():
@@ -377,7 +374,6 @@ func switch_gun():
 		sword_pic.show()
 		handgun.hide()
 		gun_pic.hide()
-		hammer_pic.hide()
 		play_sound(chainsword_intro)
 		sword_idle.play()
 
