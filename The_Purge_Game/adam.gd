@@ -79,7 +79,7 @@ func _physics_process(delta: float) -> void:
 func _scream():
 	state = 1
 	animation.play("screaming")
-	play_sound(scream,40)
+	play_sound(scream,20)
 	await animation.animation_finished
 	state = 0
 	timer = randf_range(5,10)
@@ -111,7 +111,7 @@ func play_sound (stream: AudioStream, volume:int = 0.0):
 	var r = AudioStreamPlayer2D.new() 
 	r.stream = stream
 	r.bus = "sounds"
-	r.volume_db = 20
+	r.volume_db = volume
 	add_child(r) # adds to the world
 	r.play() # play first
 	r.finished.connect(r.queue_free)

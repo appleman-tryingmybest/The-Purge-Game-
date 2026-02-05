@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		var cam_center = cam.get_screen_center_position()
 		global_position = cam_center + Vector2(0,rain_height)
 
-	timer -= 1
+	timer -= delta
 	if timer < 0:
 		if emitting == false:
 			if randi_range(0, rain) == 0:
@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 				_wind(randi_range(0, 1))
 				rain += 1
 				print("raining!")
-				timer = randf_range(300,520) * 5
+				timer = randf_range(200,500)
 				
 			else:
 				rain -= 1
@@ -49,13 +49,13 @@ func _physics_process(delta: float) -> void:
 			emitting = false
 			Rain.stop()
 			print("stop raining")
-			timer = randf_range(180,360) * 5
+			timer = randf_range(180,360)
 			
 	if emitting == true:
 		thunder_timer -=delta
 		print("thunder timer: ", thunder_timer)
 		if thunder_timer <= 0:  #times up
-			thunder_timer = randf_range(5,10)  #decide when is the next thunder
+			thunder_timer = randf_range(1,10)  #decide when is the next thunder
 			if randf() < p:  
 				play_sound(thunder,5)
 				print("thunder!")

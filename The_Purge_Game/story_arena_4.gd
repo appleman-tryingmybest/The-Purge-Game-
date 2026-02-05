@@ -38,6 +38,7 @@ var meow = preload("res://sounds/meow.ogg")
 var slip = preload("res://sounds/slip.ogg")
 var scream = preload("res://sounds/scream.ogg")
 var punch = preload("res://sounds/punch.ogg")
+var nuke_land = preload("res://sounds/player/dropod-land.ogg")
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -257,14 +258,11 @@ func Mmu():
 	
 func destroy_gun():
 	print("hi")
-	weirdNuke.emitting = false
 	animation.play("weird_nuke")
 	await get_tree().create_timer(1).timeout
 	var shake = get_parent().get_node("Player")
 	if shake and shake.has_method("_cam_shake"):
 		shake._cam_shake(50)
-	weirdNuke.emitting = true
-	print("is emitting?: ",weirdNuke.emitting, "| Nuke position: ", weirdNuke.global_position)
 	await get_tree().create_timer(1).timeout
 	animation.play("destroy")
 	await animation.animation_finished
@@ -366,6 +364,6 @@ func _on_button_pressed() -> void:
 	Global.start_time = 0.0
 	print("reset value mm")
 	get_tree().reload_current_scene()
-	
 
-	
+func _nuke_sound():
+	play_sound(nuke_land)

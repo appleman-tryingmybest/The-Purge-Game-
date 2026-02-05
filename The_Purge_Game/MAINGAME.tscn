@@ -5719,7 +5719,43 @@ tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(3.333313, -803.00006)]
+"values": [Vector2(-679, -949)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("../CPUParticles2D:emitting")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../Weirdnuke:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_vccrt"]
@@ -5810,6 +5846,42 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(5.845454, 5.8454537)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Weirdnuke:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("boom:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_nyng2"]
@@ -5915,6 +5987,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_lrxn3"]
@@ -6081,6 +6165,7 @@ step = 0.1
 
 [sub_resource type="Animation" id="Animation_dchly"]
 resource_name = "weird_nuke"
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -6089,9 +6174,47 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"transitions": PackedFloat32Array(14.420004, 0.11190577),
 "update": 0,
-"values": [Vector2(3.333313, -949.3334), Vector2(-3.3330002, 8.333335)]
+"values": [Vector2(-679, -949), Vector2(-10.333496, 117.33325)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_nuke_sound"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Weirdnuke:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
@@ -7894,6 +8017,7 @@ script = ExtResource("2_cbkd1")
 tile_width = 575.0
 tile_number = 6.0
 Floor_Debug = true
+Floor_random = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="floorGenerator"]
 position = Vector2(1, -34)
@@ -8679,29 +8803,35 @@ libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
 }
 
-[node name="Weirdnuke" type="Sprite2D" parent="StoryArena4"]
-process_mode = 3
-z_as_relative = false
-position = Vector2(3.333313, -803.00006)
-scale = Vector2(13, 13)
-texture = ExtResource("78_s8jdi")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="StoryArena4/Weirdnuke"]
-position = Vector2(0, 10.51282)
-emitting = false
+[node name="CPUParticles2D" type="CPUParticles2D" parent="StoryArena4"]
+position = Vector2(13.12102, 152.23633)
+scale = Vector2(4.0000005, 4.0000005)
 amount = 80
 texture = ExtResource("7_s5vrf")
-lifetime = 0.8
+lifetime = 2.0
 one_shot = true
+explosiveness = 1.0
 emission_shape = 2
 emission_sphere_radius = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
+direction = Vector2(-1, -1)
+spread = 43.6
+gravity = Vector2(0, 2500)
+initial_velocity_min = 89.74
+initial_velocity_max = 205.13
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
 linear_accel_min = -50.0
 scale_amount_min = 1.5
 scale_amount_max = 3.5
+
+[node name="Weirdnuke" type="Sprite2D" parent="StoryArena4"]
+process_mode = 3
+visible = false
+z_as_relative = false
+position = Vector2(-679, -949)
+rotation = -0.59168434
+scale = Vector2(4, 4)
+texture = ExtResource("78_s8jdi")
 
 [node name="paused_menu" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -9070,9 +9200,9 @@ visibility_rect = Rect2(-2300, -1000, 4600, 2000)
 process_material = SubResource("ParticleProcessMaterial_tlnu2")
 script = ExtResource("125_1hk0o")
 rain_height = -600.0
-timer = 120.0
+timer = 20.0
 rain = 15
-p = 0.6
+p = 0.5
 thunder_timer = 10.0
 
 [node name="rainsound" type="AudioStreamPlayer2D" parent="rain"]

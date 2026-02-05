@@ -19,7 +19,7 @@ func _ready() -> void:
 	gear1.play("gear1")
 	gear2.play("gear2")
 	animation.play("idle", 0, 1.7)
-	play_sound(normal,30)
+	play_sound(normal,10)
 	print("playing idle")
 	state = 0
 
@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 
 func _teleport():
 	animation.play("scream", 0, 1.4)
-	play_sound(scream,15)
+	play_sound(scream,15,2)
 	print("playing scream")
 	await animation.animation_finished
 	var getScaleX = get_parent().get_node("Player")
@@ -61,7 +61,7 @@ func _teleport():
 	allowAction = true
 	state = 0
 	animation.play("idle", 0, 1.7) #(start immediately,speed)
-	play_sound(normal,30)
+	play_sound(normal,10)
 	pink.emitting = true
 	
 
@@ -78,11 +78,12 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			body.take_damage(50)
 			
 			
-func play_sound (stream: AudioStream, volume:int = 0.0): 
+func play_sound (stream: AudioStream, volume:int = 0.0, speed: float = 0.0): 
 	var r = AudioStreamPlayer2D.new() 
 	r.stream = stream
 	r.bus = "sounds"
-	r.volume_db = 20
+	r.volume_db = volume
+	r.pitch_scale = speed
 	add_child(r) # adds to the world
 	r.play() # play first
 	r.finished.connect(r.queue_free)
