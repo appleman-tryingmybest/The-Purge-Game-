@@ -15,12 +15,15 @@ extends Control
 @onready var black = %bg
 @onready var purge = $Purge
 @onready var rules = $container
+@onready var credits = $credits_button/VBoxContainer/credits
+@onready var creditsbutton = $credits_button
 
 func _ready():
 	self.show()
 	setting.hide()
 	rules.hide()
 	back.hide()
+	credits.hide()
 	get_tree().paused = true
 	
 func _process(_delta):
@@ -32,6 +35,7 @@ func _on_startgame_pressed() -> void:
 	tuto.disabled = true
 	options.disabled = true
 	exitmm.disabled = true
+	creditsbutton.disabled = true
 	print("start")
 	animation.play("start")
 	await animation.animation_finished
@@ -75,11 +79,11 @@ func _on_options_pressed() -> void:
 	start.disabled = true
 	tuto.disabled = true
 	exitmm.disabled =  true
+	creditsbutton.disabled = true
 
 func _on_tutorial_pressed() -> void:
 	print("tutorial mode")
 	black.show()
-	
 	back.show()
 	_tutorial.show()
 	black.visible = true
@@ -91,32 +95,55 @@ func _on_tutorial_pressed() -> void:
 	back.modulate.a = 0.0
 	var tween = create_tween()
 	tween.tween_property(black,"modulate:a",1.0,1.0)
-	tween.tween_property(rules,"modulate:a",1.0,2.0)
-	tween.tween_property(back,"modulate:a",1.0,2.0)
+	tween.tween_property(rules,"modulate:a",1.0,1.0)
+	tween.tween_property(back,"modulate:a",1.0,1.0)
 	print("fading in")
 	start.disabled = true
 	tuto.disabled = true
 	options.disabled = true
 	exitmm.disabled = true
+	creditsbutton.disabled = true
 
 func _on_backfortuto_pressed() -> void:
 	print("r u working my bro")
 	black.modulate.a = 1.0
 	rules.modulate.a = 1.0
 	back.modulate.a = 1.0
+	credits.modulate.a = 1.0
 	var tween = create_tween()
-	tween.tween_property(rules,"modulate:a",0.0,0.3)
-	tween.tween_property(back,"modulate:a",0.0,1.0 )
-	tween.tween_property(black,"modulate:a",0.0,1.0)
-	
+	tween.tween_property(back,"modulate:a",0.0,0.5 )
+	tween.tween_property(rules,"modulate:a",0.0,0.5)
+	tween.tween_property(credits,"modulate:a",0.0,0.5)
+	tween.tween_property(black,"modulate:a",0.0,0.5)
 	print("fading out")
 	await tween.finished
 	back.hide()
 	rules.hide()
 	black.hide()
+	credits.hide()
 	options_panel.hide()
 	start.disabled = false
 	tuto.disabled = false
 	options.disabled = false
 	exitmm.disabled = false
-	
+	creditsbutton.disabled = false
+
+
+func _on_credits_pressed() -> void:
+	print("show credits")
+	black.show()
+	back.show()
+	credits.show()
+	black.modulate.a = 0.0
+	credits.modulate.a = 0.0
+	back.modulate.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(black,"modulate:a",1.0,0.7)
+	tween.tween_property(credits,"modulate:a",1.0,1.0)
+	tween.tween_property(back,"modulate:a",1.0,1.0)
+	print("fading in")
+	start.disabled = true
+	tuto.disabled = true
+	options.disabled = true
+	exitmm.disabled = true
+	creditsbutton.disabled = true
