@@ -14,7 +14,7 @@ extends CanvasLayer
 @onready var adamm = $options_panel/adam
 @onready var tuto = %tutorial
 @onready var options = %options
-
+@onready var creditsbutton = %credits_button
 var is_paused = false
 
 @onready var treeNode = get_tree().current_scene.find_child("ParallaxTree")
@@ -122,14 +122,17 @@ func _on_back_button_pressed():
 		start.modulate.a = 0.0
 		exitmm.modulate.a = 0.0
 		optionsmm.modulate.a = 0.0
+		creditsbutton.modulate.a = 0.0
 		tuto.show()
 		start.show()
 		exitmm.show()
 		optionsmm.show()
-		tweenn.tween_property(tuto,"modulate:a",1.0,2.5)
-		tweenn.tween_property(start,"modulate:a",1.0,2.5)
-		tweenn.tween_property(exitmm,"modulate:a",1.0,2.5)
-		tweenn.tween_property(optionsmm,"modulate:a",1.0,2.5)
+		creditsbutton.show()
+		tweenn.tween_property(tuto,"modulate:a",1.0,1.0)
+		tweenn.tween_property(creditsbutton,"modulate:a",1.0,1.0)
+		tweenn.tween_property(start,"modulate:a",1.0,1.0)
+		tweenn.tween_property(exitmm,"modulate:a",1.0,1.0)
+		tweenn.tween_property(optionsmm,"modulate:a",1.0,1.0)
 
 		Global.camera_Type = 2
 		print("back to main menu")
@@ -137,6 +140,7 @@ func _on_back_button_pressed():
 		tuto.disabled = false
 		exitmm.disabled =  false
 		start.disabled = false
+		creditsbutton.disabled = false
 		return
 	
 	exit.modulate.a = 0.0
