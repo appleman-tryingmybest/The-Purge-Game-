@@ -1,4 +1,4 @@
-[gd_scene load_steps=473 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=474 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -129,6 +129,7 @@
 [ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="104_tlnu2"]
 [ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="105_1hk0o"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
+[ext_resource type="Script" uid="uid://cid8nu7xnenkd" path="res://bgm.gd" id="130_l8ssf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -945,6 +946,34 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tlnu2"]
+resource_name = "boom"
+length = 1.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%player-body/../../BOOM:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"boom"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%player-body/../../BOOM:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 }
 
 [sub_resource type="Animation" id="Animation_x1eik"]
@@ -2334,34 +2363,6 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_tlnu2"]
-resource_name = "boom"
-length = 1.7
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("%player-body/../../BOOM:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"boom"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("%player-body/../../BOOM:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j1le4"]
@@ -8780,6 +8781,10 @@ initial_velocity_max = 1000.0
 angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
+
+[node name="bgm" type="Node2D" parent="."]
+script = ExtResource("130_l8ssf")
+timer = 2.0
 
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]
