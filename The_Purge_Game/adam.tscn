@@ -1,0 +1,187 @@
+[gd_scene load_steps=11 format=3 uid="uid://uvc2534hmvin"]
+
+[ext_resource type="Script" uid="uid://42exluc8ejcw" path="res://adam.gd" id="1_86y6c"]
+[ext_resource type="Texture2D" uid="uid://cecc42on5gj63" path="res://Enemy/extra/Head1.png" id="1_vbrut"]
+[ext_resource type="Texture2D" uid="uid://d1urlhdywyy73" path="res://Enemy/extra/Jaw1.png" id="2_86y6c"]
+[ext_resource type="AudioStream" uid="uid://bgu4gy3qd0g23" path="res://sounds/adam/chain.ogg" id="4_8pn64"]
+[ext_resource type="AudioStream" uid="uid://c634japipuxwt" path="res://sounds/adam/heart.ogg" id="4_hh20m"]
+
+[sub_resource type="Animation" id="Animation_hh20m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head1/Jaw1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 485)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -32.499996)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_645is"]
+resource_name = "idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head1/Jaw1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 430)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_8pn64"]
+resource_name = "screaming"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("visuals/Head1/Jaw1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 485), Vector2(2, 485), Vector2(2, 445), Vector2(0, 711.0714)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("visuals/Head1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -32.499996), Vector2(0, 20), Vector2(0, -77.49999), Vector2(0, -207.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.02, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_645is"]
+_data = {
+&"RESET": SubResource("Animation_hh20m"),
+&"idle": SubResource("Animation_645is"),
+&"screaming": SubResource("Animation_8pn64")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_86y6c"]
+size = Vector2(8888, 9999)
+
+[node name="adam" type="CharacterBody2D"]
+z_index = 4096
+scale = Vector2(0.7, 0.7)
+script = ExtResource("1_86y6c")
+head_rand = 12.0
+jaw_rand = 8.0
+head_rota = 6.0
+offsetY = -400.0
+timer2 = 3.0
+timer = 5.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_645is")
+}
+
+[node name="visuals" type="Node2D" parent="."]
+scale = Vector2(0.4, 0.4)
+
+[node name="Head1" type="Sprite2D" parent="visuals"]
+position = Vector2(0, -32.499996)
+texture = ExtResource("1_vbrut")
+
+[node name="Jaw1" type="Sprite2D" parent="visuals/Head1"]
+position = Vector2(2, 485)
+scale = Vector2(0.9999998, 0.9999998)
+texture = ExtResource("2_86y6c")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2.8571153, -622.8572)
+scale = Vector2(0.99999976, 0.99999976)
+shape = SubResource("RectangleShape2D_86y6c")
+disabled = true
+
+[node name="Chain" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_8pn64")
+volume_db = 12.0
+parameters/looping = true
+
+[node name="Heart" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_hh20m")
+volume_db = 15.0
+pitch_scale = 1.3
+parameters/looping = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

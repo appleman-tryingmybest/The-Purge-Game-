@@ -28,5 +28,5 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if body.has_method("apply_knockback"):
 			body.apply_knockback(Vector2(push_dir, -600))
 		if body.has_method("take_damage"):
-			body.take_damage(2)
+			body.take_damage(40)
 		queue_free()

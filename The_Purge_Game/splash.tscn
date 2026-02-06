@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://dldidr8q0xdf"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1hk0o"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 13.33
+initial_velocity_max = 46.67
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 100, 0)
+scale_max = 3.0
+
+[node name="splash" type="GPUParticles2D"]
+process_mode = 3
+z_index = 101
+emitting = false
+amount = 20000
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-100, -100, 1000000000000, 1000000000000)
+trail_lifetime = 0.08
+process_material = SubResource("ParticleProcessMaterial_1hk0o")

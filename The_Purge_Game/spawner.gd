@@ -7,9 +7,11 @@ extends StaticBody2D
 @export var enemy_sword : PackedScene
 @export var random_distance : float
 @export var random_enemy : int
+var timer : float
 var enemy_amount : float
 var was_pressed : bool
 var spawned := false
+
 
 func spawn_enemy(enemy_type: String):
 	var world = get_parent()
@@ -37,14 +39,12 @@ func spawn_enemy(enemy_type: String):
 	if enemy_type == "dropship":
 		enemy.global_position = Vector2(2723.0, 4933.0)
 	else:
-		if randi_range(0, 1):
-			enemy.global_position.x = getPos.position.x - randf_range(0, 88) -  555 - random_distance
-		else:
-			enemy.global_position.x = getPos.position.x + randf_range(0, 88) + random_distance
-		enemy.global_position.y = getPos.position.y - 5
+		enemy.global_position.x = getPos.position.x + randf_range(0, 88) + random_distance
+		enemy.global_position.y = position.y
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	print ("timer is now ", timer)
 	if (Input.is_key_pressed(KEY_0) and not was_pressed) and !Global.arena_player: # spawn using the 0 key
 		was_pressed = true
 		random_enemy = randi_range(0, 4)
@@ -64,29 +64,27 @@ func _process(delta: float) -> void:
 		was_pressed = false
 	
 	if Global.enemy_count == 0 and !Global.arena_player and !spawned and Global.allowSpawn:
-		_spawn_wave_with_delay()
+		spawned = true
+		_spawn_wave()
 	elif Global.enemy_count != 0 and Global.arena_player:
 		spawned = false
 		return
 
-func _spawn_wave_with_delay():
-	spawned = true
-	print ("spawn enemy dynamically vro")
-	match Global.arena_num:
-		0: await get_tree().create_timer(randf_range(6, 12)).timeout
-		1: await get_tree().create_timer(randf_range(5, 8)).timeout
-		2: await get_tree().create_timer(randf_range(8, 14)).timeout
-		3: await get_tree().create_timer(randf_range(8, 18)).timeout
-	if !Global.arena_player and Global.allowSpawn:
-		_spawn_wave()
-
 func _spawn_wave():
+	match Global.arena_num:
+		0: timer = randf_range(6, 12)
+		1: timer = randf_range(5, 8)
+		2: timer = randf_range(8, 14)
+		3: timer = randf_range(8, 18)
+	while timer > 0:
+		await get_tree().process_frame
+		timer -= get_process_delta_time()
 	match Global.arena_num:
 		0: enemy_amount = randf_range(2, 4)
 		1: enemy_amount = randf_range(4, 7)
 		2: enemy_amount = randf_range(5, 9)
 		3: enemy_amount = randf_range(7, 10)
-	while enemy_amount > 0:
+	while enemy_amount > 0 and !Global.arena_player:
 		match Global.arena_num:
 			0: random_enemy = randi_range(0, 2)
 			1: random_enemy = randi_range(0, 3)

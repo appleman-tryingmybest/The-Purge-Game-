@@ -8,10 +8,14 @@ var start_action := false
 var stop_timer := false
 @export var health := 1.0
 @export var attack_prob : int
+@export var rocket_prob : int
+@export var rocket_timer : float
 @export var ragdoll : PackedScene
 @export var bullet : PackedScene
+@export var rocket : PackedScene
 var deaded := false
 var is_attacking := false
+var crocketed := false
 
 @onready var animation = $AnimationPlayer
 @onready var animation_effect = $AnimatedSprite2D2
@@ -106,6 +110,18 @@ func _process(delta: float) -> void:
 		stop_timer = true
 		_spawn_ragdoll()
 		queue_free()
+	if !random_action == 3:
+		rocket_timer -= delta
+		if rocket_timer < 0 and !crocketed:
+			print ("roll dice")
+			if randi_range(0, rocket_prob):
+				rocket_prob += 1
+				_rocket_shoot()
+			else:
+				print ("no crockets")
+				rocket_prob -= 1
+				rocket_timer = 5
+				crocketed = false
 
 func _footstep_sound():
 	var rand_sound : int
@@ -122,7 +138,7 @@ func _shoot_sound():
 	play_sound(shoot, 0.94)
 	line.modulate.a = 0.0
 	line.visible = true
-	while timer < 2.1:
+	while timer < 2.4:
 		var d = get_process_delta_time()
 		print (line.modulate.a)
 		line.modulate.a += 0.01
@@ -148,4 +164,17 @@ func _bullet_shoot():
 	get_parent().add_child(shootBullet)
 	shootBullet.global_position = animation_effect.global_position
 	shootBullet.rotation = line.rotation
-	
+
+func _rocket_shoot():
+	print ("spawn crockets")
+	crocketed = true
+	var amount = randi_range(3, 5)
+	while amount > 0:
+		var Crocket = rocket.instantiate()
+		get_parent().add_child(Crocket)
+		Crocket.global_position = global_position + Vector2(randf_range(-250, 250), 0)
+		Crocket.global_position.y = global_position.y - 1200 + randf_range(-100, 100)
+		amount -= 1
+		await get_tree().process_frame
+	rocket_timer = 5
+	crocketed = false

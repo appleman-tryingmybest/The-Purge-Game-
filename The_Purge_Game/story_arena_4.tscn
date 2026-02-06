@@ -1,20 +1,22 @@
-[gd_scene load_steps=68 format=3 uid="uid://cx7kop68r28x7"]
+[gd_scene load_steps=73 format=3 uid="uid://cx7kop68r28x7"]
 
-[ext_resource type="Script" uid="uid://j3qwp5oqltll" path="res://story_arena_4.gd" id="1_8axos"]
-[ext_resource type="Texture2D" uid="uid://cobhb70likea2" path="res://PlatformPlaceholder.png" id="2_08ymg"]
-[ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="3_d25on"]
-[ext_resource type="Texture2D" uid="uid://cm8vhve44kcx7" path="res://Red ground 2.png" id="4_3qoc5"]
-[ext_resource type="Texture2D" uid="uid://i04gwivgwdia" path="res://Placeholders/ballorrock.png" id="5_vxvkr"]
-[ext_resource type="Texture2D" uid="uid://5j8qv6y5p65v" path="res://Arena/1.png" id="6_oqe8c"]
-[ext_resource type="Texture2D" uid="uid://21m1kijm24js" path="res://Arena/2.png" id="7_0vpur"]
-[ext_resource type="Texture2D" uid="uid://ibu1lsnqa2oh" path="res://Arena/cannonshoot.png" id="8_rp3nl"]
-[ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="9_v0v01"]
-[ext_resource type="Texture2D" uid="uid://dsbcechwm0pkq" path="res://Arena/mybeautifulboy0.png" id="10_pyak4"]
-[ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="11_32ht8"]
-[ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="12_r8uxh"]
-[ext_resource type="Texture2D" uid="uid://ddi461l7lvfgd" path="res://mmu.png" id="13_o7rq5"]
-[ext_resource type="Texture2D" uid="uid://b15eqat3t5hjf" path="res://black.png" id="14_gjou0"]
-[ext_resource type="FontFile" uid="uid://d34oowe03sf3o" path="res://font/BBHBartle-Regular.ttf" id="15_3l0cp"]
+[ext_resource type="Script" uid="uid://j3qwp5oqltll" path="res://story_arena_4.gd" id="1_d25on"]
+[ext_resource type="Texture2D" uid="uid://cobhb70likea2" path="res://PlatformPlaceholder.png" id="2_3qoc5"]
+[ext_resource type="Texture2D" uid="uid://bi8nu1nce18dj" path="res://Placeholders/enemy.png" id="3_vxvkr"]
+[ext_resource type="Texture2D" uid="uid://cm8vhve44kcx7" path="res://Red ground 2.png" id="4_oqe8c"]
+[ext_resource type="Texture2D" uid="uid://i04gwivgwdia" path="res://Placeholders/ballorrock.png" id="5_0vpur"]
+[ext_resource type="Texture2D" uid="uid://5j8qv6y5p65v" path="res://Arena/1.png" id="6_rp3nl"]
+[ext_resource type="Texture2D" uid="uid://21m1kijm24js" path="res://Arena/2.png" id="7_v0v01"]
+[ext_resource type="Texture2D" uid="uid://ibu1lsnqa2oh" path="res://Arena/cannonshoot.png" id="8_pyak4"]
+[ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="9_32ht8"]
+[ext_resource type="Texture2D" uid="uid://dsbcechwm0pkq" path="res://Arena/mybeautifulboy0.png" id="10_r8uxh"]
+[ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="11_o7rq5"]
+[ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="12_gjou0"]
+[ext_resource type="Texture2D" uid="uid://ddi461l7lvfgd" path="res://mmu.png" id="13_3l0cp"]
+[ext_resource type="Texture2D" uid="uid://b15eqat3t5hjf" path="res://black.png" id="14_q5dka"]
+[ext_resource type="FontFile" uid="uid://d34oowe03sf3o" path="res://font/BBHBartle-Regular.ttf" id="15_2g5x0"]
+[ext_resource type="Texture2D" uid="uid://b7n0wivimuwsi" path="res://Enemy/particle/step-dust.png" id="16_kbl4g"]
+[ext_resource type="Texture2D" uid="uid://btjpsf1tpor6v" path="res://addons/godot-git-plugin/DETECTORTOWER/weirdnuke.png" id="17_q1ata"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11efd"]
 size = Vector2(230.75, 29.5)
@@ -22,66 +24,72 @@ size = Vector2(230.75, 29.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lx2g2"]
 size = Vector2(230.75, 29.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1le4"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crpmn"]
 size = Vector2(85.33331, 80)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bvtk8"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pat5w"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qevv6"]
 size = Vector2(959.1222, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8wvr"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f0od"]
+size = Vector2(959.1222, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oh2np"]
 size = Vector2(237.3334, 20)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_naog5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlnu2"]
 size = Vector2(299.333, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hk0o"]
+size = Vector2(1208, 40)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ghr7w"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(0, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lrxn3"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(64, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71a6e"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(128, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e6gey"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(192, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3t672"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(256, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_40ewl"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(320, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k5qlv"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(384, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfnfc"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(448, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wuptq"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(512, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_caaid"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(576, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_57ghr"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(640, 0, 64, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sm0bj"]
-atlas = ExtResource("8_rp3nl")
+atlas = ExtResource("8_pyak4")
 region = Rect2(704, 0, 64, 66)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvjge"]
@@ -129,83 +137,83 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oj3pt"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(0, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ya6b6"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(220, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rlqap"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(440, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7a412"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(660, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ltfvd"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(880, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wmk1o"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(1100, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c1w86"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(1320, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrvva"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(1540, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hnm0s"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(1760, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3o1gj"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(1980, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_anpit"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(2200, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_atd4h"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(2420, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rj6nr"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(2640, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yni4w"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(2860, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dakxl"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(3080, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qik4b"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(3300, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_efvqo"]
-atlas = ExtResource("9_v0v01")
+atlas = ExtResource("9_32ht8")
 region = Rect2(3520, 0, 220, 314)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g82a2"]
-atlas = ExtResource("10_pyak4")
+atlas = ExtResource("10_r8uxh")
 region = Rect2(0, 0, 498, 479)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vccrt"]
-atlas = ExtResource("11_32ht8")
+atlas = ExtResource("11_o7rq5")
 region = Rect2(0, 0, 498, 479)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5jk04"]
-atlas = ExtResource("12_r8uxh")
+atlas = ExtResource("12_gjou0")
 region = Rect2(0, 0, 498, 479)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g82a2"]
@@ -282,7 +290,7 @@ animations = [{
 }]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hxxo4"]
-font = ExtResource("15_3l0cp")
+font = ExtResource("15_2g5x0")
 font_size = 30
 font_color = Color(0, 1, 1, 1)
 shadow_color = Color(0, 0, 0, 1)
@@ -409,6 +417,54 @@ tracks/9/keys = {
 "update": 0,
 "values": [3.1415927]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../Weirdnuke:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-679, -949)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("../CPUParticles2D:emitting")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../Weirdnuke:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_vccrt"]
 resource_name = "destroy"
@@ -498,6 +554,42 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(5.845454, 5.8454537)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../Weirdnuke:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("boom:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_nyng2"]
@@ -604,6 +696,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("gunholder/CollisionShape2D2:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_lrxn3"]
 resource_name = "idle_up"
@@ -620,7 +724,7 @@ tracks/0/keys = {
 "values": [0.715585]
 }
 
-[sub_resource type="Animation" id="Animation_crpmn"]
+[sub_resource type="Animation" id="Animation_f1tjs"]
 resource_name = "mmu boom"
 length = 8.0
 step = 0.1
@@ -655,14 +759,20 @@ tracks/2/path = NodePath("..")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 2.2, 4.9, 7.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
 "method": &"Mmu"
 }, {
 "args": [],
-"method": &"boom"
+"method": &"meowSound"
+}, {
+"args": [],
+"method": &"slipSound"
+}, {
+"args": [],
+"method": &"screamSound"
 }]
 }
 tracks/3/type = "value"
@@ -684,7 +794,7 @@ tracks/4/path = NodePath("boom:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 5, 5.1),
+"times": PackedFloat32Array(0, 7.1, 7.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 2]
@@ -708,8 +818,8 @@ tracks/6/path = NodePath("boom:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.7, 3.3),
-"transitions": PackedFloat32Array(14.420009, 3.7321289),
+"times": PackedFloat32Array(3.3000002, 5.9),
+"transitions": PackedFloat32Array(29.477995, 3.7321289),
 "update": 0,
 "values": [0.0, -6.283185307179586]
 }
@@ -756,10 +866,64 @@ tracks/1/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_awnbw"]
+[sub_resource type="Animation" id="Animation_8nd12"]
 resource_name = "scoreboard"
 length = 0.6
 step = 0.1
+
+[sub_resource type="Animation" id="Animation_dchly"]
+resource_name = "weird_nuke"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Weirdnuke:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(14.420004, 0.11190577),
+"update": 0,
+"values": [Vector2(-679, -949), Vector2(-10.333496, 117.33325)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_nuke_sound"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Weirdnuke:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
 _data = {
@@ -768,38 +932,42 @@ _data = {
 &"fire": SubResource("Animation_nyng2"),
 &"idle": SubResource("Animation_ers0r"),
 &"idle_up": SubResource("Animation_lrxn3"),
-&"mmu_boom": SubResource("Animation_crpmn"),
+&"mmu_boom": SubResource("Animation_f1tjs"),
 &"point_down": SubResource("Animation_ghr7w"),
 &"point_up": SubResource("Animation_xldcp"),
-&"scoreboard": SubResource("Animation_awnbw")
+&"scoreboard": SubResource("Animation_8nd12"),
+&"weird_nuke": SubResource("Animation_dchly")
 }
 
 [node name="StoryArena4" type="StaticBody2D"]
 process_mode = 3
 scale = Vector2(3, 3)
-script = ExtResource("1_8axos")
-wait_time = 1
+script = ExtResource("1_d25on")
+wait_time = 4
+wave = 6
 
 [node name="One-way-platform" type="StaticBody2D" parent="."]
-position = Vector2(19.666687, 47.5)
+position = Vector2(19.666687, 86.16667)
 collision_layer = 8388608
 
 [node name="Sprite2D" type="Sprite2D" parent="One-way-platform"]
+visible = false
 scale = Vector2(1.2798649, 0.88194525)
-texture = ExtResource("2_08ymg")
+texture = ExtResource("2_3qoc5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="One-way-platform"]
 shape = SubResource("RectangleShape2D_11efd")
 one_way_collision = true
 
 [node name="One-way-platform2" type="StaticBody2D" parent="."]
-position = Vector2(239.66666, -31.666672)
+position = Vector2(239.66666, 6.999996)
 scale = Vector2(1.12, 1)
 collision_layer = 8388608
 
 [node name="Sprite2D" type="Sprite2D" parent="One-way-platform2"]
+visible = false
 scale = Vector2(1.2798649, 0.88194525)
-texture = ExtResource("2_08ymg")
+texture = ExtResource("2_3qoc5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="One-way-platform2"]
 shape = SubResource("RectangleShape2D_lx2g2")
@@ -809,7 +977,7 @@ one_way_collision = true
 visible = false
 position = Vector2(-424, 114.5)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_d25on")
+texture = ExtResource("3_vxvkr")
 
 [node name="Area2D" type="Area2D" parent="PlayerSpawn"]
 collision_layer = 64
@@ -817,7 +985,7 @@ collision_mask = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerSpawn/Area2D"]
 position = Vector2(-1, 0.6669922)
-shape = SubResource("RectangleShape2D_j1le4")
+shape = SubResource("RectangleShape2D_crpmn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 168)
@@ -828,61 +996,65 @@ position = Vector2(0, 168)
 collision_layer = 16777216
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="wall"]
-position = Vector2(-500, -5.998047)
+position = Vector2(-626.3333, -450)
 rotation = -1.5707964
-shape = SubResource("RectangleShape2D_pat5w")
-one_way_collision = true
+shape = SubResource("RectangleShape2D_qevv6")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="wall"]
-position = Vector2(500, 7.666667)
+position = Vector2(626.333, -450)
 rotation = 1.5707964
-shape = SubResource("RectangleShape2D_pat5w")
-one_way_collision = true
+shape = SubResource("RectangleShape2D_3f0od")
 
 [node name="level-detail-shared" type="Sprite2D" parent="."]
 
 [node name="floor" type="Sprite2D" parent="level-detail-shared"]
+z_index = 5
 position = Vector2(0, 324)
 scale = Vector2(1.2, 1)
-texture = ExtResource("4_3qoc5")
+texture = ExtResource("4_oqe8c")
 
 [node name="enemy_spawn" type="Sprite2D" parent="level-detail-shared"]
 position = Vector2(650, 80.333)
 scale = Vector2(0.33333334, 0.33333334)
-texture = ExtResource("5_vxvkr")
+texture = ExtResource("5_0vpur")
 
 [node name="enemy_spawn2" type="Sprite2D" parent="level-detail-shared"]
 position = Vector2(-650, 80.333)
 scale = Vector2(0.33333334, 0.33333334)
-texture = ExtResource("5_vxvkr")
+texture = ExtResource("5_0vpur")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="level-detail-shared"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="level-detail-shared/StaticBody2D"]
 position = Vector2(575.66675, -303)
-shape = SubResource("RectangleShape2D_d8wvr")
+shape = SubResource("RectangleShape2D_oh2np")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="level-detail-shared/StaticBody2D"]
 position = Vector2(-636.3332, -318)
-shape = SubResource("RectangleShape2D_naog5")
+shape = SubResource("RectangleShape2D_tlnu2")
 
 [node name="cannon" type="StaticBody2D" parent="."]
 z_index = -1
-position = Vector2(0, 27.666668)
+position = Vector2(0, 56.333336)
 scale = Vector2(0.5, 0.5)
 
 [node name="base" type="Sprite2D" parent="cannon"]
 position = Vector2(188, 112.66667)
-texture = ExtResource("6_oqe8c")
+texture = ExtResource("6_rp3nl")
 
 [node name="gunholder" type="StaticBody2D" parent="cannon"]
 position = Vector2(0, -55.333336)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="cannon/gunholder"]
+position = Vector2(-537.3334, -30.66504)
+shape = SubResource("RectangleShape2D_1hk0o")
+one_way_collision = true
 
 [node name="gun" type="Sprite2D" parent="cannon/gunholder"]
 visible = false
 z_index = -2
 position = Vector2(-494, -24.666664)
-texture = ExtResource("7_0vpur")
+texture = ExtResource("7_v0v01")
 
 [node name="effect" type="AnimatedSprite2D" parent="cannon"]
 position = Vector2(-1009.33344, -1034)
@@ -903,31 +1075,48 @@ animation = &"boom"
 [node name="mmu" type="StaticBody2D" parent="cannon"]
 unique_name_in_owner = true
 process_mode = 3
-position = Vector2(-6, 3172.667)
+position = Vector2(-6, 3284.133)
 scale = Vector2(2, 2)
 
 [node name="floor" type="Sprite2D" parent="cannon/mmu"]
 z_index = 79
 scale = Vector2(1.2, 1)
-texture = ExtResource("4_3qoc5")
+texture = ExtResource("4_oqe8c")
 
 [node name="Mmu" type="Sprite2D" parent="cannon"]
 process_mode = 3
 z_index = -10
-position = Vector2(69.33334, 2374.667)
+position = Vector2(69.33334, 2486.133)
 scale = Vector2(1.2, 1.2)
-texture = ExtResource("13_o7rq5")
+texture = ExtResource("13_3l0cp")
 
 [node name="scoreboard" type="StaticBody2D" parent="cannon"]
 visible = false
 z_index = 99
-position = Vector2(0, 2412.667)
+position = Vector2(0, 2610.0002)
 scale = Vector2(1.5, 1.5)
 
 [node name="container" type="Sprite2D" parent="cannon/scoreboard"]
 modulate = Color(1, 1, 1, 0.5137255)
 scale = Vector2(66.410255, 158.88876)
-texture = ExtResource("14_gjou0")
+texture = ExtResource("14_q5dka")
+
+[node name="Button" type="Button" parent="cannon/scoreboard/container"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -7.671171
+offset_top = -4.01958
+offset_right = 176.32883
+offset_bottom = 23.98042
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.015, 0.015)
+focus_mode = 0
+theme_override_fonts/font = ExtResource("15_2g5x0")
+text = "Main Menu"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="cannon/scoreboard"]
 offset_left = -385.77777
@@ -947,16 +1136,6 @@ text = "Timer :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="kill_count" type="Label" parent="cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Kill count :  
-"
-label_settings = SubResource("LabelSettings_hxxo4")
-
 [node name="bullets_shot" type="Label" parent="cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
@@ -968,15 +1147,34 @@ shot :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="damage" type="Label" parent="cannon/scoreboard/VBoxContainer"]
+[node name="kill_count" type="Label" parent="cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Bullets 
-shot :  
-"
+text = "Kill 
+count :  "
+label_settings = SubResource("LabelSettings_hxxo4")
+
+[node name="death_count" type="Label" parent="cannon/scoreboard/VBoxContainer"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Death
+count : "
+label_settings = SubResource("LabelSettings_hxxo4")
+
+[node name="damage_taken" type="Label" parent="cannon/scoreboard/VBoxContainer"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Damage
+taken :"
 label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -986,4 +1184,35 @@ libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
 }
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(13.12102, 152.23633)
+scale = Vector2(4.0000005, 4.0000005)
+emitting = false
+amount = 80
+texture = ExtResource("16_kbl4g")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 2
+emission_sphere_radius = 1.0
+direction = Vector2(-1, -1)
+spread = 43.6
+gravity = Vector2(0, 2500)
+initial_velocity_min = 89.74
+initial_velocity_max = 205.13
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+linear_accel_min = -50.0
+scale_amount_min = 1.5
+scale_amount_max = 3.5
+
+[node name="Weirdnuke" type="Sprite2D" parent="."]
+process_mode = 3
+z_as_relative = false
+position = Vector2(-10.333496, 117.33325)
+rotation = -0.59168434
+scale = Vector2(4, 4)
+texture = ExtResource("17_q1ata")
+
 [connection signal="body_entered" from="PlayerSpawn/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="pressed" from="cannon/scoreboard/container/Button" to="." method="_on_button_pressed"]

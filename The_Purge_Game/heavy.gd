@@ -35,6 +35,7 @@ var attack_probb : float
 var dead := false
 var taunt_timer : float
 @export var shockwave : PackedScene
+@export var rocket : PackedScene
 @export var turn_timer : float
 @onready var here = $visuals/shockwavehere
 var knockback_velocity := Vector2.ZERO
@@ -197,7 +198,7 @@ func _death_sequence():
 	animation.play("death", 0, 0.3)
 	await animation.animation_finished
 	animation.play("death-idle")
-	await get_tree().create_timer(12).timeout
+	await get_tree().create_timer(80).timeout
 	queue_free()
 
 func _attack():
@@ -237,7 +238,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			body.apply_knockback(Vector2(push_dir, -1200))
 			print ("I PUSHED")
 		if body.has_method("take_damage"):
-			body.take_damage(45)
+			body.take_damage(30)
 
 func _take_damage(amount: float, velo_x: float, velo_y : float):
 	health -= amount
@@ -256,6 +257,8 @@ func _taunt():
 		await animation.animation_finished
 	attacking = false
 
+
+
 func _move_back():
 	var dir = 1 if position.x > Global.player_x else -1
 	knockback_velocity = Vector2(dir * 2000, 0)
@@ -270,10 +273,24 @@ func _shockwave():
 	get_parent().add_child(leftwave)
 	leftwave.global_position = here.global_position
 
+func _rocket():
+	var rocketHere = $visuals/rockethere
+	var amount = randi_range(1, 3)
+	for i in amount:
+		var rocket_spawn = rocket.instantiate()
+		rocket_spawn.speedX *= visuals.scale.x
+		rocket_spawn.global_position = rocketHere.global_position
+		get_parent().add_child(rocket_spawn)
+		await get_tree().process_frame
+
 func _flash_damage():
 	var tween = create_tween()
 	visuals.modulate = Color(10, 10, 10, 1)
 	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)
+
+func _shake_camera(strength : float):
+	var cam = get_parent().find_child("Camera2D")
+	cam.apply_shake(strength)
 
 func _swing_sound():
 	play_sound(swing)

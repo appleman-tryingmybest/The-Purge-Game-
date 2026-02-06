@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://cqc3a8808eb5i"]
+
+[ext_resource type="Script" uid="uid://gaqk5nwina61" path="res://gpu_particles_2d.gd" id="1_ci28e"]
+[ext_resource type="AudioStream" uid="uid://cq32w6fopvm3f" path="res://sounds/rainloop.ogg" id="2_agfoc"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tlnu2"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_1hk0o"]
+_limits = [0.0, 0.3, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26797387, 0.2871202), 0.0, 0.0, 0, 0, Vector2(0.50326794, 0.3), 0.0, 0.0, 0, 0, Vector2(0.76797384, 0.2819683), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_f1tjs"]
+curve = SubResource("Curve_1hk0o")
+
+[sub_resource type="Gradient" id="Gradient_8nd12"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dchly"]
+gradient = SubResource("Gradient_8nd12")
+
+[sub_resource type="Curve" id="Curve_xtt2u"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_l8ssf"]
+_limits = [0.0, 30.0, 0.0, 1.0]
+_data = [Vector2(0, 15.3170395), 0.0, 0.0, 0, 0, Vector2(0.15686274, 28.969616), 0.0, 0.0, 0, 0, Vector2(0.25490198, 30), 0.0, 0.0, 0, 0, Vector2(0.99999, 30), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_hnp11"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_8b1ck"]
+curve_x = SubResource("Curve_xtt2u")
+curve_y = SubResource("Curve_l8ssf")
+curve_z = SubResource("Curve_hnp11")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tlnu2"]
+resource_local_to_scene = true
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -950, 0)
+emission_shape_scale = Vector3(30, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(150, 1, 1)
+direction = Vector3(0, 0, 0)
+spread = 0.0
+initial_velocity_min = -200.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 2000, 0)
+radial_accel_min = -2.0000021
+radial_accel_max = -2.0000021
+scale_min = 2.0
+scale_max = 3.0
+scale_over_velocity_curve = SubResource("CurveXYZTexture_8b1ck")
+color_initial_ramp = SubResource("GradientTexture1D_dchly")
+alpha_curve = SubResource("CurveTexture_f1tjs")
+collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[node name="rain" type="GPUParticles2D"]
+z_index = 99
+material = SubResource("CanvasItemMaterial_tlnu2")
+amount = 1000
+sub_emitter = NodePath("../splash")
+lifetime = 5.0
+preprocess = 5.0
+collision_base_size = 170.0
+visibility_rect = Rect2(-2300, -1000, 4600, 2000)
+process_material = SubResource("ParticleProcessMaterial_tlnu2")
+script = ExtResource("1_ci28e")
+rain_height = -600.0
+timer = 20.0
+rain = 15
+p = 0.5
+thunder_timer = 10.0
+
+[node name="rainsound" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-663, 2)
+stream = ExtResource("2_agfoc")
+volume_db = 18.0
+pitch_scale = 3.0
+bus = &"sounds"
+parameters/looping = true

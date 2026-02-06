@@ -46,15 +46,13 @@ func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func _manage_arena_music():
-	# Determine which track SHOULD be playing
 	var target_stream = arena1_p2 if boss_spawned else arena1_p1
-	
-	# 1. If no player exists, create one
+	# no music then make one
 	if !is_instance_valid(current_loop_player):
 		_start_new_track(target_stream)
 		return
 
-	# 2. If the WRONG track is playing, swap it
+	# check for wrong music then switch
 	if current_loop_player.stream != target_stream:
 		print("Boss spawned! Swapping music to: ", target_stream.resource_path)
 		current_loop_player.queue_free()
@@ -69,11 +67,10 @@ func _start_new_track(stream: AudioStream):
 	add_child(l)
 	l.play()
 	current_loop_player = l
-	
-	# Handle the loop simply
+
 	l.finished.connect(func():
 		if is_instance_valid(l):
-			l.play() # Just restart the same player instead of re-running the whole logic
+			l.play() # Just restart the music
 	)
 
 func _start_stuff():

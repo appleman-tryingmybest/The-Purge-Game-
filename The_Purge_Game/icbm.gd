@@ -76,3 +76,7 @@ func _on_floor_check_body_entered(body: Node2D) -> void:
 		animation.play("explode")
 		await animation.animation_finished
 		queue_free()
+
+func _shake_camera(strength : float):
+	var cam = get_parent().find_child("Camera2D")
+	cam.apply_shake(strength)
