@@ -1,4 +1,4 @@
-[gd_scene load_steps=510 format=3 uid="uid://f4o2p6fu3uv8"]
+[gd_scene load_steps=476 format=3 uid="uid://f4o2p6fu3uv8"]
 
 [ext_resource type="Script" uid="uid://dpg54m00blh2e" path="res://enemy_down_limit.gd" id="1_0i1vx"]
 [ext_resource type="Script" uid="uid://d1reetcp6cvup" path="res://camera_player.gd" id="1_nnask"]
@@ -85,13 +85,8 @@
 [ext_resource type="Texture2D" uid="uid://b2jpn5fghboex" path="res://addons/godot-git-plugin/DETECTORTOWER/tower-intro2.png" id="38_m3xuu"]
 [ext_resource type="Script" uid="uid://b2g4wh7jrbcsn" path="res://story_arena_3.gd" id="40_m3xuu"]
 [ext_resource type="Script" uid="uid://dmto4gl7fk8bf" path="res://story_arena_2.gd" id="41_xtrul"]
-[ext_resource type="Texture2D" uid="uid://01eimyiockm3" path="res://Player/Health .png" id="45_l8ssf"]
 [ext_resource type="Texture2D" uid="uid://qkh8y8x514hb" path="res://funny-boom.png" id="45_naog5"]
-[ext_resource type="Texture2D" uid="uid://cjjlypg1jygpr" path="res://Player/Bar.png" id="46_hnp11"]
-[ext_resource type="Texture2D" uid="uid://fvwen03cinj4" path="res://Player/weapon/Hammer.png" id="47_8b1ck"]
 [ext_resource type="Script" uid="uid://bhupw1nf2vd2n" path="res://applyforce.gd" id="47_8eqi4"]
-[ext_resource type="Texture2D" uid="uid://ddx27u32m6mrq" path="res://Player/weapon/Gun1.png" id="48_7f3ce"]
-[ext_resource type="Texture2D" uid="uid://kylmoualjw76" path="res://Player/weapon/Sword.png" id="49_gpf6m"]
 [ext_resource type="PackedScene" uid="uid://blspfgfuwc633" path="res://dropship.tscn" id="49_x1eik"]
 [ext_resource type="Script" uid="uid://t37vham7ysgo" path="res://canvas_layer.gd" id="64_ooit5"]
 [ext_resource type="Texture2D" uid="uid://xchydswa2v01" path="res://pause menu/Setting.png" id="65_n8cbv"]
@@ -129,10 +124,6 @@
 [ext_resource type="Texture2D" uid="uid://ws3qba4t0cbo" path="res://Arena/mybeautifulboy1.png" id="104_tlnu2"]
 [ext_resource type="Texture2D" uid="uid://cit5xe4ym4ucs" path="res://Arena/mybeautifulboy2.png" id="105_1hk0o"]
 [ext_resource type="AudioStream" uid="uid://5rbwsl0aw2g2" path="res://sounds/player/dropod-land.ogg" id="118_dd6w0"]
-[ext_resource type="Script" uid="uid://qtqr3qvg1s2i" path="res://wall.gd" id="125_1hk0o"]
-[ext_resource type="Script" uid="uid://e35ntxymg7gj" path="res://gpu_particles_2d.gd" id="131_8b1ck"]
-[ext_resource type="AudioStream" uid="uid://cfw5kh50yt3ck" path="res://sounds/rainloop.ogg" id="132_7f3ce"]
-[ext_resource type="Script" uid="uid://c2qodiioio6hx" path="res://bgm.gd" id="133_7f3ce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8jdi"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -584,7 +575,7 @@ tracks/17/keys = {
 tracks/18/type = "value"
 tracks/18/imported = false
 tracks/18/enabled = true
-tracks/18/path = NodePath("%player-body/../../hurt_area/hurt:disabled")
+tracks/18/path = NodePath("%player-body/../../hammer/hit:disabled")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
@@ -596,7 +587,7 @@ tracks/18/keys = {
 tracks/19/type = "value"
 tracks/19/imported = false
 tracks/19/enabled = true
-tracks/19/path = NodePath("%player-body/../../hurt_area:monitoring")
+tracks/19/path = NodePath("%player-body/../../hammer-bang:emitting")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/keys = {
@@ -608,43 +599,43 @@ tracks/19/keys = {
 tracks/20/type = "value"
 tracks/20/imported = false
 tracks/20/enabled = true
-tracks/20/path = NodePath("%player-body/../../hurt_area:monitorable")
+tracks/20/path = NodePath("%player-body/../../hurt_area/hurt:disabled")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/21/type = "value"
 tracks/21/imported = false
 tracks/21/enabled = true
-tracks/21/path = NodePath("%player-body/../../Dropod/AudioStreamPlayer2D:playing")
+tracks/21/path = NodePath("%player-body/../../hurt_area:monitoring")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/22/type = "value"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("%player-body/../../Dropod:offset")
+tracks/22/path = NodePath("%player-body/../../hurt_area:monitorable")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -5000)]
+"update": 1,
+"values": [false]
 }
 tracks/23/type = "value"
 tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("%player-body/../../dropd:emitting")
+tracks/23/enabled = false
+tracks/23/path = NodePath("%player-body/../../Dropod/AudioStreamPlayer2D:playing")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/keys = {
@@ -656,58 +647,22 @@ tracks/23/keys = {
 tracks/24/type = "value"
 tracks/24/imported = false
 tracks/24/enabled = true
-tracks/24/path = NodePath("%player-body/../../BOOM:animation")
+tracks/24/path = NodePath("%player-body/../../Dropod:offset")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"boom"]
+"update": 0,
+"values": [Vector2(0, -5000)]
 }
 tracks/25/type = "value"
 tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/path = NodePath("%player-body/../../BOOM:frame")
+tracks/25/enabled = false
+tracks/25/path = NodePath("%player-body/../../dropd:emitting")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/26/type = "value"
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/path = NodePath("%player-body/../../hammer/hit:position")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 289.943)]
-}
-tracks/27/type = "value"
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/path = NodePath("%player-body/../../hammer/hit:scale")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-tracks/28/type = "value"
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/path = NodePath("%player-hand/sword_hit/CollisionShape2D:disabled")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -937,34 +892,6 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_tlnu2"]
-resource_name = "boom"
-length = 1.7
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("%player-body/../../BOOM:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"boom"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("%player-body/../../BOOM:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 }
 
 [sub_resource type="Animation" id="Animation_x1eik"]
@@ -1270,18 +1197,6 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("%player-hand/sword_hit/CollisionShape2D:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_qevv6"]
 resource_name = "hammer-attack"
@@ -1426,7 +1341,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_crpmn"]
-resource_name = "mmu boom"
+resource_name = "hammer"
 length = 0.8
 step = 0.1
 tracks/0/type = "value"
@@ -1456,55 +1371,55 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath(".:position")
+tracks/2/path = NodePath("../../hammer/hit:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.41355816, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(34.615, -35.385), Vector2(34.615, -33.846), Vector2(34.615, -29.231), Vector2(34.615, -25.385)]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%player-body/../../hammer/hit:disabled")
+tracks/3/path = NodePath("../../hammer/hit:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [Vector2(0, 289.943)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("%player-body/../../hammer/hit:position")
+tracks/4/path = NodePath("../../hammer/hit:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 289.943)]
+"update": 1,
+"values": [Vector2(3, 0.7)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("%player-body/../../hammer/hit:scale")
+tracks/5/path = NodePath(".:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(3, 0.7)]
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(34.615387, -35.384827), Vector2(34.615387, -33.84627), Vector2(34.615387, -29.230886), Vector2(34.615387, -25.384733)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%player-body/../../hammer:monitorable")
+tracks/6/path = NodePath("../../hammer:monitoring")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -1516,7 +1431,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%player-body/../../hammer:monitoring")
+tracks/7/path = NodePath("../../hammer:monitorable")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -1540,7 +1455,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("%player-body/../../hurt_area:monitorable")
+tracks/9/path = NodePath("%player-body/../../hurt_area:monitoring")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -1552,7 +1467,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("%player-body/../../hurt_area:monitoring")
+tracks/10/path = NodePath("%player-body/../../hurt_area:monitorable")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -1563,7 +1478,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_awnbw"]
-resource_name = "scoreboard"
+resource_name = "hammer-up"
 length = 0.3
 step = 0.1
 tracks/0/type = "value"
@@ -1600,7 +1515,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(34.615, -35.385)]
+"values": [Vector2(34.615387, -35.384827)]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -1754,18 +1669,6 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("%player-hand/sword_hit/CollisionShape2D:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
 
 [sub_resource type="Animation" id="Animation_8ecis"]
 resource_name = "jump"
@@ -1854,18 +1757,6 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("%player-hand/sword_hit/CollisionShape2D:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_3f0od"]
@@ -2027,18 +1918,6 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2(-3.076927, -50.000008), Vector2(-4.615389, -44.61539), Vector2(-3.8461528, -47.6923), Vector2(-3.84614, -50.769226), Vector2(-3.6092496, -46.686096), Vector2(-4.0639973, -50.182236), Vector2(-4.0639973, -42.489822)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("%player-hand/sword_hit/CollisionShape2D:disabled")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_j1le4"]
@@ -2409,7 +2288,6 @@ _data = {
 &"RESET": SubResource("Animation_lix4p"),
 &"attack": SubResource("Animation_nr0lq"),
 &"attack 2": SubResource("Animation_m3xuu"),
-&"boom": SubResource("Animation_tlnu2"),
 &"dash": SubResource("Animation_x1eik"),
 &"double jump": SubResource("Animation_t843m"),
 &"fall": SubResource("Animation_gb1f1"),
@@ -2556,7 +2434,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fq26f"]
 size = Vector2(82.08218, 26.692167)
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_l8ssf"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oj3pt"]
+size = Vector2(762.2595, 878.9885)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l0tju"]
 atlas = ExtResource("21_nj8ud")
@@ -4053,9 +3932,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3t2ia"]
 size = Vector2(598, 54)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1hk0o"]
-polygon = PackedVector2Array(-286, -8, -294, 176, 295, 172, 298, -10)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe0f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uc67x"]
@@ -4826,20 +4702,6 @@ tracks/5/keys = {
 "update": 0,
 "values": [1.71, 1.71, 6.19, 1.71]
 }
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("../Camera2D")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(1.8),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [20.0],
-"method": &"apply_shake"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_rdpn4"]
 resource_name = "destroy"
@@ -5068,20 +4930,6 @@ tracks/17/keys = {
 "transitions": PackedFloat32Array(13.928783, 28.647886),
 "update": 0,
 "values": [Color(0, 0.65882355, 0, 1), Color(1, 1, 1, 1)]
-}
-tracks/18/type = "method"
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/path = NodePath("../Camera2D")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/keys = {
-"times": PackedFloat32Array(1.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [65.0],
-"method": &"apply_shake"
-}]
 }
 
 [sub_resource type="Animation" id="Animation_naog5"]
@@ -5856,54 +5704,6 @@ tracks/9/keys = {
 "update": 0,
 "values": [3.1415927]
 }
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../Weirdnuke:position")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-679, -949)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("../CPUParticles2D:emitting")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("../Weirdnuke:visible")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/13/type = "value"
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/path = NodePath("gunholder/CollisionShape2D2:disabled")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_vccrt"]
 resource_name = "destroy"
@@ -5993,42 +5793,6 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(5.845454, 5.8454537)]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../Weirdnuke:visible")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("boom:rotation")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("gunholder/CollisionShape2D2:disabled")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_nyng2"]
@@ -6134,18 +5898,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("gunholder/CollisionShape2D2:disabled")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_lrxn3"]
@@ -6310,60 +6062,6 @@ resource_name = "scoreboard"
 length = 0.6
 step = 0.1
 
-[sub_resource type="Animation" id="Animation_dchly"]
-resource_name = "weird_nuke"
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Weirdnuke:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(14.420004, 0.11190577),
-"update": 0,
-"values": [Vector2(-679, -949), Vector2(-10.333496, 117.33325)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../CPUParticles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("..")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"_nuke_sound"
-}]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../Weirdnuke:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_71a6e"]
 _data = {
 &"RESET": SubResource("Animation_r3qtb"),
@@ -6374,8 +6072,7 @@ _data = {
 &"mmu_boom": SubResource("Animation_f1tjs"),
 &"point_down": SubResource("Animation_ghr7w"),
 &"point_up": SubResource("Animation_xldcp"),
-&"scoreboard": SubResource("Animation_8nd12"),
-&"weird_nuke": SubResource("Animation_dchly")
+&"scoreboard": SubResource("Animation_8nd12")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t843m"]
@@ -6388,38 +6085,38 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/setting:self_modulate")
+tracks/0/path = NodePath("Control/setting:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(1079, -27)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/setting:rotation")
+tracks/1/path = NodePath("Control/setting:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [Color(1, 1, 1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%setting:position")
+tracks/2/path = NodePath("Control/setting:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.0009999999),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1747, -27)]
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_recih"]
@@ -6437,44 +6134,32 @@ tracks/0/keys = {
 "update": 1,
 "values": [Color(0.4351923, 0.43519226, 0.43519226, 1), Color(1, 1, 1, 1)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("%setting:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1747, 18)]
-}
 
 [sub_resource type="Animation" id="Animation_nf8kp"]
 resource_name = "hover move_setting"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control/setting:rotation")
+tracks/0/path = NodePath("Control/setting:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1e-05),
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0, 4.070107815650777]
+"values": [Vector2(1079, -27), Vector2(1075, 18)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%setting:position")
+tracks/1/path = NodePath("Control/setting:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"transitions": PackedFloat32Array(1, 1e-05),
 "update": 0,
-"values": [Vector2(1747, -27), Vector2(1747, 18)]
+"values": [0.0, 4.070107815650777]
 }
 
 [sub_resource type="Animation" id="Animation_wnwau"]
@@ -6494,14 +6179,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%setting:position")
+tracks/1/path = NodePath("Control/setting:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(1747, 13), Vector2(1747, 13)]
+"values": [Vector2(1066, 13), Vector2(1067, 13)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ecis"]
@@ -6548,109 +6233,6 @@ shadow_size = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6lv2"]
 size = Vector2(52, 1113)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_f1tjs"]
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_f1tjs"]
-polygon = PackedVector2Array(-1009, -497, -646, -495, -651, -438, -665, -401, -674, -316, -622, -118, -686, 68)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_8nd12"]
-polygon = PackedVector2Array(-1006, -489, -654, -499, -665, -450, -964, 59)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_dchly"]
-polygon = PackedVector2Array(-1023, -476, -37, -469, -42, -358, -1023, -375)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xtt2u"]
-polygon = PackedVector2Array(-1006, -489, 47, -486, 87, -217, -1056, -245)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l8ssf"]
-polygon = PackedVector2Array(-3299, -209, 2901, -236, 1007, -132, 798, -115, -1934, -158)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_hnp11"]
-polygon = PackedVector2Array(-1194, 3266, -543, 3258, -543, 3820)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_8b1ck"]
-polygon = PackedVector2Array(-972, 3258, -336, 3268, -967, 3765)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7f3ce"]
-polygon = PackedVector2Array(-134, 3472, 531, 3477, 557, 3492, -172, 3502)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gpf6m"]
-polygon = PackedVector2Array(-790, 7619, -85, 7031, 471, 7043, 1156, 7622)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fcy60"]
-polygon = PackedVector2Array(-376, 12508, -390, 12461, -306, 12428, -236, 12315, -132, 12249, -74, 12227, -56, 12169, -16, 12132, 10, 12126, 144, 12027, 290, 12021, 329, 12095, 466, 12124, 487, 12105, 485, 12015, 567, 12019, 565, 12042, 581, 12040, 610, 12021, 635, 12015, 659, 12023, 723, 12029, 770, 12027, 776, 12009, 1011, 12003, 1037, 12003, 1039, 12029, 1074, 11982, 1150, 11980, 1160, 12001, 1173, 12001, 1200, 11980, 1230, 11974, 1300, 11982, 1294, 12208, 1341, 12208, 1339, 12262, 692, 12410, 684, 12444, 787, 12508)
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1hk0o"]
-particle_flag_disable_z = true
-direction = Vector3(0, -1, 0)
-initial_velocity_min = 13.33
-initial_velocity_max = 46.67
-angular_velocity_min = -720.0
-angular_velocity_max = 719.99994
-gravity = Vector3(0, 100, 0)
-scale_max = 3.0
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tlnu2"]
-blend_mode = 1
-
-[sub_resource type="Curve" id="Curve_1hk0o"]
-_limits = [0.0, 0.3, 0.0, 1.0]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.26797387, 0.2871202), 0.0, 0.0, 0, 0, Vector2(0.50326794, 0.3), 0.0, 0.0, 0, 0, Vector2(0.76797384, 0.2819683), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="CurveTexture" id="CurveTexture_f1tjs"]
-curve = SubResource("Curve_1hk0o")
-
-[sub_resource type="Gradient" id="Gradient_8nd12"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_dchly"]
-gradient = SubResource("Gradient_8nd12")
-
-[sub_resource type="Curve" id="Curve_xtt2u"]
-_limits = [0.0, 3.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_l8ssf"]
-_limits = [0.0, 30.0, 0.0, 1.0]
-_data = [Vector2(0, 15.3170395), 0.0, 0.0, 0, 0, Vector2(0.15686274, 28.969616), 0.0, 0.0, 0, 0, Vector2(0.25490198, 30), 0.0, 0.0, 0, 0, Vector2(0.99999, 30), 0.0, 0.0, 0, 0, Vector2(1, 30), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="Curve" id="Curve_hnp11"]
-_limits = [0.0, 3.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_8b1ck"]
-curve_x = SubResource("Curve_xtt2u")
-curve_y = SubResource("Curve_l8ssf")
-curve_z = SubResource("Curve_hnp11")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gpf6m"]
-resource_local_to_scene = true
-particle_flag_align_y = true
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(0, -950, 0)
-emission_shape_scale = Vector3(30, 1, 1)
-emission_shape = 3
-emission_box_extents = Vector3(150, 1, 1)
-direction = Vector3(0, 0, 0)
-spread = 0.0
-initial_velocity_min = -200.0
-initial_velocity_max = 200.0
-gravity = Vector3(0, 2000, 0)
-radial_accel_min = -2.0000021
-radial_accel_max = -2.0000021
-scale_min = 2.0
-scale_max = 3.0
-scale_over_velocity_curve = SubResource("CurveXYZTexture_8b1ck")
-color_initial_ramp = SubResource("GradientTexture1D_dchly")
-alpha_curve = SubResource("CurveTexture_f1tjs")
-collision_mode = 2
-sub_emitter_mode = 3
-sub_emitter_amount_at_collision = 1
 
 [node name="Node2D" type="Node2D"]
 
@@ -6843,6 +6425,7 @@ ignore_texture_size = true
 
 [node name="container" type="VBoxContainer" parent="main menu/on"]
 process_mode = 3
+visible = false
 layout_mode = 0
 offset_right = 1874.0
 offset_bottom = 956.0
@@ -6853,19 +6436,19 @@ modulate = Color(0.7588528, 0.5768251, 0.4043983, 1)
 z_index = 99
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_s5vrf")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 65
 text = "Left mouse click for attack
 Q to switch weapons
 E to dash
 R to use hammer when available
 F to use shield
-Press Spacebar mid air to double jump
-Hold Shift to run
+Press spacebar mid air to double jump
 
-All damages done to you will knock you back, and same goes for the enemies
+All damages done to you will knock you back,
+ and same goes for the enemies
 Enemies that are jumping are not able to attack
-You're able to dash through damage
-Walk to the right to progress through the game"
+"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="star_container" type="StaticBody2D" parent="main menu"]
@@ -7882,7 +7465,7 @@ scale = Vector2(0.01, 0.01)
 texture = ExtResource("5_5gskw")
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(-129.00002, -272.00003)
+position = Vector2(0, -249)
 scale = Vector2(1.3, 1.3)
 collision_layer = 64
 collision_mask = 25165825
@@ -7893,16 +7476,14 @@ JUMP_VELOCITY = 700.0
 push_strength = 4
 dash_duration = 0.4
 dash_cooldown = 0.8
-shoot_cooldown = 0.7
-sword_dam = 57.0
+shoot_cooldown = 0.5
+sword_dam = 50.0
 sword_force = 1000.0
 health = 100.0
 shield_cooldown = 0.6
 bullet = ExtResource("8_dd6w0")
-hammer_target = 25
+hammer_target = 0
 ham_dam = 455.0
-player_heal_amout = 5
-heal_timer = 3.0
 
 [node name="dash timer" type="Timer" parent="Player"]
 wait_time = 0.2
@@ -7919,12 +7500,14 @@ visible = false
 position = Vector2(0, 5.384735)
 sprite_frames = SubResource("SpriteFrames_ghr7w")
 animation = &"boom"
+frame = 14
+frame_progress = 0.93622476
 
 [node name="Dropod" type="Sprite2D" parent="Player"]
 visible = false
-z_index = 5
-position = Vector2(0, 5.385)
-scale = Vector2(0.3, 0.25)
+z_index = 15
+position = Vector2(0, -42.308)
+scale = Vector2(0.325, 0.26)
 texture = ExtResource("3_xmjh7")
 offset = Vector2(0, -5000)
 
@@ -7935,9 +7518,8 @@ volume_db = 6.0
 bus = &"sounds"
 
 [node name="check_floor" type="RayCast2D" parent="Player/Dropod"]
-position = Vector2(-38.46155, 665.38464)
+position = Vector2(0, 1042.0411)
 target_position = Vector2(0, 100)
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 visible = false
@@ -7947,15 +7529,15 @@ scale = Vector2(0.61430013, -6.3818774)
 shape = SubResource("RectangleShape2D_fq26f")
 
 [node name="hammer" type="Area2D" parent="Player"]
-position = Vector2(34.615, -33.846)
+position = Vector2(34.615, -28.615265)
 scale = Vector2(0.20000003, 0.20000003)
 collision_mask = 32768
 monitoring = false
 monitorable = false
 
 [node name="hit" type="CollisionShape2D" parent="Player/hammer"]
-position = Vector2(0, 289.943)
-shape = SubResource("WorldBoundaryShape2D_l8ssf")
+position = Vector2(472.86053, 129.98572)
+shape = SubResource("RectangleShape2D_oj3pt")
 disabled = true
 
 [node name="hurt_area" type="Area2D" parent="Player"]
@@ -7980,6 +7562,7 @@ position = Vector2(0, 7.5)
 scale = Vector2(0.20000002, 0.20000002)
 sprite_frames = SubResource("SpriteFrames_naigk")
 animation = &"idle"
+speed_scale = 1.5
 
 [node name="player-hand" type="AnimatedSprite2D" parent="Player/visuals"]
 unique_name_in_owner = true
@@ -8053,6 +7636,7 @@ scale_amount_min = 0.1
 process_mode = 3
 modulate = Color(0.50928617, 0.50928617, 0.50928617, 1)
 z_index = 3
+emitting = false
 amount = 85
 texture = ExtResource("7_s5vrf")
 lifetime = 5.0
@@ -8069,68 +7653,6 @@ initial_velocity_max = 1000.0
 angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
-
-[node name="CanvasLayer2" type="CanvasLayer" parent="Player"]
-
-[node name="health-bar" type="TextureProgressBar" parent="Player/CanvasLayer2"]
-visible = false
-z_index = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -90.0
-offset_right = 250.0
-offset_bottom = 4.0
-grow_vertical = 0
-scale = Vector2(0.9, 0.9)
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture_under = ExtResource("45_l8ssf")
-texture_progress = ExtResource("46_hnp11")
-
-[node name="hammer" type="TextureRect" parent="Player/CanvasLayer2"]
-visible = false
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 99.99997
-offset_top = -285.0
-offset_right = 874.0
-offset_bottom = 762.0
-grow_vertical = 0
-rotation = 0.52883476
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("47_8b1ck")
-flip_h = true
-
-[node name="gun" type="TextureRect" parent="Player/CanvasLayer2"]
-visible = false
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 233.0
-offset_top = -143.0
-offset_right = 1313.0
-offset_bottom = 583.0
-grow_vertical = 0
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("48_7f3ce")
-
-[node name="sword" type="TextureRect" parent="Player/CanvasLayer2"]
-visible = false
-anchors_preset = -1
-anchor_left = -0.024305582
-anchor_top = 0.7506551
-anchor_right = 0.20488864
-anchor_bottom = 0.7506551
-offset_left = 238.00005
-offset_top = 164.5755
-offset_right = 1593.9683
-offset_bottom = 890.5755
-rotation = -0.45204028
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("49_gpf6m")
-metadata/_edit_use_anchors_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 process_mode = 3
@@ -8236,7 +7758,7 @@ frame_progress = 0.47710666
 [node name="floorGenerator" type="StaticBody2D" parent="."]
 script = ExtResource("2_cbkd1")
 tile_width = 575.0
-tile_number = 6.0
+tile_number = 1.0
 Floor_Debug = true
 Floor_random = true
 
@@ -8250,14 +7772,8 @@ position = Vector2(0, 63)
 scale = Vector2(0.49, 0.695)
 texture = ExtResource("8_54s57")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="floorGenerator"]
-process_mode = 3
-z_index = 101
-position = Vector2(0, 16)
-occluder = SubResource("OccluderPolygon2D_1hk0o")
-
 [node name="Spawner" type="StaticBody2D" parent="."]
-position = Vector2(-75, -129)
+position = Vector2(-75, 0)
 script = ExtResource("8_sdjp3")
 enemy_shoot = ExtResource("9_sdjp3")
 sentryBuster = ExtResource("12_2pmbf")
@@ -8265,7 +7781,7 @@ fly_enemy = ExtResource("12_0rska")
 enemy_shield = ExtResource("15_77ri1")
 dropship = ExtResource("49_x1eik")
 enemy_sword = ExtResource("27_ooit5")
-random_distance = 2500.0
+random_distance = 1200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spawner"]
 shape = SubResource("RectangleShape2D_qwe0f")
@@ -8290,7 +7806,7 @@ scale = Vector2(3, 3)
 script = ExtResource("35_d8wvr")
 wait_time = 6
 random_distance = 15.0
-wave = 6
+wave = 7
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena1"]
 visible = false
@@ -8390,13 +7906,11 @@ scale = Vector2(1.2, 1)
 texture = ExtResource("8_54s57")
 
 [node name="enemy_spawn" type="Sprite2D" parent="StoryArena1/level-detail-shared"]
-visible = false
 position = Vector2(555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
 
 [node name="enemy_spawn2" type="Sprite2D" parent="StoryArena1/level-detail-shared"]
-visible = false
 position = Vector2(-555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
@@ -8432,7 +7946,7 @@ collision_layer = 1025
 script = ExtResource("41_xtrul")
 wait_time = 24
 random_distance = 15.0
-wave = 8
+wave = 9
 missile_cooldown = 5.0
 
 [node name="One-way-platform4" type="StaticBody2D" parent="StoryArena2"]
@@ -8625,13 +8139,11 @@ scale = Vector2(1.2, 1)
 texture = ExtResource("8_54s57")
 
 [node name="enemy_spawn" type="Sprite2D" parent="StoryArena2/level-detail-shared"]
-visible = false
 position = Vector2(555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
 
 [node name="enemy_spawn2" type="Sprite2D" parent="StoryArena2/level-detail-shared"]
-visible = false
 position = Vector2(-555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
@@ -8654,11 +8166,10 @@ libraries = {
 [node name="StoryArena3" type="StaticBody2D" parent="."]
 position = Vector2(0, 9567)
 scale = Vector2(3, 3)
-collision_layer = 8388608
 script = ExtResource("40_m3xuu")
 wait_time = 9
 random_distance = 15.0
-wave = 8
+wave = 10
 
 [node name="platform" type="StaticBody2D" parent="StoryArena3"]
 position = Vector2(0, 50)
@@ -8716,7 +8227,7 @@ shape = SubResource("RectangleShape2D_j1le4")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="StoryArena3"]
 position = Vector2(0, 157.33333)
-collision_layer = 8388609
+collision_layer = 8388608
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StoryArena3/StaticBody2D"]
 position = Vector2(0, 6.330404)
@@ -8757,13 +8268,11 @@ scale = Vector2(1.2, 1)
 texture = ExtResource("8_54s57")
 
 [node name="enemy_spawn" type="Sprite2D" parent="StoryArena3/level-detail-shared"]
-visible = false
 position = Vector2(555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
 
 [node name="enemy_spawn2" type="Sprite2D" parent="StoryArena3/level-detail-shared"]
-visible = false
 position = Vector2(-555, -450)
 scale = Vector2(0.33333334, 0.33333334)
 texture = ExtResource("14_cuxah")
@@ -8788,11 +8297,11 @@ texture_scale = 5.37
 
 [node name="StoryArena4" type="StaticBody2D" parent="."]
 process_mode = 3
-position = Vector2(0, 14310)
+position = Vector2(0, 14466)
 scale = Vector2(3, 3)
 script = ExtResource("82_r6lv2")
 wait_time = 4
-wave = 6
+wave = 10
 
 [node name="One-way-platform" type="StaticBody2D" parent="StoryArena4"]
 position = Vector2(19.666687, 86.16667)
@@ -8941,30 +8450,13 @@ texture = ExtResource("102_awnbw")
 [node name="scoreboard" type="StaticBody2D" parent="StoryArena4/cannon"]
 visible = false
 z_index = 99
-position = Vector2(0, 2610.0002)
+position = Vector2(0, 2412.667)
 scale = Vector2(1.5, 1.5)
 
 [node name="container" type="Sprite2D" parent="StoryArena4/cannon/scoreboard"]
 modulate = Color(1, 1, 1, 0.5137255)
 scale = Vector2(66.410255, 158.88876)
 texture = ExtResource("35_dd6w0")
-
-[node name="Button" type="Button" parent="StoryArena4/cannon/scoreboard/container"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -7.671171
-offset_top = -4.01958
-offset_right = 176.32883
-offset_bottom = 23.98042
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.015, 0.015)
-focus_mode = 0
-theme_override_fonts/font = ExtResource("78_y4xcw")
-text = "Main Menu"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="StoryArena4/cannon/scoreboard"]
 offset_left = -385.77777
@@ -8984,6 +8476,16 @@ text = "Timer :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
+[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+process_mode = 3
+modulate = Color(1.224127, 1.224127, 1.224127, 1)
+z_index = 3
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Kill count :  
+"
+label_settings = SubResource("LabelSettings_hxxo4")
+
 [node name="bullets_shot" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
@@ -8995,34 +8497,15 @@ shot :
 "
 label_settings = SubResource("LabelSettings_hxxo4")
 
-[node name="kill_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
+[node name="damage" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
 process_mode = 3
 modulate = Color(1.224127, 1.224127, 1.224127, 1)
 z_index = 3
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Kill 
-count :  "
-label_settings = SubResource("LabelSettings_hxxo4")
-
-[node name="death_count" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Death
-count : "
-label_settings = SubResource("LabelSettings_hxxo4")
-
-[node name="damage_taken" type="Label" parent="StoryArena4/cannon/scoreboard/VBoxContainer"]
-process_mode = 3
-modulate = Color(1.224127, 1.224127, 1.224127, 1)
-z_index = 3
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Damage
-taken :"
+text = "Bullets 
+shot :  
+"
 label_settings = SubResource("LabelSettings_hxxo4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StoryArena4"]
@@ -9032,55 +8515,25 @@ libraries = {
 &"": SubResource("AnimationLibrary_71a6e")
 }
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="StoryArena4"]
-position = Vector2(13.12102, 152.23633)
-scale = Vector2(4.0000005, 4.0000005)
-amount = 80
-texture = ExtResource("7_s5vrf")
-lifetime = 2.0
-one_shot = true
-explosiveness = 1.0
-emission_shape = 2
-emission_sphere_radius = 1.0
-direction = Vector2(-1, -1)
-spread = 43.6
-gravity = Vector2(0, 2500)
-initial_velocity_min = 89.74
-initial_velocity_max = 205.13
-angular_velocity_min = -720.0
-angular_velocity_max = 720.0
-linear_accel_min = -50.0
-scale_amount_min = 1.5
-scale_amount_max = 3.5
-
-[node name="Weirdnuke" type="Sprite2D" parent="StoryArena4"]
-process_mode = 3
-visible = false
-z_as_relative = false
-position = Vector2(-679, -949)
-rotation = -0.59168434
-scale = Vector2(4, 4)
-texture = ExtResource("78_s8jdi")
-
-[node name="paused_menu" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 3
 script = ExtResource("64_ooit5")
 
-[node name="Control" type="Control" parent="paused_menu"]
+[node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="setting" type="TextureButton" parent="paused_menu/Control"]
+[node name="setting" type="TextureButton" parent="CanvasLayer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 1707.0
+offset_left = 1039.0
 offset_top = -27.0
-offset_right = 1767.0
+offset_right = 1099.0
 offset_bottom = 28.999924
 grow_horizontal = 0
 pivot_offset = Vector2(30, 27)
@@ -9088,10 +8541,10 @@ texture_normal = ExtResource("65_n8cbv")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="BackBufferCopy" type="BackBufferCopy" parent="paused_menu"]
+[node name="BackBufferCopy" type="BackBufferCopy" parent="CanvasLayer"]
 copy_mode = 2
 
-[node name="blurry_bg" type="ColorRect" parent="paused_menu"]
+[node name="blurry_bg" type="ColorRect" parent="CanvasLayer"]
 unique_name_in_owner = true
 visible = false
 material = SubResource("ShaderMaterial_t843m")
@@ -9103,23 +8556,15 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.3803922)
 
-[node name="Resume_button" type="TextureButton" parent="paused_menu"]
+[node name="Resume_button" type="TextureButton" parent="CanvasLayer"]
 unique_name_in_owner = true
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
 custom_minimum_size = Vector2(-0.06, 0)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -121.5
-offset_top = -134.0
-offset_right = 121.5
-offset_bottom = -62.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
+offset_left = 445.0
+offset_top = 87.0
+offset_right = 688.0
+offset_bottom = 159.0
 action_mode = 0
 texture_normal = ExtResource("66_wp73k")
 texture_pressed = ExtResource("67_gh4k4")
@@ -9128,21 +8573,13 @@ texture_click_mask = ExtResource("69_xldp0")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Option_button" type="TextureButton" parent="paused_menu"]
+[node name="Option_button" type="TextureButton" parent="CanvasLayer"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -125.5
-offset_top = -36.5
-offset_right = 125.5
-offset_bottom = 36.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
+offset_left = 442.0
+offset_top = 183.0
+offset_right = 693.0
+offset_bottom = 256.0
 texture_normal = ExtResource("70_xtrul")
 texture_pressed = ExtResource("71_d8wvr")
 texture_hover = ExtResource("72_1lxef")
@@ -9150,29 +8587,29 @@ texture_click_mask = ExtResource("73_8eqi4")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="paused_menu"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_8ecis")
 }
 
-[node name="options_panel" type="Control" parent="paused_menu"]
+[node name="options_panel" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
-offset_top = 67.0
+offset_top = 157.0
 offset_right = 40.0
-offset_bottom = 107.0
+offset_bottom = 197.0
 
-[node name="back_button" type="TextureButton" parent="paused_menu/options_panel"]
+[node name="back_button" type="TextureButton" parent="CanvasLayer/options_panel"]
 unique_name_in_owner = true
 process_mode = 3
 layout_mode = 0
-offset_left = 1594.0
-offset_top = 821.0
-offset_right = 1729.0
-offset_bottom = 861.0
+offset_left = 887.0
+offset_top = 437.0
+offset_right = 1022.0
+offset_bottom = 477.0
 texture_normal = ExtResource("74_naog5")
 texture_pressed = ExtResource("75_1vh3m")
 texture_hover = ExtResource("76_rdpn4")
@@ -9180,7 +8617,7 @@ texture_click_mask = ExtResource("77_maayn")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="paused_menu/options_panel"]
+[node name="Label" type="Label" parent="CanvasLayer/options_panel"]
 layout_mode = 0
 offset_left = 104.0
 offset_top = 192.0
@@ -9188,22 +8625,15 @@ offset_right = 537.0
 offset_bottom = 250.0
 text = "Performance
 
-disable  mountain
+disable mountain
 
-disable  tree
+disable tree
 
-disable  cloud
-
-disable  rain
-
-Extras ( Play the game first before enabling this)
-
-add  bob
-
-add  adam"
+disable cloud
+"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="HSlider2" type="HSlider" parent="paused_menu/options_panel"]
+[node name="HSlider2" type="HSlider" parent="CanvasLayer/options_panel"]
 process_mode = 3
 layout_mode = 0
 offset_left = 371.0
@@ -9214,7 +8644,7 @@ theme_override_styles/slider = SubResource("StyleBoxFlat_hxxo4")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_s5cbt")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ivick")
 
-[node name="Label" type="Label" parent="paused_menu/options_panel/HSlider2"]
+[node name="Label" type="Label" parent="CanvasLayer/options_panel/HSlider2"]
 layout_mode = 0
 offset_left = -269.0
 offset_top = 59.0
@@ -9224,7 +8654,7 @@ text = "Music
 Volume"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="HSlider" type="HSlider" parent="paused_menu/options_panel"]
+[node name="HSlider" type="HSlider" parent="CanvasLayer/options_panel"]
 process_mode = 3
 layout_mode = 0
 offset_left = 373.0
@@ -9235,7 +8665,7 @@ theme_override_styles/slider = SubResource("StyleBoxFlat_hxxo4")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_s5cbt")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_ivick")
 
-[node name="Label" type="Label" parent="paused_menu/options_panel/HSlider"]
+[node name="Label" type="Label" parent="CanvasLayer/options_panel/HSlider"]
 layout_mode = 0
 offset_left = -269.0
 offset_top = 59.0
@@ -9245,117 +8675,49 @@ text = "Sound
 volume"
 label_settings = SubResource("LabelSettings_f1tjs")
 
-[node name="mountain" type="CheckButton" parent="paused_menu/options_panel"]
+[node name="mountain" type="CheckButton" parent="CanvasLayer/options_panel"]
 layout_mode = 0
 offset_left = 688.00006
 offset_top = 256.0
 offset_right = 732.00006
 offset_bottom = 280.0
 scale = Vector2(3, 3)
-focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="tree" type="CheckButton" parent="paused_menu/options_panel"]
+[node name="tree" type="CheckButton" parent="CanvasLayer/options_panel"]
 layout_mode = 0
 offset_left = 688.00006
 offset_top = 328.0
 offset_right = 732.00006
 offset_bottom = 352.0
 scale = Vector2(3, 3)
-focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="cloud" type="CheckButton" parent="paused_menu/options_panel"]
+[node name="cloud" type="CheckButton" parent="CanvasLayer/options_panel"]
 layout_mode = 0
 offset_left = 688.0
 offset_top = 408.0
 offset_right = 732.0
 offset_bottom = 432.0
 scale = Vector2(3, 3)
-focus_mode = 0
 theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
 theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
 theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
 
-[node name="bob" type="CheckButton" parent="paused_menu/options_panel"]
-layout_mode = 0
-offset_left = 688.0
-offset_top = 661.0
-offset_right = 732.0
-offset_bottom = 685.0
-scale = Vector2(3, 3)
-focus_mode = 0
-theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
-theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
-theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
-
-[node name="adam" type="CheckButton" parent="paused_menu/options_panel"]
-layout_mode = 0
-offset_left = 688.0
-offset_top = 730.0
-offset_right = 732.0
-offset_bottom = 754.0
-scale = Vector2(3, 3)
-focus_mode = 0
-theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
-theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
-theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
-
-[node name="Rain" type="CheckButton" parent="paused_menu/options_panel"]
-layout_mode = 0
-offset_left = 688.0
-offset_top = 494.0
-offset_right = 732.0
-offset_bottom = 518.0
-scale = Vector2(3, 3)
-focus_mode = 0
-theme_override_colors/icon_normal_color = Color(0, 0.77254903, 0.7372549, 1)
-theme_override_colors/icon_pressed_color = Color(0, 0.4696139, 0.46961385, 1)
-theme_override_colors/icon_hover_color = Color(0.6968204, 0.9999997, 0.9954528, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0, 0.5883929, 0.5883928, 1)
-
-[node name="bob2" type="Label" parent="paused_menu/options_panel"]
-layout_mode = 0
-offset_left = 826.0
-offset_top = 674.0
-offset_right = 1387.0
-offset_bottom = 708.0
-theme_override_font_sizes/font_size = 24
-text = "Teleports infront of player and do not touch him"
-
-[node name="adam2" type="Label" parent="paused_menu/options_panel"]
-layout_mode = 0
-offset_left = 830.0
-offset_top = 748.0
-offset_right = 1274.0
-offset_bottom = 782.0
-theme_override_font_sizes/font_size = 24
-text = "Dont touch the floor when he screams"
-
-[node name="Exit" type="TextureButton" parent="paused_menu"]
+[node name="Exit" type="TextureButton" parent="CanvasLayer"]
 process_mode = 3
 self_modulate = Color(1, 1, 1, 0.78431374)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -123.0
-offset_top = 66.0
-offset_right = 123.0
-offset_bottom = 147.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
+offset_left = 447.0
+offset_top = 277.0
+offset_right = 693.0
+offset_bottom = 358.0
 texture_normal = ExtResource("79_yfnas")
 texture_pressed = ExtResource("80_j1hax")
 texture_hover = ExtResource("81_q0rty")
@@ -9376,23 +8738,10 @@ shadow_color = Color(0.8748018, 0.42379636, 0, 1)
 
 [node name="wall" type="StaticBody2D" parent="."]
 position = Vector2(-134, -202)
-collision_layer = 16777216
-collision_mask = 0
-script = ExtResource("125_1hk0o")
 
-[node name="wall" type="CollisionShape2D" parent="wall"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall"]
 position = Vector2(-166, -417)
 shape = SubResource("RectangleShape2D_r6lv2")
-
-[node name="boundary" type="CollisionShape2D" parent="wall"]
-position = Vector2(-1234, 1350)
-rotation = 1.5707964
-shape = SubResource("WorldBoundaryShape2D_f1tjs")
-
-[node name="boundary2" type="CollisionShape2D" parent="wall"]
-position = Vector2(1497, 1365)
-rotation = -1.5707964
-shape = SubResource("WorldBoundaryShape2D_f1tjs")
 
 [node name="camerahere" type="StaticBody2D" parent="."]
 process_mode = 3
@@ -9434,115 +8783,9 @@ angular_velocity_min = -100.0
 angular_velocity_max = 100.0
 scale_amount_max = 2.0
 
-[node name="rain_floor" type="StaticBody2D" parent="."]
-z_index = -10
-z_as_relative = false
-position = Vector2(-179, 2364)
-
-[node name="arena1" type="StaticBody2D" parent="rain_floor"]
-
-[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena1"]
-occluder = SubResource("OccluderPolygon2D_f1tjs")
-
-[node name="LightOccluder2D4" type="LightOccluder2D" parent="rain_floor/arena1"]
-position = Vector2(2020, 7)
-occluder = SubResource("OccluderPolygon2D_8nd12")
-
-[node name="LightOccluder2D5" type="LightOccluder2D" parent="rain_floor/arena1"]
-position = Vector2(721, -354)
-occluder = SubResource("OccluderPolygon2D_dchly")
-
-[node name="LightOccluder2D6" type="LightOccluder2D" parent="rain_floor/arena1"]
-position = Vector2(653, 323)
-occluder = SubResource("OccluderPolygon2D_xtt2u")
-
-[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena1"]
-position = Vector2(653, 323)
-occluder = SubResource("OccluderPolygon2D_l8ssf")
-
-[node name="arena2" type="StaticBody2D" parent="rain_floor"]
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena2"]
-occluder = SubResource("OccluderPolygon2D_hnp11")
-
-[node name="LightOccluder2D2" type="LightOccluder2D" parent="rain_floor/arena2"]
-position = Vector2(1887, 46)
-occluder = SubResource("OccluderPolygon2D_8b1ck")
-
-[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena2"]
-position = Vector2(565, 4029)
-occluder = SubResource("OccluderPolygon2D_l8ssf")
-
-[node name="LightOccluder2D3" type="LightOccluder2D" parent="rain_floor/arena2"]
-occluder = SubResource("OccluderPolygon2D_7f3ce")
-
-[node name="arena3" type="StaticBody2D" parent="rain_floor"]
-
-[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena3"]
-position = Vector2(751, 7835)
-occluder = SubResource("OccluderPolygon2D_l8ssf")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena3"]
-z_index = 101
-occluder = SubResource("OccluderPolygon2D_gpf6m")
-
-[node name="arena4" type="StaticBody2D" parent="rain_floor"]
-
-[node name="LightOccluder2D7" type="LightOccluder2D" parent="rain_floor/arena4"]
-z_index = 2101
-position = Vector2(651, 12747)
-occluder = SubResource("OccluderPolygon2D_l8ssf")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="rain_floor/arena4"]
-z_index = -99
-z_as_relative = false
-occluder = SubResource("OccluderPolygon2D_fcy60")
-
-[node name="LightOccluder2D8" type="LightOccluder2D" parent="rain_floor/arena4"]
-position = Vector2(634, 16865)
-occluder = SubResource("OccluderPolygon2D_l8ssf")
-
-[node name="splash" type="GPUParticles2D" parent="."]
-process_mode = 3
-z_index = 101
-emitting = false
-amount = 20000
-lifetime = 0.75
-one_shot = true
-explosiveness = 1.0
-visibility_rect = Rect2(-100, -100, 1000000000000, 1000000000000)
-trail_lifetime = 0.08
-process_material = SubResource("ParticleProcessMaterial_1hk0o")
-
-[node name="rain" type="GPUParticles2D" parent="."]
-z_index = 99
-material = SubResource("CanvasItemMaterial_tlnu2")
-amount = 1000
-sub_emitter = NodePath("../splash")
-lifetime = 5.0
-preprocess = 5.0
-collision_base_size = 170.0
-visibility_rect = Rect2(-2300, -1000, 4600, 2000)
-process_material = SubResource("ParticleProcessMaterial_gpf6m")
-script = ExtResource("131_8b1ck")
-rain_height = -600.0
-timer = 20.0
-rain = 15
-p = 0.6
-thunder_timer = 25.0
-
-[node name="rainsound" type="AudioStreamPlayer2D" parent="rain"]
-position = Vector2(-663, 2)
-stream = ExtResource("132_7f3ce")
-volume_db = 7.0
-pitch_scale = 3.0
-bus = &"sounds"
-parameters/looping = true
-
-[node name="bgm" type="Node2D" parent="."]
-script = ExtResource("133_7f3ce")
-timer = 10.0
-chance = 8
+[node name="Mybeautifulboy0" type="Sprite2D" parent="."]
+position = Vector2(-1303, 4445)
+texture = ExtResource("103_oh2np")
 
 [connection signal="pressed" from="main menu/on/startgame" to="main menu/on" method="_on_startgame_pressed"]
 [connection signal="pressed" from="main menu/on/options" to="main menu/on" method="_on_options_pressed"]
@@ -9558,21 +8801,17 @@ chance = 8
 [connection signal="body_entered" from="StoryArena2/PlayerSpawn/Area2D" to="StoryArena2" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena3/PlayerSpawn/Area2D" to="StoryArena3" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="StoryArena4/PlayerSpawn/Area2D" to="StoryArena4" method="_on_area_2d_body_entered"]
-[connection signal="pressed" from="StoryArena4/cannon/scoreboard/container/Button" to="StoryArena4" method="_on_button_pressed"]
-[connection signal="mouse_entered" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_entered"]
-[connection signal="mouse_exited" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_mouse_exited"]
-[connection signal="pressed" from="paused_menu/Control/setting" to="paused_menu" method="_on_texture_button_pressed"]
-[connection signal="pressed" from="paused_menu/Resume_button" to="paused_menu" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="paused_menu/Option_button" to="paused_menu" method="_on_option_button_pressed"]
-[connection signal="pressed" from="paused_menu/options_panel/back_button" to="paused_menu" method="_on_back_button_pressed"]
-[connection signal="value_changed" from="paused_menu/options_panel/HSlider2" to="paused_menu" method="_on_h_slider_2_value_changed"]
-[connection signal="value_changed" from="paused_menu/options_panel/HSlider" to="paused_menu" method="_on_h_slider_value_changed"]
-[connection signal="toggled" from="paused_menu/options_panel/mountain" to="paused_menu" method="_on_mountain_toggled"]
-[connection signal="toggled" from="paused_menu/options_panel/tree" to="paused_menu" method="_on_tree_toggled"]
-[connection signal="toggled" from="paused_menu/options_panel/cloud" to="paused_menu" method="_on_cloud_toggled"]
-[connection signal="toggled" from="paused_menu/options_panel/bob" to="paused_menu" method="_on_bob_toggled"]
-[connection signal="toggled" from="paused_menu/options_panel/adam" to="paused_menu" method="_on_adam_toggled"]
-[connection signal="toggled" from="paused_menu/options_panel/Rain" to="paused_menu" method="_on_rain_toggled"]
-[connection signal="mouse_entered" from="paused_menu/Exit" to="paused_menu" method="_on_exit_mouse_entered"]
-[connection signal="mouse_exited" from="paused_menu/Exit" to="paused_menu" method="_on_exit_mouse_exited"]
-[connection signal="pressed" from="paused_menu/Exit" to="paused_menu" method="_on_exit_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/Control/setting" to="CanvasLayer" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Resume_button" to="CanvasLayer" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Option_button" to="CanvasLayer" method="_on_option_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/options_panel/back_button" to="CanvasLayer" method="_on_back_button_pressed"]
+[connection signal="value_changed" from="CanvasLayer/options_panel/HSlider2" to="CanvasLayer" method="_on_h_slider_2_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/options_panel/HSlider" to="CanvasLayer" method="_on_h_slider_value_changed"]
+[connection signal="toggled" from="CanvasLayer/options_panel/mountain" to="CanvasLayer" method="_on_mountain_toggled"]
+[connection signal="toggled" from="CanvasLayer/options_panel/tree" to="CanvasLayer" method="_on_tree_toggled"]
+[connection signal="toggled" from="CanvasLayer/options_panel/cloud" to="CanvasLayer" method="_on_cloud_toggled"]
+[connection signal="mouse_entered" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/Exit" to="CanvasLayer" method="_on_exit_pressed"]

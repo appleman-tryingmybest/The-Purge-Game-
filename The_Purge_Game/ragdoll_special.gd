@@ -7,30 +7,38 @@ var timer := 0.0
 var facing_direction : float = 1.0 
 
 func _ready():
-
+	# 1. Determine Push Direction ONCE
+	# We use global_position because 'position' might be 0 relative to parent
 	var x_push_dir = 1 if global_position.x > Global.player_x else -1
-
+	
+	# 2. Collect nodes
 	if has_node("Joints"):
 		for j in $Joints.get_children():
 			if j is PinJoint2D: joints.append(j)
 	for child in get_children():
 		if child is RigidBody2D: limbs.append(child)
 	
+	# 3. Mirror Positions and Scale Limbs
 	for l in limbs:
+		# Mirror the limb's starting position on the X axis
 		l.position.x *= facing_direction 
 		l.position *= scale_body 
 		
 		for child in l.get_children():
 			if child is Sprite2D or child is CollisionShape2D:
 				child.scale = Vector2(scale_body, scale_body)
-				child.scale.x *= facing_direction 
+				child.scale.x *= facing_direction # Mirror the sprite visual
+				
+				# Mirror the internal offset of sprites/shapes
 				child.position.x *= facing_direction 
 				child.position *= scale_body 
-
+	
+	# 4. Mirror Joint Positions
 	for j in joints:
 		j.position.x *= facing_direction
 		j.position *= scale_body 
-
+		
+		# Re-anchor logic
 		var node_a = j.node_a
 		var node_b = j.node_b
 		j.node_a = "" 
@@ -38,7 +46,10 @@ func _ready():
 		j.node_a = node_a 
 		j.node_b = node_b
 
+	# 5. Apply Forces using the calculated x_push_dir
 	for l in limbs:
+		# Use a positive Y range (downward) or negative (upward) as needed
+		# randf_range(-500, 0) makes them "pop" up slightly
 		l.apply_central_impulse(Vector2(randf_range(800, 1000) * x_push_dir, randf_range(-500, 0)))
 		
 		if l.name == "gun":

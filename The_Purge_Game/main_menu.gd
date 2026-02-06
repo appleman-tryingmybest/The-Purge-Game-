@@ -11,7 +11,7 @@ extends Control
 @onready var animation = $AnimationPlayer
 @onready var cameraAnimation = %AnimationPlayer
 @onready var _tutorial = %tuto
-@onready var tuto = %tutorial
+@onready var tutoo = %tutorial
 @onready var black = %bg
 @onready var purge = $Purge
 @onready var rules = $container
@@ -28,10 +28,6 @@ func _process(_delta):
 		_on_exit_pressed()
 
 func _on_startgame_pressed() -> void:
-	start.disabled = true
-	tuto.disabled = true
-	options.disabled = true
-	exitmm.disabled = true
 	print("start")
 	animation.play("start")
 	await animation.animation_finished
@@ -42,7 +38,10 @@ func _on_startgame_pressed() -> void:
 	setting.show()
 	await animation.animation_finished
 	get_tree().paused = false
-
+	
+func _on_exit_button_pressed():
+	print("exit game")
+	_on_exit_pressed()
 	
 func _on_exit_pressed():
 	get_tree().quit()
@@ -56,29 +55,15 @@ func esc():
 
 func _on_options_pressed() -> void:
 	start.hide()
-	tuto.hide()
 	exitmm.hide()
 	options.hide()
-	var back_button = %back_button
-	print("Options page opened")
-	blur_bg.modulate.a = 0.0
-	options_panel.modulate.a = 0.0
-	back_button.modulate.a = 0.0
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(blur_bg,"modulate:a",1.0,1.0)
-	tween.tween_property(options_panel,"modulate:a",1.0,1.0)
-	tween.tween_property(back_button,"modulate:a",1.0,1.0)
-	print("fading in.")
 	blur_bg.show()
 	options_panel.show()
-	back_button.show()
-	start.disabled = true
-	tuto.disabled = true
-	exitmm.disabled =  true
+	print("Options page opened")
 
 func _on_tutorial_pressed() -> void:
 	print("tutorial mode")
-	black.show()
+	black.visible = true
 	
 	back.show()
 	_tutorial.show()
@@ -93,11 +78,6 @@ func _on_tutorial_pressed() -> void:
 	tween.tween_property(black,"modulate:a",1.0,1.0)
 	tween.tween_property(rules,"modulate:a",1.0,2.0)
 	tween.tween_property(back,"modulate:a",1.0,2.0)
-	print("fading in")
-	start.disabled = true
-	tuto.disabled = true
-	options.disabled = true
-	exitmm.disabled = true
 
 func _on_backfortuto_pressed() -> void:
 	print("r u working my bro")
@@ -107,16 +87,11 @@ func _on_backfortuto_pressed() -> void:
 	var tween = create_tween()
 	tween.tween_property(rules,"modulate:a",0.0,0.3)
 	tween.tween_property(back,"modulate:a",0.0,1.0 )
-	tween.tween_property(black,"modulate:a",0.0,1.0)
+	tween.tween_property(black,"modulate:a",0.0,2.0)
 	
 	print("fading out")
 	await tween.finished
 	back.hide()
 	rules.hide()
 	black.hide()
-	options_panel.hide()
-	start.disabled = false
-	tuto.disabled = false
-	options.disabled = false
-	exitmm.disabled = false
 	

@@ -9,7 +9,6 @@ var enemy4 = preload("res://robot_shield.tscn")
 var enemy5 = preload("res://sentry_buster.tscn")
 var boss = preload("res://heavy.tscn")
 var ship = preload("res://ship.tscn")
-var debris = preload("res://debris.tscn")
 @export var random_distance : float
 @export var random_enemy : int
 var spawn := false
@@ -24,11 +23,10 @@ var current_loop_player: AudioStreamPlayer
 var boss_spawned := false
 var spawn_at := 0
 @export var ship_chance := 8
-@export var debris_chance := 3
 @onready var score_board = $cannon/scoreboard
 @onready var setting = %setting
 
-
+var time_elapsed : float = 0.0
 
 #PRELOAD SOUNDS
 var arena4_intro = preload("res://music/arena_music/arena_4/arena_4_intro.ogg")
@@ -40,16 +38,9 @@ var meow = preload("res://sounds/meow.ogg")
 var slip = preload("res://sounds/slip.ogg")
 var scream = preload("res://sounds/scream.ogg")
 var punch = preload("res://sounds/punch.ogg")
-var nuke_land = preload("res://sounds/player/dropod-land.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if !trigger_once and body.is_in_group("player"):
-		Global.start_game = true #newstuff
-		animation.play("weird_nuke")
-		await get_tree().create_timer(1).timeout
-		var shake = get_parent().get_node("Player")
-		if shake and shake.has_method("_cam_shake"):
-			shake._cam_shake(50)
 		Global.allowSpawn = false
 		animation.play("idle")
 		trigger_once = true
@@ -78,13 +69,15 @@ func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func _manage_arena_music():
-	var target_stream = arena4_p2 if boss_spawned else arena4_p1
-	# no music then make one
+	# Determine which track SHOULD be playing
+	var target_stream = arena4_p1 if !boss_spawned else arena4_p2
+	
+	# 1. If no player exists, create one
 	if !is_instance_valid(current_loop_player):
 		_start_new_track(target_stream)
 		return
 
-	# check for wrong music then switch
+	# 2. If the WRONG track is playing, swap it
 	if current_loop_player.stream != target_stream:
 		print("Boss spawned! Swapping music to: ", target_stream.resource_path)
 		current_loop_player.queue_free()
@@ -95,16 +88,16 @@ func _start_new_track(stream: AudioStream):
 	l.stream = stream
 	l.bus = "Music"
 	l.process_mode = Node.PROCESS_MODE_ALWAYS
-	l.volume_db = -4
+	l.volume_db = -7
 	add_child(l)
 	l.play()
 	current_loop_player = l
-
+	
+	# Handle the loop simply
 	l.finished.connect(func():
 		if is_instance_valid(l):
-			l.play() # Just restart the music
+			l.play() # Just restart the same player instead of re-running the whole logic
 	)
-
 
 func _start_stuff():
 	animation.play("off")
@@ -136,8 +129,6 @@ func spawn_enemy(enemy_type: String):
 			scene_to_spawn = boss
 		"ship":
 			scene_to_spawn = ship
-		"debris":
-			scene_to_spawn = debris
 		_:
 			return
 	var enemy = scene_to_spawn.instantiate() # copies stuff and prepares it	
@@ -147,24 +138,25 @@ func spawn_enemy(enemy_type: String):
 	else:
 		enemy.global_position = enemyspawn2.global_position
 	enemy.global_position.x += randf_range(-random_distance, random_distance)
+	if spawn_at == 1:
+		enemy.global_position = enemyspawn1.global_position
+	elif spawn_at == 2:
+		enemy.global_position = enemyspawn2.global_position
 	if enemy_type == "ship":
 		enemy.global_position = Vector2(-1974.0 + randf_range(0, 555), 10221.0)
-	if enemy_type == "debris":
-		enemy.global_position = Vector2(randf_range(-2826, 1654), 11800.0)
 	print ("enemy amount ", enemy_amount)
 	print ("wave ", wave)
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	print ("modulate is ", score_board.modulate.a)
-	if Global.start_game:
-		Global.start_time += delta
-		var mins = int(Global.start_time/60)
-		var secs = int(Global.start_time) %60
+	if Global.game_started:
+		time_elapsed += delta
+		var mins = int(time_elapsed/60)
+		var secs = int(time_elapsed) %60
 		var time_string = "%02d:%02d" % [mins, secs]
 		if score_board and score_board.has_node("timer_label"):
 			score_board.get_node("timer_label").text = "TIMER:" + time_string
-		print("Timerswitch:",Global.start_game,"|Current time",Global.start_time)
 		
 	if Global.arena_player and spawn:
 		_manage_arena_music()
@@ -172,7 +164,11 @@ func _process(delta: float) -> void:
 		return # Stop here if we aren't ready to spawn yet
 	if spawn and wave == 4 and !boss_spawned and Global.enemy_count == 0:
 		boss_spawned = true
+		spawn_at += 1
 		spawn_enemy("boss")
+		spawn_at += 1
+		spawn_enemy("boss")
+		spawn_at += 1
 	# Handle Spawning
 	if spawn and enemy_amount == 0 and wave != 0 and Global.enemy_count == 0:
 		print ("starting to spawn")
@@ -223,10 +219,6 @@ func _activate_cannon():
 		animation.play("fire")
 		await animation.animation_finished
 		spawn_ship()
-		if randi_range(0, debris_chance):
-			spawn_debris()
-		else:
-			debris_chance -= 1
 		await get_tree().create_timer(randf_range(2, 9)).timeout
 		animation.play("point_down")
 		await animation.animation_finished
@@ -241,12 +233,6 @@ func spawn_ship():
 		print ("nice spawning ship")
 	else:
 		ship_chance -= 1
-
-func spawn_debris():
-	debris_chance += 1
-	var amount = randi_range(2, 9)
-	for i in amount:
-		spawn_enemy("debris")
 
 func _shoot_sound():
 	play_sound(cannon_shoot, 8)
@@ -278,16 +264,14 @@ func destroy_gun():
 	print("mmuboom?")
 	await animation.animation_finished
 	Global.game_started = false
-	Global.start_game = false
 	scoreboard()
 	
 func scoreboard():
 	var music_sys = get_parent().get_node("music-system")
 	music_sys.end_arena()
 	print("timer start")
-	Global.start_game = false
-	var mins= int(Global.start_time/60)
-	var secs = int(Global.start_time)%60
+	var mins= int(time_elapsed/60)
+	var secs = int(time_elapsed)%60
 	var time_string = "%02d:%02d" % [mins, secs]
 	var box = $cannon/scoreboard/VBoxContainer
 	box.get_node("timer_label").text = "Time:   " + time_string
@@ -295,77 +279,29 @@ func scoreboard():
 	var timer_ = $cannon/scoreboard/VBoxContainer/timer_label
 	var kill = $cannon/scoreboard/VBoxContainer/kill_count
 	var bullet = $cannon/scoreboard/VBoxContainer/bullets_shot
-	var death = $cannon/scoreboard/VBoxContainer/death_count
-	var damage = $cannon/scoreboard/VBoxContainer/damage_taken
-	var deathcount = str(Global.death_count)
+	var damagee = $cannon/scoreboard/VBoxContainer/damage
 	var killcount_string = str(Global.enemy_kill_count)
 	var bulletscount = str(Global.bullets_count)
-	var take_damage = str(int(Global.total_damage_taken))
-	box.get_node("death_count").text = "Death  Count:   " + deathcount
 	box.get_node("kill_count").text = "Kill  Count:   " + killcount_string
 	box.get_node("bullets_shot").text = "Bullets  Shot:    " + bulletscount
-	box.get_node("damage_taken").text = "Damage  Taken :    " + take_damage
 	timer_.hide()
 	kill.hide()
 	bullet.hide()
-	death.hide()
-	damage.hide()
+	damagee.hide()
 	score_board.show()
 	var tween = create_tween()
 	tween.tween_property(score_board,"modulate:a",1.0,1.0)
 	await get_tree().create_timer(1).timeout
 	timer_.show()
-	play_sound(punch)
-	await get_tree().create_timer(1).timeoutd
-	bullet.show()
-	play_sound(punch)
 	await get_tree().create_timer(1).timeout
 	kill.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
-	death.show()
+	bullet.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
-	damage.show()
+	damagee.show()
 	play_sound(punch)
 	await get_tree().create_timer(1).timeout
-func damage_record(amount:int):
-	var player = get_parent().get_node("Player")
-	var _health :int = 100
-	var player_hurtbox = player.get_node("hurt_area")
-	player_hurtbox.area_entered.connect(_damage_detect)
-
-	
-func _damage_detect(area: Area2D):
-	if area.has_method("give_damage"):  #has_method= do you have this
-		var amount = area.give_damage()
-		Global.total_damage_taken += amount #record
-		print("detected",amount,"Total:", Global.total_damage_taken)
-		
-
-
-func _on_button_pressed() -> void:
-	print("return to main menu from last scene")
-	get_tree().paused = false
-	Global.arena_player = false
-	Global.allowSpawn = true
-	Global.restart = true
-	Global.start_game = false
-	Global.camera_Type = 2
-	Global.mountain = true
-	Global.cloud = true
-	Global.tree = true
-	Global.restart = true
-	Global.enemy_count = 0
-	Global.total_damage_taken = 0
-	Global.death_count = 0
-	Global.enemy_kill_count = 0
-	Global.bullets_count = 0
-	Global.start_time = 0.0
-	print("reset value mm")
-	get_tree().reload_current_scene()
-
-func _nuke_sound():
-	play_sound(nuke_land)
 
 	
