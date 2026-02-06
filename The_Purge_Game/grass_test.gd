@@ -20,7 +20,6 @@ signal getNumTile(num_Tile: float)
 signal resetWorld #sends to tree_generator to trigger function to clear all trees
 signal resetPosition
 
-
 func _ready():
 	z_index = 100 # z_index is layers, the bigger the number, the more front it will be
 	if done_generate:
@@ -46,12 +45,15 @@ func _clear_Floor():
 	current_x = 0 # reset all values
 	current_number = 0
 	num_tile = 0
-	if is_generated:
-		is_generated = false
 	for Floor in get_tree().get_nodes_in_group("dirtFloor"): # we need to get group from get_tree()
 		Floor.queue_free() # .queue_free() add the name before it so it will focus on that group
-	await get_tree().create_timer(wait_time).timeout
 	is_generated = true
+	await get_tree().create_timer(wait_time).timeout
+	_generate_terrain()
+	emit_signal("resetWorld")
+	emit_signal("resetPosition")
+	var camera_limit = get_parent().get_node("Camera2D")
+	camera_limit.update_right_limits()
 	if Floor_Debug:
 		print ("Cleared ", is_generated)
 
@@ -61,7 +63,7 @@ func _generate_terrain():
 			print ("Stopped ", is_generated)
 		return
 	if Floor_random:
-		random_tile = randi_range(20, 30)
+		random_tile = randi_range(20, 35)
 		tile_number = random_tile
 	while current_number < tile_number:
 		var new_ground = duplicate() # we duplicate and then store it in new_ground

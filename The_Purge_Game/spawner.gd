@@ -38,9 +38,9 @@ func spawn_enemy(enemy_type: String):
 		enemy.global_position = Vector2(2723.0, 4933.0)
 	else:
 		if randi_range(0, 1):
-			enemy.global_position.x = getPos.position.x + random_distance + 555
+			enemy.global_position.x = getPos.position.x - randf_range(0, 88) -  555 - random_distance
 		else:
-			enemy.global_position.x = getPos.position.x - random_distance
+			enemy.global_position.x = getPos.position.x + randf_range(0, 88) + random_distance
 		enemy.global_position.y = getPos.position.y - 5
 	
 @warning_ignore("unused_parameter")
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 	elif not Input.is_key_pressed(KEY_9) and not Input.is_key_pressed(KEY_0):
 		was_pressed = false
 	
-	if Global.enemy_count == 0 and !Global.arena_player and !spawned:
+	if Global.enemy_count == 0 and !Global.arena_player and !spawned and Global.allowSpawn:
 		_spawn_wave_with_delay()
 	elif Global.enemy_count != 0 and Global.arena_player:
 		spawned = false
@@ -72,17 +72,26 @@ func _process(delta: float) -> void:
 func _spawn_wave_with_delay():
 	spawned = true
 	print ("spawn enemy dynamically vro")
-	await get_tree().create_timer(randf_range(2, 12)).timeout
-	if !Global.arena_player:
+	match Global.arena_num:
+		0: await get_tree().create_timer(randf_range(6, 12)).timeout
+		1: await get_tree().create_timer(randf_range(5, 8)).timeout
+		2: await get_tree().create_timer(randf_range(8, 14)).timeout
+		3: await get_tree().create_timer(randf_range(8, 18)).timeout
+	if !Global.arena_player and Global.allowSpawn:
 		_spawn_wave()
 
 func _spawn_wave():
-	enemy_amount = randf_range(3, 6)
+	match Global.arena_num:
+		0: enemy_amount = randf_range(2, 4)
+		1: enemy_amount = randf_range(4, 7)
+		2: enemy_amount = randf_range(5, 9)
+		3: enemy_amount = randf_range(7, 10)
 	while enemy_amount > 0:
 		match Global.arena_num:
 			0: random_enemy = randi_range(0, 2)
 			1: random_enemy = randi_range(0, 3)
 			2: random_enemy = randi_range(0, 4)
+			3: random_enemy = randi_range(0, 4)
 		match random_enemy:
 			0: spawn_enemy("enemy1")
 			1: spawn_enemy("enemy2")

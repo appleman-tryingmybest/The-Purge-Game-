@@ -11,8 +11,8 @@ func _ready():
 	print ("where is trigger space ", position.x, " ", position.y)
 	var getFunction = get_parent().get_node("floorGenerator")
 	getFunction.resetPosition.connect(_getValues)
-	body_entered.connect(_on_body_entered)
 
+@warning_ignore("unused_parameter")
 func _on_body_entered(body: Node2D) -> void:
 	print ("Entered the trigger space")
 	if Enable:
@@ -32,7 +32,7 @@ func _on_body_entered(body: Node2D) -> void:
 			var getPosition = get_parent().get_node("StoryArena4/PlayerSpawn")
 			teleportX = getPosition.global_position.x
 			teleportY = getPosition.global_position.y
-		print (teleportX," ", teleportY)
+		print ("Go here ", teleportX," ", teleportY)
 		emit_signal ("teleportPlayer")
 
 	pass # Replace with function body.
@@ -42,7 +42,7 @@ func _getValues():
 	final_xPos = getValue.furthest_x
 	position.x = final_xPos
 	position.y = getValue.global_position.y
-	print (position.x, " ", position.y)
+	print ("where is trigger space ", position.x, " ", position.y)
 	await get_tree().create_timer(2).timeout
 	monitoring = true
 	

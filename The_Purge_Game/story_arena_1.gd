@@ -18,6 +18,7 @@ var arena_music = AudioStreamPlayer2D
 var current_loop_player: AudioStreamPlayer
 var current_loop_stream: AudioStream = null
 @onready var hidePod = %Dropod
+var disable := false
 
 var arena1_intro = preload("res://music/arena_music/arena_1/arena_1_intro.ogg")
 var arena1_p1 = preload("res://music/arena_music/arena_1/arena_1_part1.ogg")
@@ -26,6 +27,7 @@ var arena1_p2 = preload("res://music/arena_music/arena_1/arena_1_part2.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if !trigger_once and body.is_in_group("player"):
+		Global.allowSpawn = false
 		hidePod.visible = false
 		var getFunction = get_parent().get_node("music-system")
 		getFunction.play_arena_music()
@@ -33,14 +35,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		play_sound_intro(arena1_intro, 2)
 		_start_stuff()
 
-func play_sound (stream: AudioStream, volume:float =0.0 ):
-	var arena_music = AudioStreamPlayer.new()
-	arena_music.stream = stream
-	arena_music.bus = "sounds"
-	arena_music.volume_db = volume
-	add_child(arena_music) # adds to the world
-	arena_music.play() # play first
-	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	var arena_music = AudioStreamPlayer.new()
@@ -112,6 +106,7 @@ func spawn_enemy(enemy_type: String):
 		enemy.global_position = enemyspawn1.global_position
 	else:
 		enemy.global_position = enemyspawn2.global_position
+
 	print ("enemy amount ", enemy_amount)
 	print ("wave ", wave)
 	
@@ -134,26 +129,30 @@ func _process(delta: float) -> void:
 			print ("testing if spawned")
 		wave -= 1
 
-	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_player and Global.arena_num != 1:
+	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_player and !disable:
 		Global.arena_player = false
+		disable = true
 		var music_sys = get_parent().get_node("music-system")
 		music_sys.end_arena()
 		if is_instance_valid(current_loop_player):
 			current_loop_player.stop()
 			current_loop_player.queue_free()
-		await get_tree().create_timer(5).timeout
+		await get_tree().create_timer(4).timeout
 		var camera_fade = get_parent().get_node("Camera2D")
 		camera_fade._fade()
 		await get_tree().create_timer(2).timeout
-		print ("moving player")
+		print ("YOOO WHY moving player")
 		var player_node = get_tree().get_first_node_in_group("player")
 		var target_node = get_parent().get_node("wall")
-	
+		var ground = get_parent().get_node("floorGenerator")
+		ground._clear_Floor()
 		if player_node and target_node:
 			player_node.global_position = target_node.global_position
 			print("Player moved to: ", target_node.global_position)
 		Global.camera_Type = 0
 		Global.arena_num = 1
+		Global.allowSpawn = true
+		queue_free()
 	
 	for lp in get_tree().get_nodes_in_group("musics"):
 		if lp.stream == arena1_p1 and !boss_spawned:

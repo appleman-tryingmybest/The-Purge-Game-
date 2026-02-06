@@ -16,7 +16,6 @@ extends Control
 @onready var purge = $Purge
 @onready var rules = $container
 
-
 func _ready():
 	self.show()
 	setting.hide()

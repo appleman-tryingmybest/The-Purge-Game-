@@ -195,7 +195,7 @@ animations = [{
 "duration": 0.3,
 "texture": SubResource("AtlasTexture_uto3r")
 }],
-"loop": true,
+"loop": false,
 "name": &"funny-explosion",
 "speed": 5.0
 }, {

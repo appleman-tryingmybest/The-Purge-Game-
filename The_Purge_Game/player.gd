@@ -69,6 +69,8 @@ var gun_shoot = preload("res://sounds/player/gun-shoot.ogg")
 var jump = preload("res://sounds/player/jump-jump.ogg")
 var unf = preload("res://sounds/player/unf.ogg")
 var death = preload("res://sounds/player/death-sound.ogg")
+var hammer_intro = preload("res://sounds/player/hammer-intro.ogg")
+var hammer_hit = preload("res://sounds/player/hammer_hit.ogg")
 
 
 
@@ -104,6 +106,9 @@ func setPosition():
 	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
+	Global.player_x = global_position.x
+	Global.player_y = global_position.y
+	Global.player_position = global_position
 	if !intro_done:
 		intro_done = true
 		visible = true
@@ -127,9 +132,6 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 		move_and_slide()
 		return
-	Global.player_x = global_position.x
-	Global.player_y = global_position.y
-	Global.player_position = global_position
 	if knockback_velocity != Vector2.ZERO:
 		velocity = knockback_velocity
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
@@ -146,10 +148,6 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 	direction=Input.get_axis("ui_left", "ui_right")
-	if(direction !=0 or Input.is_action_just_pressed("ui_up")) and Global.game_started == false:
-			Global.game_started = true
-			print("timer started")   #timer start when the play move
-			
 	if is_on_floor():
 		jump_count=0
 	# Handle jump.
@@ -163,7 +161,7 @@ func _physics_process(delta: float) -> void:
 		_play_jump_sound()
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing and is_on_floor():
+	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 		if sword_cooldown: # Only dash if the sword isn't mid-swing
 			start_dash()
 	var is_attack=animation.current_animation == "attack" or animation.current_animation == "attack 2"
@@ -275,31 +273,23 @@ func _process(_delta): #mostly ani here
 		var weaponb4hammer=current_weapon
 		hand.hide()
 		handgun.hide()
-		animation.play("hammer-intro", 0, 1.5)
-		await animation.animation_finished
+		play_sound(hammer_intro)
+		if is_on_floor():
+			animation.play("hammer-intro", 0, 1.5)
+			Global.hammer = true
+			await animation.animation_finished
 		animation.play("hammer-up")
 		await animation.animation_finished
 		animation.play("hammer-attack")
+		play_sound(hammer_hit)
 		Global.hammer_num=0
 		await animation.animation_finished
 		if weaponb4hammer=="sword":
 			hand.show()
 		elif weaponb4hammer=="gun":
 			handgun.show()
-	elif Input.is_action_just_pressed("s_hammer_attack") and Global.hammer_num>=hammer_target and is_on_floor():
-		var weaponb4hammer=current_weapon
-		hand.hide()
-		handgun.hide()
-		animation.play("hammer-up")
-		await animation.animation_finished
-		animation.play("hammer-attack")
-		Global.hammer_num=0
-		await animation.animation_finished
-		if weaponb4hammer=="sword":
-			hand.show()
-		elif weaponb4hammer=="gun":
-			handgun.show()
-		
+		Global.hammer = false
+
 	if is_on_floor() and !is_dashing and !block:
 		if velocity.x==0:
 			animation.play("idle")
@@ -377,18 +367,19 @@ func _death_sequence():
 # RECEIVE DAMAGE
 
 func take_damage(amount:float):#enemy attack player
-	play_sound(unf, randf_range(0.8, 1.4), 4)
 	var hammer1= animation.current_animation=="hammer-intro"
 	var hammer2= animation.current_animation=="hammer-up"
 	var hammer3=animation.current_animation=="hammer-attack"
 	if dead or block or is_dashing or respawn or hammer1 or hammer2 or hammer3:#wiill break the aniamtion
 		return
-	health -= amount
-	print ("Your remaining health: ", health)
-	animation.play("shield-hitted")
-	_cam_shake(15)
-	if health <= 0 :
-		_death_sequence()
+	else:
+		play_sound(unf, randf_range(0.8, 1.4), 4)
+		health -= amount
+		print ("Your remaining health: ", health)
+		animation.play("shield-hitted")
+		_cam_shake(15)
+		if health <= 0 :
+			_death_sequence()
 
 func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 	if area.has_method("give_damage"):
