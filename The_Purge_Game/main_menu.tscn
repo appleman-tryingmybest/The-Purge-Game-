@@ -335,7 +335,7 @@ scale = Vector2(3, 3)
 focus_mode = 0
 theme_override_colors/font_color = Color(0.89188385, 0.92116946, 7.70092e-07, 1)
 theme_override_colors/font_pressed_color = Color(0.6363033, 0.7286708, 0.15537634, 1)
-theme_override_colors/font_hover_color = Color(1, 0.90588236, 0.03529412, 1)
+theme_override_colors/font_hover_color = Color(0.8942408, 0.9059705, 0.03648311, 1)
 theme_override_fonts/font = ExtResource("3_w44g7")
 text = "tutorial"
 flat = true
@@ -416,7 +416,6 @@ libraries = {
 
 [node name="backfortuto" type="TextureButton" parent="on"]
 process_mode = 3
-visible = false
 z_index = 99
 layout_mode = 0
 offset_left = 1555.0
@@ -431,7 +430,6 @@ ignore_texture_size = true
 
 [node name="container" type="VBoxContainer" parent="on"]
 process_mode = 3
-visible = false
 layout_mode = 0
 offset_right = 1874.0
 offset_bottom = 956.0
@@ -458,7 +456,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="star_container" type="StaticBody2D" parent="."]
-visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="star_container"]
 position = Vector2(513.00006, -144)

@@ -42,32 +42,19 @@ func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func _manage_arena_music():
+	# Determine which track SHOULD be playing
 	var target_stream = arena3_p2 if boss_spawned else arena3_p1
-	# no music then make one
+	
+	# 1. If no player exists, create one
 	if !is_instance_valid(current_loop_player):
 		_start_new_track(target_stream)
 		return
 
-	# check for wrong music then switch
+	# 2. If the WRONG track is playing, swap it
 	if current_loop_player.stream != target_stream:
 		print("Boss spawned! Swapping music to: ", target_stream.resource_path)
 		current_loop_player.queue_free()
 		_start_new_track(target_stream)
-
-func _start_new_track(stream: AudioStream):
-	var l = AudioStreamPlayer.new()
-	l.stream = stream
-	l.bus = "Music"
-	l.process_mode = Node.PROCESS_MODE_ALWAYS
-	l.volume_db = -4
-	add_child(l)
-	l.play()
-	current_loop_player = l
-
-	l.finished.connect(func():
-		if is_instance_valid(l):
-			l.play() # Just restart the music
-	)
 
 func _start_stuff():
 	print("start timer")
@@ -75,6 +62,22 @@ func _start_stuff():
 	await get_tree().create_timer(wait_time).timeout
 	spawn = true
 	print("spawning")
+
+func _start_new_track(stream: AudioStream):
+	var l = AudioStreamPlayer.new()
+	l.stream = stream
+	l.bus = "Music"
+	l.process_mode = Node.PROCESS_MODE_ALWAYS
+	l.volume_db = -7
+	add_child(l)
+	l.play()
+	current_loop_player = l
+	
+	# Handle the loop simply
+	l.finished.connect(func():
+		if is_instance_valid(l):
+			l.play() # Just restart the same player instead of re-running the whole logic
+	)
 
 func spawn_enemy(enemy_type: String):
 	var enemyspawn1 = $"level-detail-shared/enemy_spawn"
@@ -99,7 +102,7 @@ func spawn_enemy(enemy_type: String):
 	var enemy = scene_to_spawn.instantiate() # copies stuff and prepares it	
 	world.add_child(enemy) # then we add it into the world
 	if enemy_type == "strider":
-		enemy.global_position = striderspawn.global_position + Vector2(0, 400)
+		enemy.global_position = striderspawn.global_position + Vector2(0, 600)
 	elif randi_range(0, 1) == 0 and enemy_type != "strider":
 		enemy.global_position = enemyspawn1.global_position
 	elif randi_range(0, 1) == 1 and enemy_type != "strider":
@@ -119,7 +122,7 @@ func _process(delta: float) -> void:
 		if enemy_amount > 0 and !spawning:
 			_spawnwave()
 		wave -= 1
-	if wave == 4 and !boss_spawned and spawn:
+	if wave == 5 and !boss_spawned and spawn:
 		boss_spawned = true
 		spawn_enemy("strider")
 		

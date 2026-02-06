@@ -11,6 +11,6 @@ func _physics_process(delta: float) -> void:
 	velocity.x = speedX
 	velocity.y = speedY
 	lifetime -= delta
-	if lifetime < 0 or !Global.arena_player:
+	if lifetime < 0:
 		queue_free()
 	move_and_slide()

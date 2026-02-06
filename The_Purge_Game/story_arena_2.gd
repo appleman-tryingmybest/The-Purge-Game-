@@ -58,13 +58,15 @@ func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func _manage_arena_music():
+	# Determine which track SHOULD be playing
 	var target_stream = arena2_p2 if special_event else arena2_p1
-	# no music then make one
+	
+	# 1. If no player exists, create one
 	if !is_instance_valid(current_loop_player):
 		_start_new_track(target_stream)
 		return
 
-	# check for wrong music then switch
+	# 2. If the WRONG track is playing, swap it
 	if current_loop_player.stream != target_stream:
 		print("Boss spawned! Swapping music to: ", target_stream.resource_path)
 		current_loop_player.queue_free()
@@ -75,16 +77,16 @@ func _start_new_track(stream: AudioStream):
 	l.stream = stream
 	l.bus = "Music"
 	l.process_mode = Node.PROCESS_MODE_ALWAYS
-	l.volume_db = -4
+	l.volume_db = -7
 	add_child(l)
 	l.play()
 	current_loop_player = l
-
+	
+	# Handle the loop simply
 	l.finished.connect(func():
 		if is_instance_valid(l):
-			l.play() # Just restart the music
+			l.play() # Just restart the same player instead of re-running the whole logic
 	)
-
 
 func _start_stuff():
 	animation.play("off")
@@ -139,14 +141,14 @@ func _process(delta: float) -> void:
 		missile_cooldown -= delta
 		if missile_cooldown < 0:
 			print ("spawning icbm's")
-			var icbm_amount = randi_range(1, 4)
+			var icbm_amount = randi_range(1, 3)
 			for i in icbm_amount:
 				spawn_enemy("icbm")
 			missile_cooldown = randf_range(4, 12)
 	if !spawn or Global.enemy_count > 0 or spawning or pause:
 		return # Stop here if we aren't ready to spawn yet
 	# Trigger the Tower Activation once when wave hits 4
-	if wave <= 4 and !special_event and Global.enemy_count == 0:
+	if wave <= 5 and !special_event and Global.enemy_count == 0:
 		special_event = true
 		_activate_tower()
 		return
@@ -183,7 +185,7 @@ func _process(delta: float) -> void:
 		wave -= 1
 		if special_event and Global.enemy_count == 0 and wave >= 0:
 			print("spawning dropships")
-			enemy_amount = 3
+			enemy_amount = 2
 			_spawndropship()
 		elif !special_event:
 			print("starting to spawn normal wave")

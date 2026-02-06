@@ -11,7 +11,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [node name="ship" type="CharacterBody2D"]
 z_index = -10
-rotation = 0.66151804
+rotation = 0.47178856
 scale = Vector2(-2, 2)
 script = ExtResource("1_v4325")
 lifetime = 55.0

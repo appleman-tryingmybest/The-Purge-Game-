@@ -17,9 +17,8 @@ fill_to = Vector2(0.8598131, 0.18691589)
 metadata/_snap_count = 2
 
 [node name="enemy_bullet" type="CharacterBody2D"]
-z_index = 999
 position = Vector2(0.99999994, 0)
-scale = Vector2(0.55, 0.55)
+scale = Vector2(0.4, 0.4)
 collision_layer = 0
 collision_mask = 65
 script = ExtResource("1_xel8u")
