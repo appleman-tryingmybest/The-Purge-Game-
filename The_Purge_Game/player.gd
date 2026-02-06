@@ -1,5 +1,4 @@
 extends CharacterBody2D
-
 @export var SPEED = 200.0
 @export var runspeed= 300
 @export var JUMP_VELOCITY : float
@@ -18,9 +17,6 @@ extends CharacterBody2D
 @export var bullet: PackedScene
 @export var hammer_target:int=10
 @export var ham_dam:float
-@export var timer_death:float=1
-@export var player_heal_amout:int
-@export var heal_timer:float
 
 
 var jump_count=0
@@ -45,8 +41,7 @@ var hammer_lock=true
 var dead_pos:Vector2=Vector2.ZERO
 var dropod_fall=false
 var dropod_velocity = 0.0
-var last_dam:float
-var gravity: float = 980.0
+
 
 @onready var animation = $AnimationPlayer
 @onready var hand = %"player-hand"
@@ -54,15 +49,11 @@ var gravity: float = 980.0
 @onready var visuals = $visuals
 @onready var gun=%"player-handgun"
 @onready var muzzle=$visuals/handcontainer/muzzle
+@onready var dead_ani=$BOOM
 @onready var cam =$"../Camera2D"
 @onready var ham_part=$"hammer-bang"
 @onready var dropod=$Dropod
 @onready var floor_checker=$Dropod/check_floor
-@onready var boom=$BOOM
-@onready var health_bar=$"CanvasLayer2/health-bar"
-@onready var sword_pic=$CanvasLayer2/sword
-@onready var gun_pic=$CanvasLayer2/gun
-@onready var hammer_pic=$CanvasLayer2/hammer
 
 
 
@@ -86,9 +77,6 @@ var hammer_hit = preload("res://sounds/player/hammer_hit.ogg")
 func _ready() -> void:
 	visible = false
 	initial_health = health
-	if health_bar:
-		health_bar.max_value=initial_health
-		health_bar.value=health
 	JUMP_VELOCITY *= -1
 	var getPosition = get_parent().get_node("AreaTrigger")
 	getPosition.teleportPlayer.connect(setPosition)
@@ -118,48 +106,32 @@ func setPosition():
 	print ("where do we go ", position.x, " ", position.y)
 
 func _physics_process(delta: float) -> void:
+	Global.player_x = global_position.x
+	Global.player_y = global_position.y
+	Global.player_position = global_position
 	if !intro_done:
 		intro_done = true
 		visible = true
 		apply_knockback(Vector2(2500, 25))
-	health_bar.show()
-	hammer_pic.show()
-	if Global.hammer_num >= hammer_target: 
-		hammer_pic.modulate=Color(1.0, 1.0, 1.0, 1.0)
-		create_tween().tween_property(hammer_pic, "modulate", Color.WHITE, 0.3)
-	elif Global.hammer_num <= hammer_target:
-		hammer_pic.modulate=Color(0.5,0.5,0.5)
-	if Global.hammer:
-		hand.hide()
-		handgun.hide()
-	if current_weapon=="sword":
-		sword_pic.show()
-		gun_pic.hide()
-	elif current_weapon=="gun":
-		gun_pic.show()
-		sword_pic.hide()
 	if respawn:#let player cannot move when not on ground)
 		velocity.x = 0
 		if not is_on_floor():
-			velocity.y += gravity * delta
+			velocity += get_gravity() * delta
 		move_and_slide()
 		return
 	if dead or block :#can let animation don't move
 		velocity=Vector2.ZERO
 		if !is_on_floor():
-			velocity.y += gravity * delta
+			velocity += get_gravity() * delta
 		move_and_slide()
 		return
 	var hammer1= animation.current_animation=="hammer-intro"
 	var hammer2= animation.current_animation=="hammer-up"
 	var hammer3=animation.current_animation=="hammer-attack"
 	if hammer1 or hammer2 or hammer3:
-		velocity.y += gravity * delta
+		velocity += get_gravity() * delta
 		move_and_slide()
 		return
-	Global.player_x = global_position.x
-	Global.player_y = global_position.y
-	Global.player_position = global_position
 	if knockback_velocity != Vector2.ZERO:
 		velocity = knockback_velocity
 		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 5000 * delta)
@@ -174,12 +146,8 @@ func _physics_process(delta: float) -> void:
 	was_on_floor = currently_on_floor
 	# Add the gravity.
 	if not is_on_floor() and not is_dashing:
-		velocity.y += gravity * delta
+		velocity += get_gravity() * delta
 	direction=Input.get_axis("ui_left", "ui_right")
-	if(direction !=0 or Input.is_action_just_pressed("ui_up")) and Global.game_started == false:
-			Global.game_started = true
-			print("timer started")   #timer start when the play move
-			
 	if is_on_floor():
 		jump_count=0
 	# Handle jump.
@@ -193,7 +161,7 @@ func _physics_process(delta: float) -> void:
 		_play_jump_sound()
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing and is_on_floor():
+	if Input.is_action_just_pressed("dash") and can_dash and not is_dashing:
 		if sword_cooldown: # Only dash if the sword isn't mid-swing
 			start_dash()
 	var is_attack=animation.current_animation == "attack" or animation.current_animation == "attack 2"
@@ -213,12 +181,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x =direction * current_speed + knockback_velocity.x 
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-	if !dead and !respawn and health < initial_health:
-		last_dam += delta
-		if last_dam>=heal_timer:
-			health+=player_heal_amout* delta
-			health=min(health,initial_health)
-			health_bar.value = health
+
 	if dropod_fall:
 		if not floor_checker.is_colliding():#check the ground where the collision shape
 			dropod_velocity += 5000* delta
@@ -268,7 +231,7 @@ func _process(_delta): #mostly ani here
 	var hammer3=animation.current_animation=="hammer-attack"
 	if dead or respawn or hammer1 or hammer2 or hammer3:
 		return
-	if Input.is_action_pressed("shield") and is_on_floor() and can_block and current_weapon == "sword" and not is_dashing:
+	if Input.is_action_pressed("shield") and is_on_floor() and can_block and current_weapon == "sword":
 		if not block:
 			block=true
 			_block()
@@ -281,14 +244,9 @@ func _process(_delta): #mostly ani here
 	if current_weapon == "gun":
 		handgun.look_at(get_global_mouse_position())
 		if Input.is_action_just_pressed("attack"):
-			if current_weapon=="sword":
-				return
 			shoot()
-			
 	elif current_weapon=="sword":
 		if Input.is_action_just_pressed("attack") and sword_cooldown and !is_dashing:
-			if current_weapon=="gun":
-				return
 			sword_attack()
 	if position.x> get_global_mouse_position().x and visuals.scale.x == 1 and current_weapon == "gun":
 		handgun.scale.y=-1
@@ -320,7 +278,6 @@ func _process(_delta): #mostly ani here
 			animation.play("hammer-intro", 0, 1.5)
 			Global.hammer = true
 			await animation.animation_finished
-		Global.hammer = true
 		animation.play("hammer-up")
 		await animation.animation_finished
 		animation.play("hammer-attack")
@@ -329,14 +286,10 @@ func _process(_delta): #mostly ani here
 		await animation.animation_finished
 		if weaponb4hammer=="sword":
 			hand.show()
-			sword_pic.show()
-			gun_pic.hide()
 		elif weaponb4hammer=="gun":
 			handgun.show()
-			gun_pic.show()
-			sword_pic.hide()
 		Global.hammer = false
-		
+
 	if is_on_floor() and !is_dashing and !block:
 		if velocity.x==0:
 			animation.play("idle")
@@ -360,10 +313,7 @@ func switch_gun():
 	if current_weapon=="sword":
 		current_weapon="gun"
 		hand.hide()
-		sword_pic.hide()
 		handgun.show()
-		gun_pic.show()
-		sword_pic.hide()
 		gun.play("idle")
 		play_sound(gun_intro)
 		if sword_idle.is_playing():
@@ -371,9 +321,7 @@ func switch_gun():
 	else:
 		current_weapon="sword"
 		hand.show()
-		sword_pic.show()
 		handgun.hide()
-		gun_pic.hide()
 		play_sound(chainsword_intro)
 		sword_idle.play()
 
@@ -410,34 +358,28 @@ func _death_sequence():
 	dead = true
 	dead_pos = global_position
 	visuals.hide()
-	boom.show()
-	animation.play("boom")
-	await animation.animation_finished
-	boom.hide()
+	dead_ani.show()
+	dead_ani.play()
 	print("Congratulations! You died")
-	await get_tree().create_timer(timer_death).timeout
+	await get_tree().create_timer(2).timeout
 	respawn_player()
 
 # RECEIVE DAMAGE
 
 func take_damage(amount:float):#enemy attack player
-	play_sound(unf, randf_range(0.8, 1.4), 4)
 	var hammer1= animation.current_animation=="hammer-intro"
 	var hammer2= animation.current_animation=="hammer-up"
 	var hammer3=animation.current_animation=="hammer-attack"
 	if dead or block or is_dashing or respawn or hammer1 or hammer2 or hammer3:#wiill break the aniamtion
 		return
-	health -= amount
-	last_dam=0
-	health_bar.value = health
-	health_bar.create_tween().tween_property(health_bar, "value", health, 0.1)#let it mmore smooth
-	print ("Your remaining health: ", health)
-	animation.play("shield-hitted")
-	_cam_shake(15)
-	_flash_damage()
-	if health <= 0 :
-		_death_sequence()
-	
+	else:
+		play_sound(unf, randf_range(0.8, 1.4), 4)
+		health -= amount
+		print ("Your remaining health: ", health)
+		animation.play("shield-hitted")
+		_cam_shake(15)
+		if health <= 0 :
+			_death_sequence()
 
 func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 	if area.has_method("give_damage"):
@@ -447,10 +389,9 @@ func _on_hurt_area_area_entered(area: Area2D) -> void:#enemy enter hurt box
 # GIVE DAMAGE
 
 func _on_sword_hit_area_entered(area: Area2D) -> void:
-	if current_weapon!="sword":
-		print("oi why gun leh")
 	if area.get_collision_layer_value(16):
 		var enemy = area.owner 
+		
 		if enemy and enemy.has_method("_take_damage"):
 			enemy._take_damage(sword_dam, 1500, -600)
 			Global.hammer_num+=2
@@ -461,8 +402,6 @@ func _on_sword_hit_area_entered(area: Area2D) -> void:
 
 		
 func sword_attack():
-	if block or current_weapon!="sword":
-		return
 	sword_cooldown = false
 	var random_attack = randi_range(0, 1)
 	var attack_dir=visuals.scale.x
@@ -482,8 +421,8 @@ func respawn_player():
 	dead =false
 	respawn=true
 	velocity = Vector2.ZERO
+	dead_ani.hide()
 	health=initial_health
-	
 	visuals.hide()
 	dropod.top_level = true# let this become independent from player
 	dropod.global_position = dead_pos+ Vector2(0, -100)
@@ -491,16 +430,16 @@ func respawn_player():
 	dropod_velocity = 0.0
 	dropod_fall= true
 	animation.play("reset play")
-	health_bar.value = health
 	await animation.animation_finished
 	visuals.show()
-	
-	apply_knockback(Vector2(2500, 30))
+	apply_knockback(Vector2(2500, 25))
 	respawn=false
-	current_weapon="sword" #direct force the weaopon ==sword if use if current... hand hide or gun hide is only eye see it  
-	handgun.hide()
-	hand.show()
-	animation.play("idle")
+	if current_weapon == "sword":
+		sword_idle.play()
+	elif current_weapon =="gun":
+		handgun.hide()
+		hand.show()
+		sword_idle.play()
 
 func _play_jump_sound():
 	play_sound(jump)
@@ -533,8 +472,3 @@ func _on_hammer_area_entered(area: Area2D) -> void:
 
 func _hammer_jump(up:float):
 	velocity.y=-up
-	
-func _flash_damage():
-	var tween = create_tween()
-	visuals.modulate = Color(10, 10, 10, 1)
-	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)

@@ -25,20 +25,12 @@ var arena3_p2 = preload("res://music/arena_music/arena_3/arena_3_part2.ogg")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if !trigger_once and body.is_in_group("player"):
+		Global.allowSpawn = false
 		var getFunction = get_parent().get_node("music-system")
 		getFunction.play_arena_music()
 		play_sound_intro(arena3_intro, 0)
 		_start_stuff()
 		Global.arena_player = true
-
-func play_sound (stream: AudioStream, volume:float =0.0 ):
-	var arena_music = AudioStreamPlayer.new()
-	arena_music.stream = stream
-	arena_music.bus = "sounds"
-	arena_music.volume_db = volume
-	add_child(arena_music) # adds to the world
-	arena_music.play() # play first
-	arena_music.finished.connect(arena_music.queue_free) # remove itself after finished playing
 
 func play_sound_intro (stream: AudioStream, volume:float =0.0 ):
 	var arena_music = AudioStreamPlayer.new()
@@ -115,24 +107,26 @@ func spawn_enemy(enemy_type: String):
 		enemy.global_position = enemyspawn1.global_position
 	elif randi_range(0, 1) == 1 and enemy_type != "strider":
 		enemy.global_position = enemyspawn2.global_position
+	enemy.global_position.x += randf_range(-random_distance, random_distance)
 	print ("enemy amount ", enemy_amount)
 	print ("wave ", wave)
 	
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	print ("Global num, ", Global.arena_num)
 	if Global.arena_player and spawn:
 		_manage_arena_music()
-	if spawn and enemy_amount == 0 and wave != 0 and Global.enemy_count == 0:
+	if spawn and enemy_amount == 0 and wave != 0 and Global.enemy_count == 0 and Global.dropship_count == 0:
 		print ("starting to spawn")
 		enemy_amount = randi_range(6, 8)
 		if enemy_amount > 0 and !spawning:
 			_spawnwave()
 		wave -= 1
-	if wave == 4 and !boss_spawned and spawn:
+	if wave == 5 and !boss_spawned and spawn:
 		boss_spawned = true
 		spawn_enemy("strider")
 		
-	if spawn and wave == 0 and Global.enemy_count == 0 and Global.arena_num !=3 and !teleported:
+	if wave == 0 and Global.enemy_count == 0 and Global.arena_player and !teleported:
 		Global.arena_player = false
 		var music_sys = get_parent().get_node("music-system")
 		music_sys.end_arena()
@@ -144,6 +138,8 @@ func _process(delta: float) -> void:
 		camera_fade._fade()
 		await get_tree().create_timer(2).timeout
 		print ("moving player")
+		var ground = get_parent().get_node("floorGenerator")
+		ground._clear_Floor()
 		var player_node = get_tree().get_first_node_in_group("player")
 		var target_node = get_parent().get_node("wall")
 		teleported = true
@@ -152,6 +148,8 @@ func _process(delta: float) -> void:
 			print("Player moved to: ", target_node.global_position)
 		Global.camera_Type = 0
 		Global.arena_num = 3
+		Global.allowSpawn = true
+		queue_free()
 		return
 
 func _spawnwave():

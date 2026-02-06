@@ -10,16 +10,11 @@ extends Camera2D
 @export var initial_map_limits: Vector4 = Vector4(-201, -100000, 10000000, 177)
 @export var shake_decay : float = 20.0#this more bigger will dissapear faster
 
-
 var fading := false
 var target_limits: Vector4
 var is_transitioning: bool = false
 var shake_strength : float = 0.0 
-
-
 @onready var background = $AnimationPlayer
-
-
 
 func _ready() -> void:
 	cameraYOffset *= -1 # I have invert the value here cause for some reason godot's y-axis is flipped so when you put positive value it reverts to correct stuff
@@ -106,7 +101,7 @@ func _process(delta):
 			_apply_initial_limits()
 		zoom = Vector2(0.8, 0.8)
 		position.x = cameraX
-		if testingMode:
+		if testingMode: # I wanted to test if it worked but this will be used in game as well
 			position.y = cameraY
 		else:
 			position.y = 0 + cameraYOffset
@@ -121,25 +116,22 @@ func _process(delta):
 		var mainMenuPosition = get_parent().get_node("camerahere")
 		position = mainMenuPosition.position
 		background.play("black")
-		limit_left = -1000000
-		limit_top = -1000000
-		limit_right = 1000000
-		limit_bottom = 1000000
+		limit_left = initial_map_limits.x
+		limit_top = initial_map_limits.y
+		limit_right = initial_map_limits.z
+		limit_bottom = initial_map_limits.w
 		
 	elif Global.camera_Type == 3:
 		_remove_all_limits()
 		print("outro")
 		top_level = true
-		position =Vector2(0,17205.0)
+		position =Vector2(0,18468.0)
 		print("where r u ", position)
 		zoom = Vector2(0.5, 0.5)
-
 		
 	if camera_debug:
 			print("Camera position ", position.x, " ", position.y)
 			print("Camera type: ", Global.camera_Type)
-			
-			
 func _clamp_to_initial_limits():#see the width
 	if Global.camera_Type==0:
 		var half_screen_width = (get_viewport_rect().size.x * zoom.x) / 2.0#put a safe range to ensure camera will no show the map without floor
@@ -156,7 +148,6 @@ func _clamp_to_initial_limits():#see the width
 			position.y = (initial_map_limits.y + initial_map_limits.w) / 2.0
 		else:
 			position.y = clamp(position.y, min_y, max_y)
-
 func _apply_smooth_limits(delta):
 	limit_left = lerp(limit_left, target_limits.x, delta * transition_speed)
 	limit_top = lerp(limit_top, target_limits.y, delta * transition_speed)
@@ -182,6 +173,6 @@ func _fade():
 	background.play("fade_out")
 	await background.animation_finished
 	fading = false
-
+	
 func apply_shake(strength: float):
 	shake_strength = strength

@@ -233,3 +233,11 @@ func _take_damage(amount: float, velo_x: float, velo_y : float):
 	health -= amount
 	var dir = 1 if position.x > Global.player_x else -1
 	knockback_velocity = Vector2(dir * velo_x, velo_y)
+	_flash_damage()
+	attack_cooldown = 4
+	turn_timer = 3
+
+func _flash_damage():
+	var tween = create_tween()
+	visuals.modulate = Color(10, 10, 10, 1)
+	tween.tween_property(visuals, "modulate", Color.WHITE, 0.1)

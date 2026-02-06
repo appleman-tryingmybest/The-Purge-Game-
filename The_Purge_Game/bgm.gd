@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 					rand_sound = randi_range(0, 1)
 			else:
 				chance -= 1
-				print ("nothing happens")
+				print ("bgm nothing happens")
 
 func play_sound (stream: AudioStream, pitch:= 1.0, volume:= 0): # YOU CAN JUST COPY AND PASTE THIS
 	var p = AudioStreamPlayer2D.new() # make new audioplayer
